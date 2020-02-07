@@ -3,15 +3,15 @@ const fs = require('fs');
 const fanduelData = JSON.parse(fs.readFileSync('./testFanduelData.json'));
 const projectionsData = JSON.parse(fs.readFileSync('./testProjectionsData.json'));
 const optimizerInput = JSON.parse(fs.readFileSync('./testOptimizerInput.json'));
+jest.mock('./aws');
 
 describe('merge data tests', () => {
-    test('can handle input', () => {
+    test('can handle input', async () => {
         const event = {
-            sport: 'nba',
-            fanduelData,
-            projectionsData
+            sport: 'nba'
         };
-        expect(index.handler(event)).toStrictEqual(optimizerInput)
+        const result = await index.handler(event);
+        expect(result).toStrictEqual(optimizerInput)
     });
 
     test('can get dfs player array from sport and fanduel data', () => {
