@@ -7,9 +7,10 @@ jest.mock('./aws');
 
 describe('merge data tests', () => {
     test('can handle input', async () => {
-        const event = {
-            sport: 'nba'
-        };
+        const event = [
+            [],
+            {sport: 'nba'}
+        ];
         const result = await index.handler(event);
         expect(result).toStrictEqual(optimizerInput)
     });
