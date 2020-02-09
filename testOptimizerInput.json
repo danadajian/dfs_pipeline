@@ -1,5 +1,6 @@
 {
   "invocationType": "pipeline",
+  "sport": "nba",
   "lineup": [
     {
       "playerId": 0,
@@ -72,24 +73,6 @@
       "name": "",
       "projection": "",
       "salary": ""
-    }
-  ],
-  "playerPool": [
-    {
-      "name": "Luka Doncic",
-      "team": "DAL",
-      "position": "PG",
-      "salary": 10300,
-      "playerId": 1121277,
-      "projection": 0
-    },
-    {
-      "name": "Kawhi Leonard",
-      "team": "LAC",
-      "position": "PF",
-      "salary": 10100,
-      "playerId": 512591,
-      "projection": 46.26724
     }
   ],
   "blackList": [],

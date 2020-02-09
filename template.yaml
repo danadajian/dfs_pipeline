@@ -6,6 +6,10 @@ Parameters:
     Type: String
   CodeKey:
     Type: String
+  AwsKey:
+    Type: String
+  AwsSecret:
+    Type: String
 Globals:
   Function:
     MemorySize: 512
@@ -20,3 +24,7 @@ Resources:
         Key: !Ref CodeKey
       Handler: index.handler
       Runtime: nodejs12.x
+      Environment:
+        Variables:
+          AWS_KEY: !Ref AwsKey
+          AWS_SECRET: !Ref AwsSecret

@@ -2,10 +2,12 @@ const fs = require('fs');
 const lineupRules = JSON.parse(fs.readFileSync('./lineupRules.json'));
 const aws = require('./aws');
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
     const sport = event[1].sport;
     const fanduelData = await aws.retrieveObjectFromS3('fanduelData.json');
     const projectionsData = await aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`);
+    const playerPool = combineDataIntoPlayerPool(sport, fanduelData, projectionsData);
+    await aws.uploadObjectToS3(playerPool, `${sport}PlayerPool.json`);
     const {lineupPositions, lineupRestrictions, salaryCap} = lineupRules['fd'][sport]['Classic'];
     return {
         'invocationType': 'pipeline',
@@ -18,7 +20,6 @@ exports.handler = async (event, context) => {
             'projection': '',
             'salary': ''
         })),
-        'playerPool': combineDataIntoPlayerPool(sport, fanduelData, projectionsData),
         'blackList': [],
         lineupPositions,
         lineupRestrictions,

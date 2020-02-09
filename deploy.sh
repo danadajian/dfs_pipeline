@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+source ./config.sh
+
 BUCKET_NAME="dfs-pipeline"
 STACK_NAME="dfs-pipeline-stack"
 
@@ -14,7 +16,7 @@ fi
 timestamp=$( date +"%Y-%m-%d_%H-%M-%S" )
 FILE_NAME="$timestamp-function.zip"
 
-bestzip $FILE_NAME .
+bestzip $FILE_NAME aws.js index.js lineupRules.json
 
 echo "### Initiating SAM Deploy..."
 
@@ -24,9 +26,11 @@ aws s3 cp "${FILE_NAME}" "s3://${BUCKET_NAME}/"
 if [[ "$OSTYPE" == "msys" ]]; then
     sam.cmd --version
     sam.cmd deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
-     --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" --no-fail-on-empty-changeset
+     --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" AwsKey="${AWS_KEY}" \
+     AwsSecret="${AWS_SECRET}" --no-fail-on-empty-changeset
 else
     sam --version
     sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
-     --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" --no-fail-on-empty-changeset
+     --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" AwsKey="${AWS_KEY}" \
+     AwsSecret="${AWS_SECRET}" --no-fail-on-empty-changeset
 fi
