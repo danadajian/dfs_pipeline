@@ -25,19 +25,19 @@ const uploadObjectToS3 = async (object, fileName) => {
 
 const createCloudWatchEvent = async (sport, date) => {
     const putRuleParams = {
-        Name: `${sport}-pipeline`,
+        Name: `${sport}-pipeline-rule`,
         RoleArn: 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984',
         ScheduleExpression: getCronExpressionFromDate(date),
         State: 'ENABLED'
     };
     const putTargetsParams = {
-        Rule: "mlb-pipeline",
+        Rule: `${sport}-pipeline-rule`,
         Targets: [
             {
                 Arn: 'arn:aws:states:us-east-2:062130427086:stateMachine:DFSPipeLine',
                 RoleArn: 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984',
                 Id: 'dfsPipelineTarget',
-                Input: `{"invocationType": "pipeline", "sport": ${sport}}`
+                Input: `{"invocationType": "pipeline", "sport": "${sport}"}`
             }
         ]
     };
@@ -48,14 +48,15 @@ const createCloudWatchEvent = async (sport, date) => {
 
 const getCronExpressionFromDate = (date) => {
     return 'cron(' +
-        date.getMinutes() +
-        " " + date.getHours() +
-        " " + date.getDate() +
-        " " + (date.getMonth() + 1) +
+        date.getUTCMinutes() +
+        " " + date.getUTCHours() +
+        " " + date.getUTCDate() +
+        " " + (date.getUTCMonth() + 1) +
         " ? " +
-        date.getFullYear() + ')'
+        date.getUTCFullYear() + ')'
 };
 
 exports.retrieveObjectFromS3 = retrieveObjectFromS3;
 exports.uploadObjectToS3 = uploadObjectToS3;
 exports.createCloudWatchEvent = createCloudWatchEvent;
+exports.getCronExpressionFromDate = getCronExpressionFromDate;

@@ -16,7 +16,8 @@ fi
 timestamp=$( date +"%Y-%m-%d_%H-%M-%S" )
 FILE_NAME="$timestamp-function.zip"
 
-bestzip $FILE_NAME aws.js mergeData.js lineupRules.json scheduleStateMachines.js
+bestzip $FILE_NAME aws.js mergeData.js lineupRules.json scheduleStateMachines.js getSlateStartTimes.js \
+startTimeOffsets.json node_modules/axios node_modules/follow-redirects node_modules/xml2js node_modules/xmlbuilder
 
 echo "### Initiating SAM Deploy..."
 

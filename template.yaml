@@ -40,6 +40,6 @@ Resources:
       Runtime: nodejs12.x
       Environment:
         Variables:
+          FANDUEL_API_ROOT: !Ref FanduelApiRoot
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
-          FANDUEL_API_ROOT: !Ref FanduelApiRoot

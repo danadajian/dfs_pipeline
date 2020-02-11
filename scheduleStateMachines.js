@@ -8,5 +8,3 @@ exports.handler = async (event) => {
     }
     return 'Events created!'
 };
-
-exports.handler({"sports": ['nba', 'nhl']});

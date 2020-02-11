@@ -1,6 +1,7 @@
-require('dotenv').config();
 const axios = require('axios');
 const xml2js = require('xml2js');
+const fs = require('fs');
+const startTimeOffsets = JSON.parse(fs.readFileSync('./startTimeOffsets.json'));
 
 const getStartTimes = async (sports) => {
     let startTimes = {};
@@ -15,8 +16,9 @@ const getStartTimes = async (sports) => {
             sports.forEach(sport => {
                 const mainContest = apiResponse.filter(contest =>
                     contest.sport[0].toLowerCase() === sport && contest['game'][0].label[0] === 'Main')[0];
-                const startTime = mainContest['game'][0].start[0];
-                startTimes[sport] = new Date(startTime + ' PST');
+                const startTime = mainContest['game'][0].start[0] + ' PST';
+                const startDate = new Date(startTime + ' PST');
+                startTimes[sport] = new Date(startDate.getTime() - (startTimeOffsets[sport])*60000);
             });
             return startTimes
         })
