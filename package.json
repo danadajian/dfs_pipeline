@@ -2,7 +2,7 @@
   "name": "dfs-pipeline",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "mergeData.js",
   "scripts": {
     "test": "jest"
   },
@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jest": "^25.1.0"
+    "axios": "^0.19.2",
+    "jest": "^25.1.0",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "aws-sdk": "^2.613.0",

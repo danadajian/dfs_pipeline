@@ -10,6 +10,8 @@ Parameters:
     Type: String
   AwsSecret:
     Type: String
+  FanduelApiRoot:
+    Type: String
 Globals:
   Function:
     MemorySize: 512
@@ -22,9 +24,22 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: index.handler
+      Handler: mergeData.handler
       Runtime: nodejs12.x
       Environment:
         Variables:
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
+  ScheduleStateMachinesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri:
+        Bucket: !Ref BucketName
+        Key: !Ref CodeKey
+      Handler: scheduleStateMachines.handler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          AWS_KEY: !Ref AwsKey
+          AWS_SECRET: !Ref AwsSecret
+          FANDUEL_API_ROOT: !Ref FanduelApiRoot

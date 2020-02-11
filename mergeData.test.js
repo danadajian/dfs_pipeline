@@ -1,4 +1,4 @@
-const index = require('./index');
+const mergeData = require('./mergeData');
 const fs = require('fs');
 const fanduelData = JSON.parse(fs.readFileSync('./testFanduelData.json'));
 const projectionsData = JSON.parse(fs.readFileSync('./testProjectionsData.json'));
@@ -11,12 +11,12 @@ describe('merge data tests', () => {
             [],
             {sport: 'nba'}
         ];
-        const result = await index.handler(event);
+        const result = await mergeData.handler(event);
         expect(result).toStrictEqual(optimizerInput)
     });
 
     test('can get dfs player array from sport and fanduel data', () => {
-        expect(index.getFanduelPlayersFromSport('nba', fanduelData)).toStrictEqual([
+        expect(mergeData.getFanduelPlayersFromSport('nba', fanduelData)).toStrictEqual([
             {
                 "name": "Brad Beal",
                 "team": "WAS",
@@ -41,7 +41,7 @@ describe('merge data tests', () => {
     });
 
     test('can merge fanduel and projections data given sport', () => {
-        expect(index.combineDataIntoPlayerPool('nba', fanduelData, projectionsData)).toStrictEqual([
+        expect(mergeData.combineDataIntoPlayerPool('nba', fanduelData, projectionsData)).toStrictEqual([
             {
                 "name": "Luka Doncic",
                 "team": "DAL",
