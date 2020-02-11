@@ -23,14 +23,13 @@ const uploadObjectToS3 = async (object, fileName) => {
     return 'File uploaded successfully.'
 };
 
-const createCloudWatchEvent = async (date) => {
+const createCloudWatchEvent = async (sport, date) => {
     const putRuleParams = {
-        Name: "mlb-pipeline",
+        Name: `${sport}-pipeline`,
         RoleArn: 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984',
         ScheduleExpression: getCronExpressionFromDate(date),
         State: 'ENABLED'
     };
-
     const putTargetsParams = {
         Rule: "mlb-pipeline",
         Targets: [
@@ -38,16 +37,12 @@ const createCloudWatchEvent = async (date) => {
                 Arn: 'arn:aws:states:us-east-2:062130427086:stateMachine:DFSPipeLine',
                 RoleArn: 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984',
                 Id: 'dfsPipelineTarget',
-                Input: '{"invocationType": "pipeline", "sport": "mlb"}'
+                Input: `{"invocationType": "pipeline", "sport": ${sport}}`
             }
         ]
     };
-
-    const putRule = await cloudWatchEvents.putRule(putRuleParams).promise();
-    console.log(putRule);
-
-    const putTargets = await cloudWatchEvents.putTargets(putTargetsParams).promise();
-    console.log(putTargets);
+    await cloudWatchEvents.putRule(putRuleParams).promise().catch(e => console.log(e));
+    await cloudWatchEvents.putTargets(putTargetsParams).promise().catch(e => console.log(e));
     return 'Done.';
 };
 
