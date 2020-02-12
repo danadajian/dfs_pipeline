@@ -43,6 +43,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: cron(0 14 * * ? *)
+            Input: '{"sports": ["nba", "nhl"]}'
       Environment:
         Variables:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
