@@ -1,9 +1,9 @@
-const mergeData = require('./mergeData');
+const mergeData = require('./index');
 const fs = require('fs');
-const fanduelData = JSON.parse(fs.readFileSync('./testFanduelData.json'));
-const projectionsData = JSON.parse(fs.readFileSync('./testProjectionsData.json'));
-const optimizerInput = JSON.parse(fs.readFileSync('./testOptimizerInput.json'));
-jest.mock('./aws');
+const fanduelData = JSON.parse(fs.readFileSync('src/resources/testFanduelData.json'));
+const projectionsData = JSON.parse(fs.readFileSync('src/resources/testProjectionsData.json'));
+const optimizerInput = JSON.parse(fs.readFileSync('src/resources/testOptimizerInput.json'));
+jest.mock('../aws');
 
 describe('merge data tests', () => {
     test('can handle input', async () => {

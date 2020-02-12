@@ -1,7 +1,7 @@
 const fs = require('fs');
-const fanduelData = JSON.parse(fs.readFileSync('./testFanduelData.json'));
-const projectionsData = JSON.parse(fs.readFileSync('./testProjectionsData.json'));
-const optimalLineupNames = JSON.parse(fs.readFileSync('./testOptimalLineup.json'));
+const fanduelData = JSON.parse(fs.readFileSync('src/resources/testFanduelData.json'));
+const projectionsData = JSON.parse(fs.readFileSync('src/resources/testProjectionsData.json'));
+const optimalLineupNames = JSON.parse(fs.readFileSync('src/resources/testOptimalLineup.json'));
 
 const retrieveObjectFromS3 = async (fileName) => {
     return fileName === 'fanduelData.json' ? Promise.resolve(fanduelData) :

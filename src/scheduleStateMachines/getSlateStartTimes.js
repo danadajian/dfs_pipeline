@@ -1,7 +1,7 @@
 const axios = require('axios');
 const xml2js = require('xml2js');
 const fs = require('fs');
-const startTimeOffsets = JSON.parse(fs.readFileSync('./startTimeOffsets.json'));
+const startTimeOffsets = JSON.parse(fs.readFileSync('src/resources/startTimeOffsets.json'));
 
 const getStartTimes = async (sports) => {
     let startTimes = {};

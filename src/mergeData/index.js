@@ -1,6 +1,6 @@
 const fs = require('fs');
-const lineupRules = JSON.parse(fs.readFileSync('./lineupRules.json'));
-const aws = require('./aws');
+const lineupRules = JSON.parse(fs.readFileSync('src/resources/lineupRules.json'));
+const aws = require('../aws');
 
 exports.handler = async (event) => {
     const sport = event[1].sport;

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const fanduelData = JSON.parse(fs.readFileSync('./testFanduelData.json'));
-const projectionsData = JSON.parse(fs.readFileSync('./testProjectionsData.json'));
+const fanduelData = JSON.parse(fs.readFileSync('src/resources/testFanduelData.json'));
+const projectionsData = JSON.parse(fs.readFileSync('src/resources/testProjectionsData.json'));
 const aws = require('./aws');
 jest.mock('./aws');
 

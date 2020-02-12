@@ -24,7 +24,7 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: mergeData.handler
+      Handler: src/mergeData/service.handler
       Runtime: nodejs12.x
       Environment:
         Variables:
@@ -36,8 +36,13 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: scheduleStateMachines.handler
+      Handler: src/scheduleStateMachines/index.handler
       Runtime: nodejs12.x
+      Events:
+        InvocationLevel:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 14 * * ? *)
       Environment:
         Variables:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot

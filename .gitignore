@@ -1,6 +1,6 @@
 *.zip
 config.sh
-enterLineup.js
+src/enterLineup
 
 # Logs
 logs

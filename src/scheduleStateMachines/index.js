@@ -1,5 +1,5 @@
 const getSlateStartTimes = require('./getSlateStartTimes');
-const aws = require('./aws');
+const aws = require('../aws');
 
 exports.handler = async (event) => {
     const startTimes = await getSlateStartTimes.getStartTimes(event.sports);
