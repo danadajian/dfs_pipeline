@@ -1,6 +1,5 @@
 *.zip
 config.sh
-src/enterLineup
 
 # Logs
 logs
