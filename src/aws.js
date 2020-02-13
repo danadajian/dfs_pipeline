@@ -38,7 +38,7 @@ const createCloudWatchEvent = async (sport, date) => {
                 Arn: 'arn:aws:states:us-east-2:062130427086:stateMachine:DFSPipeLine',
                 RoleArn: 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984',
                 Id: 'dfsPipelineTarget',
-                Input: `{"invocationType": "pipeline", "date": "${getDateString()}" "sport": "${sport}"}`
+                Input: `{"invocationType": "pipeline", "date": "${getDateString()}", "sport": "${sport}"}`
             }
         ]
     };
