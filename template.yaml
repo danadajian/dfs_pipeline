@@ -24,7 +24,7 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: src/mergeData/service.handler
+      Handler: src/mergeData/index.handler
       Runtime: nodejs12.x
       Environment:
         Variables:

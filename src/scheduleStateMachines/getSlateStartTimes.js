@@ -4,11 +4,7 @@ const SLATE_OFFSET_SECONDS = 20;
 
 const getStartTimes = async (sports) => {
     let startTimes = {};
-    const date = new Date();
-    const month = (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1);
-    const day = (date.getDate() < 10 ? '0' : '') + date.getDate();
-    const dateString = `${date.getFullYear()}-${month}-${day}`;
-    return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${dateString}`)
+    return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getDateString()}`)
         .then(response => {return xml2js.parseStringPromise(response.data)})
         .then(result => {return result.data['fixturelist']})
         .then(apiResponse => {
@@ -23,4 +19,13 @@ const getStartTimes = async (sports) => {
         })
 };
 
+const getDateString = () => {
+    const date = new Date();
+    let day = String(date.getDate()).padStart(2, '0');
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let year = date.getFullYear();
+    return year + '-' + month + '-' + day;
+};
+
 exports.getStartTimes = getStartTimes;
+exports.getDateString = getDateString;

@@ -1,4 +1,5 @@
 let AWS = require('aws-sdk');
+const {getDateString} = require("./scheduleStateMachines/getSlateStartTimes");
 AWS.config.region = 'us-east-2';
 AWS.config.credentials = new AWS.Credentials(process.env.AWS_KEY, process.env.AWS_SECRET);
 const s3 = new AWS.S3();
@@ -37,7 +38,7 @@ const createCloudWatchEvent = async (sport, date) => {
                 Arn: 'arn:aws:states:us-east-2:062130427086:stateMachine:DFSPipeLine',
                 RoleArn: 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984',
                 Id: 'dfsPipelineTarget',
-                Input: `{"invocationType": "pipeline", "sport": "${sport}"}`
+                Input: `{"invocationType": "pipeline", "date": "${getDateString()}" "sport": "${sport}"}`
             }
         ]
     };
