@@ -1,6 +1,6 @@
 const axios = require('axios');
 const xml2js = require('xml2js');
-const SLATE_OFFSET_SECONDS = 20;
+const SLATE_OFFSET_MINUTES = 20;
 
 const getStartTimes = async (sports) => {
     let startTimes = {};
@@ -13,7 +13,7 @@ const getStartTimes = async (sports) => {
                     contest.sport[0].toLowerCase() === sport && contest['game'][0].label[0] === 'Main')[0];
                 const startTime = mainContest['game'][0].start[0] + ' PST';
                 const startDate = new Date(startTime + ' PST');
-                startTimes[sport] = new Date(startDate.getTime() - SLATE_OFFSET_SECONDS*60000);
+                startTimes[sport] = new Date(startDate.getTime() - SLATE_OFFSET_MINUTES*60000);
             });
             return startTimes
         })
