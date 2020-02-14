@@ -1,6 +1,7 @@
 require('dotenv').config({path: __dirname + '/../../.env'});
 const puppeteer = require('puppeteer');
 const aws = require('../aws');
+const contestNames = require('src/resources/contestNames');
 
 handler(process.argv[2]).then(result => console.log(result));
 
@@ -25,7 +26,7 @@ async function handler(sport) {
         .then(() => page.waitForSelector("a[href='/contests/" + sport + "']"))
         .then(() => page.click("a[href='/contests/" + sport + "']"))
         .then(() => page.waitForSelector("input[data-test-id='contest_search:Input']"))
-        .then(() => page.type("input[data-test-id='contest_search:Input']", 'dribbler'))
+        .then(() => page.type("input[data-test-id='contest_search:Input']", contestNames[sport]))
         .then(() => page.waitForSelector("a[data-test-id='ContestCardEnterLink']"))
         .then(() => page.click("a[data-test-id='ContestCardEnterLink']"))
         .then(() => page.waitForSelector("input[data-test-id='player_search:Input']"))
