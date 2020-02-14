@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 NBA_START_TIME=$(aws s3 cp s3://dfs-pipeline/startTimes.json - | jq -r '.nba')
 
