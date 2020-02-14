@@ -5,9 +5,9 @@ const aws = require('../aws');
 
 exports.handler = async (event) => {
     return getPipelineStartTimes(event['sports'])
-        .then(pipelineStartTimes => {
-            for (const sport of event['sports']) {
-                aws.createCloudWatchEvent(sport, pipelineStartTimes[sport])
+        .then(async pipelineStartTimes => {
+            for (const sport of Object.keys(pipelineStartTimes)) {
+                await aws.createCloudWatchEvent(sport, pipelineStartTimes[sport])
             }
             return pipelineStartTimes
         })
@@ -20,7 +20,7 @@ exports.handler = async (event) => {
         .then(localStartTimes => {
             return aws.uploadObjectToS3(localStartTimes, 'startTimes.json')
         })
-        .finally(() => {
+        .then(() => {
             return 'Events created!'
         });
 };

@@ -1,6 +1,6 @@
-// import {SLATE_OFFSET_MINUTES} from "../resources/constants";
-const _ = require("underscore");
+//import {SLATE_OFFSET_MINUTES} from "../resources/constants";
 const SLATE_OFFSET_MINUTES = 20;
+const _ = require('underscore');
 
 const staggerPipelineStartTimes = (startTimes) => {
     const sports = Object.keys(startTimes);

@@ -1,19 +1,26 @@
-import {SLATE_OFFSET_MINUTES} from "../resources/constants";
+//import {SLATE_OFFSET_MINUTES} from "../resources/constants";
+const SLATE_OFFSET_MINUTES = 20;
 const axios = require('axios');
 const xml2js = require('xml2js');
 
 const getPipelineStartTimes = async (sports) => {
     let startTimes = {};
     return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getDateString()}`)
-        .then(response => {return xml2js.parseStringPromise(response.data)})
-        .then(result => {return result.data['fixturelist']})
+        .then(response => {
+            return xml2js.parseStringPromise(response.data)
+        })
+        .then(result => {
+            return result.data['fixturelist']
+        })
         .then(apiResponse => {
             sports.forEach(sport => {
                 const mainContest = apiResponse.filter(contest =>
                     contest.sport[0].toLowerCase() === sport && contest['game'][0].label[0] === 'Main')[0];
-                const startTime = mainContest['game'][0].start[0] + ' PST';
-                const startDate = new Date(startTime + ' PST');
-                startTimes[sport] = new Date(startDate.getTime() - SLATE_OFFSET_MINUTES*60000);
+                if (mainContest !== undefined) {
+                    const startTime = mainContest['game'][0].start[0] + ' PST';
+                    const startDate = new Date(startTime + ' PST');
+                    startTimes[sport] = new Date(startDate.getTime() - SLATE_OFFSET_MINUTES*60000);
+                }
             });
             return startTimes
         })
