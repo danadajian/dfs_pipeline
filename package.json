@@ -13,11 +13,17 @@
     "axios": "^0.19.2",
     "bestzip": "^2.1.5",
     "jest": "^25.1.0",
+    "underscore": "^1.9.2",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.4",
     "aws-sdk": "^2.613.0",
+    "babel-jest": "^25.1.0",
     "dotenv": "^8.2.0",
     "puppeteer": "^2.1.1"
+  },
+  "transform": {
+    "^.+\\.[t|j]sx?$": "babel-jest"
   }
 }

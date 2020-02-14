@@ -1,5 +1,5 @@
 let AWS = require('aws-sdk');
-const {getDateString} = require("./scheduleStateMachines/getStartTimes");
+const {getDateString} = require("./scheduleStateMachines/getPipelineStartTimes");
 AWS.config.region = 'us-east-2';
 AWS.config.credentials = new AWS.Credentials(process.env.AWS_KEY, process.env.AWS_SECRET);
 const s3 = new AWS.S3();

@@ -1,13 +1,18 @@
-const {getStartTimes} = require('./getStartTimes');
+const {getPipelineStartTimes} = require('./getPipelineStartTimes');
 const {convertStartTimesToLocal} = require("./convertStartTimesToLocal");
+const {staggerPipelineStartTimes} = require("./staggerPipelineStartTimes");
 const aws = require('../aws');
 
 exports.handler = async (event) => {
-    return getStartTimes(event['sports'])
-        .then(startTimes => {
+    return getPipelineStartTimes(event['sports'])
+        .then(pipelineStartTimes => {
             for (const sport of event['sports']) {
-                aws.createCloudWatchEvent(sport, startTimes[sport])
+                aws.createCloudWatchEvent(sport, pipelineStartTimes[sport])
             }
+            return pipelineStartTimes
+        })
+        .then(pipelineStartTimes => {
+            return staggerPipelineStartTimes(pipelineStartTimes)
         })
         .then(startTimes => {
             return convertStartTimesToLocal(startTimes)

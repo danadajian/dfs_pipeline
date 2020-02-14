@@ -1,8 +1,8 @@
+import {SLATE_OFFSET_MINUTES} from "../resources/constants";
 const axios = require('axios');
 const xml2js = require('xml2js');
-const SLATE_OFFSET_MINUTES = 20;
 
-const getStartTimes = async (sports) => {
+const getPipelineStartTimes = async (sports) => {
     let startTimes = {};
     return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getDateString()}`)
         .then(response => {return xml2js.parseStringPromise(response.data)})
@@ -27,5 +27,5 @@ const getDateString = () => {
     return year + '-' + month + '-' + day;
 };
 
-exports.getStartTimes = getStartTimes;
+exports.getPipelineStartTimes = getPipelineStartTimes;
 exports.getDateString = getDateString;
