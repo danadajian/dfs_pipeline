@@ -13,5 +13,10 @@ const uploadObjectToS3 = async () => {
     return Promise.resolve('File uploaded successfully.')
 };
 
+const createCloudWatchEvent = async () => {
+    return Promise.resolve('Cloudwatch events created.')
+};
+
 exports.retrieveObjectFromS3 = retrieveObjectFromS3;
 exports.uploadObjectToS3 = uploadObjectToS3;
+exports.createCloudWatchEvent = createCloudWatchEvent;

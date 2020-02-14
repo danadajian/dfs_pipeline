@@ -2,12 +2,9 @@ const convertStartTimesToLocal = (startTimes) => {
     let localStartTimes = {};
     Object.keys(startTimes).forEach(sport => {
         const startTimeUTC = startTimes[sport];
-        const localDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Chicago"}));
-        const offset = new Date().getTime() - localDate.getTime();
-        console.log(offset);
-        console.log(offset/60000 + 'hours');
-        const localStartTime = new Date(startTimeUTC.getTime() + offset*3600000);
-        localStartTimes[sport] = localStartTime;
+        const localDateTime = startTimeUTC.toLocaleString("en-GB", {timeZone: "America/Chicago", hour12: false});
+        const localTimeWithSeconds = localDateTime.split(', ')[1];
+        localStartTimes[sport] = localTimeWithSeconds.slice(0, localTimeWithSeconds.length - 3);
     });
     return localStartTimes;
 };

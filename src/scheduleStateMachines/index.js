@@ -1,11 +1,21 @@
-const getSlateStartTimes = require('./getSlateStartTimes');
+const {getStartTimes} = require('./getStartTimes');
+const {convertStartTimesToLocal} = require("./convertStartTimesToLocal");
 const aws = require('../aws');
 
 exports.handler = async (event) => {
-    const startTimes = await getSlateStartTimes.getStartTimes(event['sports']);
-    await aws.uploadObjectToS3(startTimes, 'startTimes.json');
-    for (const sport of event['sports']) {
-        await aws.createCloudWatchEvent(sport, startTimes[sport])
-    }
-    return 'Events created!'
+    return getStartTimes(event['sports'])
+        .then(startTimes => {
+            for (const sport of event['sports']) {
+                aws.createCloudWatchEvent(sport, startTimes[sport])
+            }
+        })
+        .then(startTimes => {
+            return convertStartTimesToLocal(startTimes)
+        })
+        .then(localStartTimes => {
+            return aws.uploadObjectToS3(localStartTimes, 'startTimes.json')
+        })
+        .finally(() => {
+            return 'Events created!'
+        });
 };

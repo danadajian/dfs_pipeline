@@ -1,5 +1,5 @@
 let AWS = require('aws-sdk');
-const {getDateString} = require("./scheduleStateMachines/getSlateStartTimes");
+const {getDateString} = require("./scheduleStateMachines/getStartTimes");
 AWS.config.region = 'us-east-2';
 AWS.config.credentials = new AWS.Credentials(process.env.AWS_KEY, process.env.AWS_SECRET);
 const s3 = new AWS.S3();
@@ -44,7 +44,7 @@ const createCloudWatchEvent = async (sport, date) => {
     };
     await cloudWatchEvents.putRule(putRuleParams).promise().catch(e => console.log(e));
     await cloudWatchEvents.putTargets(putTargetsParams).promise().catch(e => console.log(e));
-    return 'Done.';
+    return 'Cloudwatch events created.';
 };
 
 const getCronExpressionFromDate = (date) => {

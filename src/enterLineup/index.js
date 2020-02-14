@@ -1,12 +1,11 @@
-require('dotenv').config();
+require('dotenv').config({path: __dirname + '/../../.env'});
 const puppeteer = require('puppeteer');
 const aws = require('../aws');
 
-handler(process.argv[2]).then(r => console.log(r));
+handler(process.argv[2]).then(result => console.log(result));
 
 async function handler(sport) {
     const optimalPlayerNames = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
-
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         defaultViewport: {width: 1366, height: 768},
@@ -14,43 +13,37 @@ async function handler(sport) {
     });
     const page = await browser.newPage();
 
-    await page.goto(process.env.FANDUEL_HOME_URL);
-
-    if (await page.$("span[class='ab-close-button']"))
-        await page.click("span[class='ab-close-button']");
-
-    await page.type("input[data-test-id='login.email']", process.env.USERNAME);
-    await page.type("input[data-test-id='login.password']", process.env.PASSWORD);
-    await page.click("button[data-test-id='login.submit']");
-
-    await sleep(5);
-
-    // await page.click("a[href='/contests/" + sport + "']");
-    //
-    // await sleep(5000);
-    //
-    // await page.type("input[data-test-id='contest_search:Input']", contestName);
-    // await sleep(2000);
-    // await page.click("a[data-test-id='ContestCardEnterLink']");
-
-    await page.goto(process.env.CONTEST_URL);
-
-    await sleep(5);
-
-    for (let i = 0; i < optimalPlayerNames.length; i++) {
-        await page.type("input[data-test-id='player_search:Input']", optimalPlayerNames[i]);
-        await sleep(1);
-        await page.click("button[data-test-id='player-action-add']");
-        await sleep(1);
-    }
-
-    // await page.click("button[data-test-id='enter-button']");
-
-    await sleep(5);
-
-    await browser.close();
-
-    return 'Lineup entered!'
+    await page.goto(process.env.FANDUEL_HOME_URL)
+        .then(() => page.type("input[data-test-id='login.email']", process.env.USERNAME))
+        .then(() => page.type("input[data-test-id='login.password']", process.env.PASSWORD))
+        .then(() => page.click("button[data-test-id='login.submit']"))
+        .catch(() => console.log('Failed to login.'))
+        .then(() => page.waitForSelector("span[class='ab-close-button']", {timeout: 3000}))
+        .catch(() => console.log('No window to close.'))
+        .then(() => page.click("span[class='ab-close-button']"))
+        .catch(() => console.log('No close button necessary.'))
+        .then(() => page.waitForSelector("a[href='/contests/" + sport + "']"))
+        .then(() => page.click("a[href='/contests/" + sport + "']"))
+        .then(() => page.waitForSelector("input[data-test-id='contest_search:Input']"))
+        .then(() => page.type("input[data-test-id='contest_search:Input']", 'dribbler'))
+        .then(() => page.waitForSelector("a[data-test-id='ContestCardEnterLink']"))
+        .then(() => page.click("a[data-test-id='ContestCardEnterLink']"))
+        .then(() => page.waitForSelector("input[data-test-id='player_search:Input']"))
+        .then(async () => {
+            for (const playerName of optimalPlayerNames) {
+                await page.type("input[data-test-id='player_search:Input']", playerName)
+                    .then(() => sleep(1))
+                    .then(() => page.waitForSelector("button[data-test-id='player-action-add']"))
+                    .then(() => page.click("button[data-test-id='player-action-add']"))
+                    .then(() => sleep(1))
+            }
+        })
+        .then(() => page.click("button[data-test-id='enter-button']"))
+        //.then(() => page.waitForSelector("INSERT LINEUP CONFIRMATION SELECTOR HERE"))
+        .then(() => sleep(5))
+        .then(() => browser.close())
+        .catch(() => console.log('A timeout likely occurred.'))
+        .finally(() => 'Lineup entered!');
 }
 
 function sleep(sec) {
