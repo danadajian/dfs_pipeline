@@ -5,10 +5,11 @@ const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
 
 exports.handler = async (event) => {
     const sport = event[1].sport;
-    return aws.retrieveObjectFromS3('fanduelData.json')
-        .then(fanduelData => {
-            return [fanduelData, aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`)]
-        })
+    return Promise.all(
+        [
+            aws.retrieveObjectFromS3('fanduelData.json'),
+            aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`)
+        ])
         .then(([fanduelData, projectionsData]) => {
             return combineDataIntoPlayerPool(sport, fanduelData, projectionsData)
         })
