@@ -1,10 +1,11 @@
-#!/bin/bash
+#!/bin/bash -e
 
-NBA_START_TIME=$(aws s3 cp s3://dfs-pipeline/startTimes.json - | jq -r '.nba')
+SPORT=$1
+CONTEST_URL=$2
+START_TIME=$3
 
-NHL_START_TIME=$(aws s3 cp s3://dfs-pipeline/startTimes.json - | jq -r '.nhl')
+UPPERCASE_SPORT=$(echo "$SPORT" | tr '[:lower:]' '[:upper:]')
 
-schtasks /create /tn "Enter NBA Lineup" /tr \
- "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\triggerLineupEntry.sh nba" /sc once /st "$NBA_START_TIME"
-schtasks /create /tn "Enter NHL Lineup" /tr \
- "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\triggerLineupEntry.sh nhl" /sc once /st "$NHL_START_TIME"
+schtasks /create /tn "Enter $UPPERCASE_SPORT Lineup" /tr \
+  "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\triggerLineupEntry.sh $SPORT $CONTEST_URL" \
+   /sc once /st "$START_TIME"

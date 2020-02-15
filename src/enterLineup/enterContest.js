@@ -17,11 +17,11 @@ async function handler(sport) {
         .then(() => page.type("input[data-test-id='login.email']", process.env.USERNAME))
         .then(() => page.type("input[data-test-id='login.password']", process.env.PASSWORD))
         .then(() => page.click("button[data-test-id='login.submit']"))
-        .catch(() => console.log('Failed to login.'))
+        .catch(() => 'Failed to login.')
         .then(() => page.waitForSelector("span[class='ab-close-button']", {timeout: 3000}))
-        .catch(() => console.log('No window to close.'))
+        .catch(() => 'No window to close.')
         .then(() => page.click("span[class='ab-close-button']"))
-        .catch(() => console.log('No close button necessary.'))
+        .catch(() => 'No close button necessary.')
         .then(() => page.waitForSelector("a[href='/contests/" + sport + "']"))
         .then(() => page.click("a[href='/contests/" + sport + "']"))
         .then(() => page.waitForSelector("input[data-test-id='contest_search:Input']"))
@@ -36,8 +36,7 @@ async function handler(sport) {
         //.then(() => page.waitForSelector("INSERT CONTEST CONFIRMATION SELECTOR HERE"))
         .then(() => sleep(5))
         .then(() => browser.close())
-        .catch(() => console.log('A timeout likely occurred.'))
-        .finally(() => 'Contest entered!');
+        .catch(() => 'A timeout likely occurred.');
 
     return contestUrl;
 }

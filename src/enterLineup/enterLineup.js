@@ -2,9 +2,9 @@ require('dotenv').config({path: __dirname + '/../../.env'});
 const puppeteer = require('puppeteer');
 const aws = require('../aws');
 
-handler(process.argv[2]).then(result => console.log(result));
+handler(process.argv[2], process.argv[3]).then(result => console.log(result));
 
-async function handler(contestUrl) {
+async function handler(sport, contestUrl) {
     const optimalPlayerNames = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -35,8 +35,9 @@ async function handler(contestUrl) {
         //.then(() => page.waitForSelector("INSERT LINEUP CONFIRMATION SELECTOR HERE"))
         .then(() => sleep(5))
         .then(() => browser.close())
-        .catch(() => console.log('A timeout likely occurred.'))
-        .finally(() => 'Lineup entered!');
+        .catch(() => console.log('A timeout likely occurred.'));
+
+    return 'Lineup entered!';
 }
 
 function sleep(sec) {
