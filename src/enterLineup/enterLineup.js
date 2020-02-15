@@ -1,11 +1,10 @@
 require('dotenv').config({path: __dirname + '/../../.env'});
 const puppeteer = require('puppeteer');
 const aws = require('../aws');
-const contestNames = require('src/resources/contestNames');
 
 handler(process.argv[2]).then(result => console.log(result));
 
-async function handler(sport) {
+async function handler(contestUrl) {
     const optimalPlayerNames = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -21,14 +20,7 @@ async function handler(sport) {
         .catch(() => console.log('Failed to login.'))
         .then(() => page.waitForSelector("span[class='ab-close-button']", {timeout: 3000}))
         .catch(() => console.log('No window to close.'))
-        .then(() => page.click("span[class='ab-close-button']"))
-        .catch(() => console.log('No close button necessary.'))
-        .then(() => page.waitForSelector("a[href='/contests/" + sport + "']"))
-        .then(() => page.click("a[href='/contests/" + sport + "']"))
-        .then(() => page.waitForSelector("input[data-test-id='contest_search:Input']"))
-        .then(() => page.type("input[data-test-id='contest_search:Input']", contestNames[sport]))
-        .then(() => page.waitForSelector("a[data-test-id='ContestCardEnterLink']"))
-        .then(() => page.click("a[data-test-id='ContestCardEnterLink']"))
+        .then(() => page.goto(contestUrl))
         .then(() => page.waitForSelector("input[data-test-id='player_search:Input']"))
         .then(async () => {
             for (const playerName of optimalPlayerNames) {
