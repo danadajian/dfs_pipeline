@@ -1,5 +1,5 @@
 //import {SLATE_OFFSET_MINUTES} from "../resources/constants";
-const SLATE_OFFSET_MINUTES = 20;
+const SLATE_OFFSET_MINUTES = 30;
 const _ = require('underscore');
 
 const staggerPipelineStartTimes = (startTimes) => {

@@ -1,1 +1,1 @@
-export const SLATE_OFFSET_MINUTES = 20;
+export const SLATE_OFFSET_MINUTES = 30;
