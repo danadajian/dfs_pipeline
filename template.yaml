@@ -49,3 +49,12 @@ Resources:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
+  DFSPipeline:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      RoleArn: arn:aws:iam::062130427086:role/service-role/StepFunctions-DFSPipeLine-role-1d6983e2
+      Fn::Transform:
+        Name: AWS::Include
+        Parameters:
+          Location:
+            Fn::Sub: s3://${BucketName}/dfs-pipeline-state-machine-definition.yaml

@@ -1,0 +1,43 @@
+DefinitionString:
+  Fn::Sub: |
+    {
+      "StartAt": "Data Collection",
+      "States": {
+        "Data Collection": {
+          "Type": "Parallel",
+          "Next": "Data Merger",
+          "Branches": [
+            {
+              "StartAt": "Fanduel Collector",
+              "States": {
+                "Fanduel Collector": {
+                  "Type": "Task",
+                  "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-optimizer-stack-GetFanduelDataFunction-77GMJJP3YXN8",
+                  "End": true
+                }
+              }
+            },
+            {
+              "StartAt": "Projections Collector",
+              "States": {
+                "Projections Collector": {
+                  "Type": "Task",
+                  "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-optimizer-stack-GetProjectionsDataFunction-QKLNCL4DUKM2",
+                  "End": true
+                }
+              }
+            }
+          ]
+        },
+        "Data Merger": {
+          "Type": "Task",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-MergeDataFunction-1RE6852HB9LOB",
+          "Next": "Lineup Optimizer"
+        },
+        "Lineup Optimizer": {
+          "Type": "Task",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-optimizer-stack-GetOptimalLineupFunction-12U6F4GY6ANQ2",
+          "End": true
+        }
+      }
+    }

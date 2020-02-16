@@ -24,6 +24,7 @@ echo "### Initiating SAM Deploy..."
 
 aws s3 rm "s3://${BUCKET_NAME}" --recursive --exclude "*" --include "*.zip"
 aws s3 cp "${FILE_NAME}" "s3://${BUCKET_NAME}/"
+aws s3 cp ./dfs-pipeline-state-machine-definition.yaml "s3://${BUCKET_NAME}/"
 
 if [[ "$OSTYPE" == "msys" ]]; then
     sam.cmd --version
