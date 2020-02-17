@@ -1,10 +1,10 @@
 #!/bin/bash -e
 
-SPORTS=$1
+SPORTS=( "$@" )
 
 cd ../../Users/Dan/Documents/DFS-Pipeline/src/enterLineup || exit
 
-for SPORT in $SPORTS
+for SPORT in "${SPORTS[@]}"
 do
   START_TIME=$(aws s3 cp s3://dfs-pipeline/startTimes.json - | jq -r ".${SPORT}")
 

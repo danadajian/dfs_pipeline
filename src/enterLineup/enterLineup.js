@@ -13,9 +13,9 @@ async function handler(sport, contestUrl) {
     });
     const page = await browser.newPage();
 
-    await page.goto(process.env.FANDUEL_HOME_URL)
-        .then(() => page.type("input[data-test-id='login.email']", process.env.USERNAME))
-        .then(() => page.type("input[data-test-id='login.password']", process.env.PASSWORD))
+    await page.goto(`${process.env.FANDUEL_URL}/contests`)
+        .then(() => page.type("input[data-test-id='login.email']", process.env.FANDUEL_USERNAME))
+        .then(() => page.type("input[data-test-id='login.password']", process.env.FANDUEL_PASSWORD))
         .then(() => page.click("button[data-test-id='login.submit']"))
         .catch(() => console.log('Failed to login.'))
         .then(() => page.waitForSelector("span[class='ab-close-button']", {timeout: 3000}))
@@ -31,9 +31,8 @@ async function handler(sport, contestUrl) {
                     .then(() => sleep(1))
             }
         })
-        .then(() => page.click("button[data-test-id='enter-button']"))
-        //.then(() => page.waitForSelector("INSERT LINEUP CONFIRMATION SELECTOR HERE"))
-        .then(() => sleep(5))
+        .then(() => page.click("button[class='button jumbo primary roster-edit__submit-button']"))
+        .then(() => page.waitForSelector("div[class='upcoming']"))
         .then(() => browser.close())
         .catch(() => console.log('A timeout likely occurred.'));
 

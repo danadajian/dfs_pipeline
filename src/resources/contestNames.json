@@ -1,4 +1,10 @@
 {
-  "nba": "dribbler",
-  "nhl": "one timer"
+  "nba": {
+    "name": "dribbler",
+    "cost": "$1"
+  },
+  "nhl": {
+    "name": "one timer",
+    "cost": "$1"
+  }
 }
