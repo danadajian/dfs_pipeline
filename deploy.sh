@@ -30,10 +30,12 @@ if [[ "$OSTYPE" == "msys" ]]; then
     sam.cmd --version
     sam.cmd deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
      --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" AwsKey="${AWS_KEY}" \
-     AwsSecret="${AWS_SECRET}" FanduelApiRoot="${FANDUEL_API_ROOT}" --no-fail-on-empty-changeset
+     AwsSecret="${AWS_SECRET}" FanduelApiRoot="${FANDUEL_API_ROOT}" DanPhoneNumber="${DAN_PHONE_NUMBER}" \
+     TonyPhoneNumber="${TONY_PHONE_NUMBER}" --no-fail-on-empty-changeset
 else
     sam --version
     sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
      --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" AwsKey="${AWS_KEY}" \
-     AwsSecret="${AWS_SECRET}" FanduelApiRoot="${FANDUEL_API_ROOT}" --no-fail-on-empty-changeset
+     AwsSecret="${AWS_SECRET}" FanduelApiRoot="${FANDUEL_API_ROOT}" DanPhoneNumber="${DAN_PHONE_NUMBER}" \
+     TonyPhoneNumber="${TONY_PHONE_NUMBER}" --no-fail-on-empty-changeset
 fi
