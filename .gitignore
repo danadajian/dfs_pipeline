@@ -1,5 +1,6 @@
 *.zip
 config.sh
+runDocker.sh
 
 # Logs
 logs

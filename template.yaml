@@ -12,6 +12,10 @@ Parameters:
     Type: String
   FanduelApiRoot:
     Type: String
+  DanPhoneNumber:
+    Type: String
+  TonyPhoneNumber:
+    Type: String
 Globals:
   Function:
     MemorySize: 512
@@ -49,6 +53,31 @@ Resources:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
+  DFSOptimizer:
+    Type: AWS::Batch::JobDefinition
+    Properties:
+      Type: container
+      JobDefinitionName: 'dfs-optimizer-batch'
+      RetryStrategy:
+        Attempts: 1
+      ContainerProperties:
+        Image: 062130427086.dkr.ecr.us-east-2.amazonaws.com/dfs-optimizer:latest
+        Vcpus: 2
+        Memory: 2000
+        Privileged: true
+        Environment:
+          - Name: AWS_KEY
+            Value: !Ref AwsKey
+          - Name: AWS_SECRET
+            Value: !Ref AwsSecret
+          - Name: DAN_PHONE_NUMBER
+            Value: !Ref DanPhoneNumber
+          - Name: TONY_PHONE_NUMBER
+            Value: !Ref TonyPhoneNumber
+          - Name: OPTIMIZER_INPUT
+            Value: Optimizer Input
+      Timeout:
+        AttemptDurationSeconds: 3600
   DFSPipeline:
     Type: AWS::StepFunctions::StateMachine
     Properties:

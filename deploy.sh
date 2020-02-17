@@ -16,7 +16,7 @@ fi
 timestamp=$( date +"%Y-%m-%d_%H-%M-%S" )
 FILE_NAME="$timestamp-function.zip"
 
-bestzip $FILE_NAME src \
+bestzip "$FILE_NAME" src \
 node_modules/axios node_modules/follow-redirects node_modules/xml2js node_modules/xmlbuilder node_modules/sax \
 node_modules/underscore
 
