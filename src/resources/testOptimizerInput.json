@@ -77,11 +77,11 @@
   ],
   "blackList": [],
   "lineupPositions": ["PG", "PG", "SG", "SG", "SF", "SF", "PF", "PF", "C"],
-  "salaryCap": 60000,
-  "maxCombinations": 10000000,
   "lineupRestrictions": {
     "distinctTeamsRequired": 3,
     "maxPlayersPerTeam": 4,
     "teamAgnosticPosition": ""
-  }
+  },
+  "salaryCap": 60000,
+  "maxCombinations": 1000000000
 }

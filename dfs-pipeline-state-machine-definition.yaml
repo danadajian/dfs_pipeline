@@ -36,8 +36,21 @@ DefinitionString:
         },
         "Lineup Optimizer": {
           "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-optimizer-stack-GetOptimalLineupFunction-12U6F4GY6ANQ2",
-          "End": true
+          "Resource": "arn:aws:states:::batch:submitJob.sync",
+          "End": true,
+          "Parameters": {
+            "JobDefinition": "arn:aws:batch:us-east-2:062130427086:job-definition/dfs-optimizer-batch:latest",
+            "JobName": "dfs-optimizer",
+            "JobQueue": "dfs-optimizer-queue",
+            "ContainerOverrides": {
+              "Environment": [
+                {
+                  "Name": "OPTIMIZER_INPUT",
+                  "Value.$": "$"
+                }
+              ]
+            }
+          }
         }
       }
     }

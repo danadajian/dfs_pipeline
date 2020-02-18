@@ -10,6 +10,6 @@ describe('handler tests', () => {
             {sport: 'nba'}
         ];
         const result = await mergeData.handler(event);
-        expect(result).toStrictEqual(optimizerInput)
+        expect(result).toStrictEqual(JSON.stringify(optimizerInput))
     });
 });
