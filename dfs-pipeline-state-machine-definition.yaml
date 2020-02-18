@@ -39,7 +39,7 @@ DefinitionString:
           "Resource": "arn:aws:states:::batch:submitJob.sync",
           "End": true,
           "Parameters": {
-            "JobDefinition": "arn:aws:batch:us-east-2:062130427086:job-definition/dfs-optimizer-batch:latest",
+            "JobDefinition": "arn:aws:batch:us-east-2:062130427086:job-definition/dfs-optimizer-batch",
             "JobName": "dfs-optimizer",
             "JobQueue": "dfs-optimizer-queue",
             "ContainerOverrides": {
