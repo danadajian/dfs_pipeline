@@ -1,10 +1,10 @@
+require('dotenv').config({path: __dirname + '/../.env'});
 let AWS = require('aws-sdk');
-const {getDateString} = require("./scheduleStateMachines/getPipelineStartTimes");
-AWS.config.region = 'us-east-2';
 AWS.config.credentials = new AWS.Credentials(process.env.AWS_KEY, process.env.AWS_SECRET);
-const s3 = new AWS.S3();
-const sns = new AWS.SNS();
-const cloudWatchEvents = new AWS.CloudWatchEvents({apiVersion: '2015-10-07'});
+const sns = new AWS.SNS({region: 'us-east-1'});
+const s3 = new AWS.S3({region: 'us-east-2'});
+const cloudWatchEvents = new AWS.CloudWatchEvents({apiVersion: '2015-10-07', region: 'us-east-2'});
+const {getDateString} = require("./scheduleStateMachines/getPipelineStartTimes");
 
 const retrieveObjectFromS3 = async (fileName) => {
     let params = {
