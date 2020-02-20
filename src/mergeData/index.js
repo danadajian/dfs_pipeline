@@ -33,7 +33,7 @@ exports.handler = async (event) => {
                 lineupPositions,
                 lineupRestrictions,
                 salaryCap,
-                'maxCombinations': 50000000
+                'maxCombinations': 100000000
             })
         })
 };
