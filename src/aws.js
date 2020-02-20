@@ -1,4 +1,3 @@
-require('dotenv').config({path: __dirname + '/../.env'});
 let AWS = require('aws-sdk');
 AWS.config.credentials = new AWS.Credentials(process.env.AWS_KEY, process.env.AWS_SECRET);
 const sns = new AWS.SNS({region: 'us-east-1'});
