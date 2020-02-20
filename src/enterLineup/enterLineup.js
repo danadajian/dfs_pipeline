@@ -5,7 +5,8 @@ const aws = require('../aws');
 handler(process.argv[2], process.argv[3]).then(result => console.log(result));
 
 async function handler(sport, contestUrl) {
-    const optimalPlayerNames = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
+    const optimalPlayerData = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
+    const optimalPlayerNames = optimalPlayerData.lineup.map(player => player.name);
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         defaultViewport: {width: 1366, height: 768},

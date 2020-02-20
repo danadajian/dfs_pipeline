@@ -37,7 +37,7 @@ DefinitionString:
         "Lineup Optimizer": {
           "Type": "Task",
           "Resource": "arn:aws:states:::batch:submitJob.sync",
-          "End": true,
+          "Next": "Send Texts",
           "Parameters": {
             "JobDefinition": "arn:aws:batch:us-east-2:062130427086:job-definition/dfs-optimizer-batch",
             "JobName": "dfs-optimizer",
@@ -51,6 +51,11 @@ DefinitionString:
               ]
             }
           }
+        },
+        "Send Texts": {
+          "Type": "Task",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-SendOptimalLineupTextsFunction-ZKYR04BXGHI6",
+          "End": true
         }
       }
     }

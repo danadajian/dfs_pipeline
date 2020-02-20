@@ -70,14 +70,24 @@ Resources:
             Value: !Ref AwsKey
           - Name: AWS_SECRET
             Value: !Ref AwsSecret
-          - Name: DAN_PHONE_NUMBER
-            Value: !Ref DanPhoneNumber
-          - Name: TONY_PHONE_NUMBER
-            Value: !Ref TonyPhoneNumber
           - Name: OPTIMIZER_INPUT
             Value: Optimizer Input
       Timeout:
         AttemptDurationSeconds: 3600
+  SendOptimalLineupTextsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri:
+        Bucket: !Ref BucketName
+        Key: !Ref CodeKey
+      Handler: src/sendOptimalLineupTexts/index.handler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          AWS_KEY: !Ref AwsKey
+          AWS_SECRET: !Ref AwsSecret
+          DAN_PHONE_NUMBER: !Ref DanPhoneNumber
+          TONY_PHONE_NUMBER: !Ref TonyPhoneNumber
   DFSPipeline:
     Type: AWS::StepFunctions::StateMachine
     Properties:

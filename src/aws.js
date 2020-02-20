@@ -3,6 +3,7 @@ const {getDateString} = require("./scheduleStateMachines/getPipelineStartTimes")
 AWS.config.region = 'us-east-2';
 AWS.config.credentials = new AWS.Credentials(process.env.AWS_KEY, process.env.AWS_SECRET);
 const s3 = new AWS.S3();
+const sns = new AWS.SNS();
 const cloudWatchEvents = new AWS.CloudWatchEvents({apiVersion: '2015-10-07'});
 
 const retrieveObjectFromS3 = async (fileName) => {
@@ -22,6 +23,16 @@ const uploadObjectToS3 = async (object, fileName) => {
     };
     await s3.putObject(params).promise();
     return 'File uploaded successfully.'
+};
+
+const sendTextMessage = async (Message, PhoneNumber) => {
+    let params = {
+        Message,
+        MessageStructure: 'string',
+        PhoneNumber
+    };
+    await sns.publish(params).promise();
+    return 'Text message sent successfully.'
 };
 
 const createCloudWatchEvent = async (sport, date) => {
@@ -63,5 +74,6 @@ const getCronExpressionFromDate = (date) => {
 
 exports.retrieveObjectFromS3 = retrieveObjectFromS3;
 exports.uploadObjectToS3 = uploadObjectToS3;
+exports.sendTextMessage = sendTextMessage;
 exports.createCloudWatchEvent = createCloudWatchEvent;
 exports.getCronExpressionFromDate = getCronExpressionFromDate;
