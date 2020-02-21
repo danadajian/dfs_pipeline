@@ -5,6 +5,7 @@ DefinitionString:
       "States": {
         "Data Collection": {
           "Type": "Parallel",
+          "OutputPath": "$[0]",
           "Next": "Data Merger",
           "Branches": [
             {
@@ -12,6 +13,7 @@ DefinitionString:
               "States": {
                 "Fanduel Collector": {
                   "Type": "Task",
+                  "ResultPath": "$.dataCollectionResult",
                   "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-optimizer-stack-GetFanduelDataFunction-77GMJJP3YXN8",
                   "End": true
                 }
@@ -32,11 +34,13 @@ DefinitionString:
         "Data Merger": {
           "Type": "Task",
           "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-MergeDataFunction-1RE6852HB9LOB",
+          "ResultPath": "$.optimizerInputString",
           "Next": "Lineup Optimizer"
         },
         "Lineup Optimizer": {
           "Type": "Task",
           "Resource": "arn:aws:states:::batch:submitJob.sync",
+          "ResultPath": "$.jobSubmissionResult",
           "Next": "Send Texts",
           "Parameters": {
             "JobDefinition": "arn:aws:batch:us-east-2:062130427086:job-definition/dfs-optimizer-batch",
@@ -46,7 +50,7 @@ DefinitionString:
               "Environment": [
                 {
                   "Name": "OPTIMIZER_INPUT",
-                  "Value.$": "$"
+                  "Value.$": "$.optimizerInput"
                 }
               ]
             }

@@ -2,7 +2,7 @@ const {generateTextMessageOutput} = require("./generateTextMessageOutput");
 const aws = require('../aws');
 
 exports.handler = async (event) => {
-    const sport = event[0];
+    const {sport} = event;
     return aws.retrieveObjectFromS3(sport + 'OptimalLineup.json')
         .then(optimalLineupData => {
             return generateTextMessageOutput(sport, optimalLineupData)

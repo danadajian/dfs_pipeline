@@ -4,7 +4,7 @@ const aws = require('../aws');
 const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
 
 exports.handler = async (event) => {
-    const sport = event[1].sport;
+    const {invocationType, sport, maxCombinations} = event;
     return Promise.all(
         [
             aws.retrieveObjectFromS3('fanduelData.json'),
@@ -19,7 +19,7 @@ exports.handler = async (event) => {
         .then(() => {
             const {lineupPositions, lineupRestrictions, salaryCap} = lineupRules['fd'][sport]['Classic'];
             return JSON.stringify({
-                'invocationType': 'pipeline',
+                invocationType,
                 sport,
                 'lineup': lineupPositions.map(position => ({
                     'playerId': 0,
@@ -33,7 +33,7 @@ exports.handler = async (event) => {
                 lineupPositions,
                 lineupRestrictions,
                 salaryCap,
-                'maxCombinations': 100000000
+                maxCombinations
             })
         })
 };
