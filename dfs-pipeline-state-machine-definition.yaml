@@ -50,7 +50,7 @@ DefinitionString:
               "Environment": [
                 {
                   "Name": "OPTIMIZER_INPUT",
-                  "Value.$": "$.optimizerInput"
+                  "Value.$": "$.optimizerInputString"
                 }
               ]
             }
