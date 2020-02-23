@@ -18,7 +18,7 @@ exports.handler = async (event) => {
         })
         .then(() => {
             const {lineupPositions, lineupRestrictions, salaryCap} = lineupRules['fd'][sport]['Classic'];
-            return JSON.stringify({
+            return {
                 invocationType,
                 sport,
                 'lineup': lineupPositions.map(position => ({
@@ -34,6 +34,6 @@ exports.handler = async (event) => {
                 lineupRestrictions,
                 salaryCap,
                 maxCombinations
-            })
+            }
         })
 };

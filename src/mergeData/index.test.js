@@ -12,6 +12,6 @@ describe('handler tests', () => {
             "maxCombinations": 1000000000
         };
         const result = await mergeData.handler(event);
-        expect(result).toStrictEqual(JSON.stringify(optimizerInput))
+        expect(result).toStrictEqual(optimizerInput)
     });
 });

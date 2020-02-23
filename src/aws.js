@@ -52,7 +52,7 @@ const createCloudWatchEvent = async (sport, date) => {
                     invocationType: 'pipeline',
                     date: getDateString(),
                     sport,
-                    maxCombinations: 100000000
+                    maxCombinations: 10000000000
                 })
             }
         ]
