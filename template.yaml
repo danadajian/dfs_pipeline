@@ -53,27 +53,6 @@ Resources:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
-  DFSOptimizer:
-    Type: AWS::Batch::JobDefinition
-    Properties:
-      Type: container
-      JobDefinitionName: 'dfs-optimizer-batch'
-      RetryStrategy:
-        Attempts: 1
-      ContainerProperties:
-        Image: 062130427086.dkr.ecr.us-east-2.amazonaws.com/dfs-optimizer:latest
-        Vcpus: 2
-        Memory: 2000
-        Privileged: true
-        Environment:
-          - Name: AWS_KEY
-            Value: !Ref AwsKey
-          - Name: AWS_SECRET
-            Value: !Ref AwsSecret
-          - Name: OPTIMIZER_INPUT
-            Value: Optimizer Input
-      Timeout:
-        AttemptDurationSeconds: 3600
   SendOptimalLineupTextsFunction:
     Type: AWS::Serverless::Function
     Properties:
