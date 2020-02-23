@@ -30,8 +30,8 @@ async function handler(sport) {
         .then(() => page.click("a[data-test-id='ContestCardEnterLink']"))
         .then(() => page.waitForSelector("input[data-test-id='ContestDetailsEnterNewLineup']", {timeout: 5000}))
         .then(() => page.click("input[data-test-id='ContestDetailsEnterNewLineup']"))
-        .catch(() => 'You have not already entered another contest.')
         .then(() => page.waitForSelector("input[data-test-id='player_search:Input']"))
+        .catch(() => 'You have not already entered another contest.')
         .then(() => {
             return page.$x("//button[contains(., 'Reserve without lineup')]")
         })

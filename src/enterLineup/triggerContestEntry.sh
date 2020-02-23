@@ -10,6 +10,6 @@ do
 
   if [ "$START_TIME" != null ]
   then
-    node ./enterContest.js "$SPORT" | xargs -I CONTEST_URL sh ./scheduleLineupEntry.sh "$SPORT" CONTEST_URL "$START_TIME"
+    node.exe ./enterContest.js "$SPORT" | xargs -I CONTEST_URL sh ./scheduleLineupEntry.sh "$SPORT" CONTEST_URL "$START_TIME"
   fi
 done
