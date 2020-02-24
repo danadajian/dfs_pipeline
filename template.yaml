@@ -22,6 +22,14 @@ Globals:
     Timeout: 900
 
 Resources:
+  GoalieScraperFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri:
+        Bucket: !Ref BucketName
+        Key: !Ref CodeKey
+      Handler: src/goalieScraper/index.handler
+      Runtime: nodejs12.x
   MergeDataFunction:
     Type: AWS::Serverless::Function
     Properties:

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const lineupRules = JSON.parse(fs.readFileSync('src/resources/lineupRules.json'));
 const aws = require('../aws');
+const goalieScraper = require('../goalieScraper/index');
 const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
 
 exports.handler = async (event) => {
@@ -8,10 +9,11 @@ exports.handler = async (event) => {
     return Promise.all(
         [
             aws.retrieveObjectFromS3('fanduelData.json'),
-            aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`)
+            aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`),
+            goalieScraper.handler()
         ])
-        .then(([fanduelData, projectionsData]) => {
-            return combineDataIntoPlayerPool(sport, fanduelData, projectionsData)
+        .then(([fanduelData, projectionsData, projectedGoalies]) => {
+            return combineDataIntoPlayerPool(sport, fanduelData, projectionsData, projectedGoalies)
         })
         .then(playerPool => {
             return aws.uploadObjectToS3(playerPool, `${sport}PlayerPool.json`);
