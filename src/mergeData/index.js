@@ -10,7 +10,7 @@ exports.handler = async (event) => {
         [
             aws.retrieveObjectFromS3('fanduelData.json'),
             aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`),
-            goalieScraper.handler()
+            sport === 'nhl' ? goalieScraper.handler() : []
         ])
         .then(([fanduelData, projectionsData, projectedGoalies]) => {
             return combineDataIntoPlayerPool(sport, fanduelData, projectionsData, projectedGoalies)

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const {filterOutUnprojectedGoaliesFromFanduelData} = require("./combineDataIntoPlayerPool");
 const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
 const {getFanduelPlayersFromSport} = require("./combineDataIntoPlayerPool");
 const fanduelData = JSON.parse(fs.readFileSync('src/resources/testFanduelData.json'));
@@ -30,8 +31,73 @@ describe('merge data tests', () => {
         ])
     });
 
-    test('can merge fanduel and projections data given sport', () => {
-        expect(combineDataIntoPlayerPool('nba', fanduelData, projectionsData)).toStrictEqual([
+    const fanduelPlayers = [
+        {
+            "name": "Leon Draisaitl",
+            "team": "EDM",
+            "position": "W",
+            "salary": 8500,
+            "playerId": 831068
+        },
+        {
+            "name": "Jordan Binnington",
+            "team": "STL",
+            "position": "G",
+            "salary": 8600,
+            "playerId": 607980
+        },
+        {
+            "name": "Marc-Andre Fleury",
+            "team": "VGK",
+            "position": "G",
+            "salary": 8300,
+            "playerId": 229367
+        },
+        {
+            "name": "Mike Smith",
+            "team": "EDM",
+            "position": "G",
+            "salary": 7900,
+            "playerId": 172862
+        }
+    ];
+
+    const projectedGoalies = [
+        {name: "Marc-Andre Fleury", status: "Confirmed"},
+        {name: "Joe Schmo", status: "Confirmed"},
+        {name: "Mike Smith", status: "Unconfirmed"}
+    ];
+
+    test('can filter projectedGoalies out of fanduel data', () => {
+        expect(filterOutUnprojectedGoaliesFromFanduelData(fanduelPlayers, projectedGoalies)).toStrictEqual([
+            {
+                "name": "Leon Draisaitl",
+                "team": "EDM",
+                "position": "W",
+                "salary": 8500,
+                "playerId": 831068
+            },
+            {
+                "name": "Marc-Andre Fleury",
+                "team": "VGK",
+                "position": "G",
+                "salary": 8300,
+                "playerId": 229367,
+                "status": "Confirmed"
+            },
+            {
+                "name": "Mike Smith",
+                "team": "EDM",
+                "position": "G",
+                "salary": 7900,
+                "playerId": 172862,
+                "status": "Unconfirmed"
+            }
+        ]);
+    });
+
+    test('can merge fanduel and projections data', () => {
+        expect(combineDataIntoPlayerPool('nba', fanduelData, projectionsData, [])).toStrictEqual([
             {
                 "name": "Luka Doncic",
                 "team": "DAL",
@@ -47,7 +113,7 @@ describe('merge data tests', () => {
                 "salary": 10100,
                 "playerId": 512591,
                 "projection": 46.26724
-            },
+            }
         ]);
     });
 });
