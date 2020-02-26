@@ -1,5 +1,5 @@
 const fs = require('fs');
-const {filterOutUnprojectedGoaliesFromFanduelData} = require("./combineDataIntoPlayerPool");
+const {addGoalieStatusesToFanduelData} = require("./combineDataIntoPlayerPool");
 const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
 const {getFanduelPlayersFromSport} = require("./combineDataIntoPlayerPool");
 const fanduelData = JSON.parse(fs.readFileSync('src/resources/testFanduelData.json'));
@@ -63,19 +63,27 @@ describe('merge data tests', () => {
     ];
 
     const projectedGoalies = [
-        {name: "Marc-Andre Fleury", status: "Confirmed"},
-        {name: "Joe Schmo", status: "Confirmed"},
-        {name: "Mike Smith", status: "Unconfirmed"}
+        {name: "Fleury", status: "Confirmed"},
+        {name: "Schmo", status: "Confirmed"},
+        {name: "Smith", status: "Likely"}
     ];
 
     test('can filter projectedGoalies out of fanduel data', () => {
-        expect(filterOutUnprojectedGoaliesFromFanduelData(fanduelPlayers, projectedGoalies)).toStrictEqual([
+        expect(addGoalieStatusesToFanduelData(fanduelPlayers, projectedGoalies)).toStrictEqual([
             {
                 "name": "Leon Draisaitl",
                 "team": "EDM",
                 "position": "W",
                 "salary": 8500,
                 "playerId": 831068
+            },
+            {
+                "name": "Jordan Binnington",
+                "team": "STL",
+                "position": "G",
+                "salary": 8600,
+                "playerId": 607980,
+                "status": "Unconfirmed"
             },
             {
                 "name": "Marc-Andre Fleury",
@@ -91,7 +99,7 @@ describe('merge data tests', () => {
                 "position": "G",
                 "salary": 7900,
                 "playerId": 172862,
-                "status": "Unconfirmed"
+                "status": "Likely"
             }
         ]);
     });

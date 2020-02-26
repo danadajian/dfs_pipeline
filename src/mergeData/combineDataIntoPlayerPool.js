@@ -1,9 +1,9 @@
 const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, projectedGoalies) => {
     let combinedData = [];
     const fanduelPlayers = getFanduelPlayersFromSport(sport, fanduelData);
-    let filteredFanduelPlayers = (sport === 'nhl') ?
-        filterOutUnprojectedGoaliesFromFanduelData(fanduelPlayers, projectedGoalies) : fanduelPlayers;
-    filteredFanduelPlayers.forEach(player => {
+    if (sport === 'nhl')
+        addGoalieStatusesToFanduelData(fanduelPlayers, projectedGoalies);
+    fanduelPlayers.forEach(player => {
         let newPlayer = JSON.parse(JSON.stringify(player));
         if (!player.playerId)
             newPlayer.playerId = parseInt(
@@ -25,18 +25,18 @@ const getFanduelPlayersFromSport = (sport, fanduelData) => {
         contestObject['sport'].toLowerCase() === sport)[0]['players']
 };
 
-const filterOutUnprojectedGoaliesFromFanduelData = (fanduelPlayers, projectedGoalies) => {
-    const projectedGoalieNames = projectedGoalies.map(playerObject => playerObject.name);
-    let filteredFanduelPlayers = [];
+const addGoalieStatusesToFanduelData = (fanduelPlayers, projectedGoalies) => {
+    const projectedGoalieLastNames = projectedGoalies.map(playerObject => playerObject.name);
     fanduelPlayers.forEach(player => {
-        if (player.position === 'G' && projectedGoalieNames.includes(player.name))
-            player.status = projectedGoalies.find(goalie => goalie.name === player.name).status;
-        if (player.position !== 'G' || projectedGoalieNames.includes(player.name))
-            filteredFanduelPlayers.push(player);
+        let playerLastName = player.name.split(' ')[1];
+        if (player.position === 'G' && projectedGoalieLastNames.includes(playerLastName))
+            player.status = projectedGoalies.find(goalie => goalie.name === playerLastName).status;
+        else if (player.position === 'G')
+            player.status = 'Unconfirmed'
     });
-    return filteredFanduelPlayers;
+    return fanduelPlayers;
 };
 
 exports.combineDataIntoPlayerPool = combineDataIntoPlayerPool;
 exports.getFanduelPlayersFromSport = getFanduelPlayersFromSport;
-exports.filterOutUnprojectedGoaliesFromFanduelData = filterOutUnprojectedGoaliesFromFanduelData;
+exports.addGoalieStatusesToFanduelData = addGoalieStatusesToFanduelData;
