@@ -1,25 +1,19 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-exports.handler = async () => {
-    return axios.get('https://www.dailyfaceoff.com/starting-goalies/')
+const handler = async () => {
+    return axios.get('https://goaliepost.com/')
         .then(response => {
             let $ = cheerio.load(response.data);
             let playerList = [];
-            $('div[class="card-col-6 left away-goalie"]').each(function(i) {
+            $('table.starter').each((i, elem) => {
                 playerList[i] = {
-                    name: $(this).find('.meta-row').find('h4').text().trim(),
-                    status: $(this).find('.meta-row').find('h5').text().trim()
-                }
-            });
-            let currentLength = playerList.length;
-            $('div[class="card-col-6 right home-goalie border-left"]').each(function(i) {
-                playerList[i + currentLength] = {
-                    name: $(this).find('.meta-row').find('h4').text().trim(),
-                    status: $(this).find('.meta-row').find('h5').text().trim()
+                    name: $(this).find('tr:nth-child(1) table tr:nth-child(1) td').find('span.starterName').find('a').text()
                 }
             });
             return playerList
         })
 };
 
+
+handler().then(t => console.log(t));
