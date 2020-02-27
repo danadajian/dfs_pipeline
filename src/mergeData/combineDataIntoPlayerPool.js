@@ -1,8 +1,9 @@
-const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, projectedGoalies) => {
+const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, goalieData) => {
     let combinedData = [];
     const fanduelPlayers = getFanduelPlayersFromSport(sport, fanduelData);
-    if (sport === 'nhl')
-        addGoalieStatusesToFanduelData(fanduelPlayers, projectedGoalies);
+    let playerIdsToExclude = [];
+    if (goalieData)
+        playerIdsToExclude = getPlayerIdsToExclude(fanduelPlayers, goalieData);
     fanduelPlayers.forEach(player => {
         let newPlayer = JSON.parse(JSON.stringify(player));
         if (!player.playerId)
@@ -11,7 +12,7 @@ const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, projecte
                     .filter(playerId => projectionsData[playerId].name === player.name)[0]
             );
         let playerData = projectionsData[newPlayer.playerId];
-        if (playerData) {
+        if (playerData && !playerIdsToExclude.includes(newPlayer.playerId)) {
             newPlayer.projection = playerData['fdProjection'];
             combinedData.push(newPlayer);
         }
@@ -25,18 +26,31 @@ const getFanduelPlayersFromSport = (sport, fanduelData) => {
         contestObject['sport'].toLowerCase() === sport)[0]['players']
 };
 
-const addGoalieStatusesToFanduelData = (fanduelPlayers, projectedGoalies) => {
-    const projectedGoalieLastNames = projectedGoalies.map(playerObject => playerObject.name);
-    fanduelPlayers.forEach(player => {
-        let playerLastName = player.name.split(' ')[1];
-        if (player.position === 'G' && projectedGoalieLastNames.includes(playerLastName))
-            player.status = projectedGoalies.find(goalie => goalie.name === playerLastName).status;
-        else if (player.position === 'G')
-            player.status = 'Unconfirmed'
+const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {
+    let playerIdsToExclude = [];
+    const fanduelGoalies = fanduelPlayers.filter(player => player.position === 'G');
+    const confirmedGoalies = goalieData.filter(goalie => goalie.status === 'Confirmed').map(goalie => goalie.name);
+    const confirmedFanduelGoalies = fanduelGoalies.filter(player => confirmedGoalies.includes(player.name));
+    const goaliesGroupedByTeam = groupBy(fanduelGoalies, 'team');
+    confirmedFanduelGoalies.forEach(async confirmedGoalie => {
+        const goaliesFromThatTeam = goaliesGroupedByTeam[confirmedGoalie.team];
+        goaliesFromThatTeam.forEach(goalie => {
+            if (goalie.playerId !== confirmedGoalie.playerId)
+            playerIdsToExclude.push(goalie.playerId)
+        })
     });
-    return fanduelPlayers;
+    return playerIdsToExclude;
+};
+
+const groupBy = (array, key) => {
+    return array.reduce((result, currentValue) => {
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+        );
+        return result;
+    }, {});
 };
 
 exports.combineDataIntoPlayerPool = combineDataIntoPlayerPool;
 exports.getFanduelPlayersFromSport = getFanduelPlayersFromSport;
-exports.addGoalieStatusesToFanduelData = addGoalieStatusesToFanduelData;
+exports.getPlayerIdsToExclude = getPlayerIdsToExclude;

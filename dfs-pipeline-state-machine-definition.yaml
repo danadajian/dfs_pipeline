@@ -6,7 +6,7 @@ DefinitionString:
         "Data Collection": {
           "Type": "Parallel",
           "OutputPath": "$[0]",
-          "Next": "Data Merger",
+          "Next": "Is NHL?",
           "Branches": [
             {
               "StartAt": "Fanduel Collector",
@@ -30,6 +30,29 @@ DefinitionString:
               }
             }
           ]
+        },
+        "Is NHL?": {
+          "Type": "Choice",
+          "Choices": [
+            {
+              "Variable": "$.sport",
+              "StringEquals": "nhl",
+              "Next": "Goalie Scraper"
+            },
+            {
+              "Not": {
+                "Variable": "$.sport",
+                "StringEquals": "nhl"
+              },
+              "Next": "Data Merger"
+            }
+          ]
+        },
+        "Goalie Scraper": {
+          "Type": "Task",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-GoalieScraperFunction-1I4UY17TQ060N",
+          "ResultPath": "$.goalieData",
+          "Next": "Data Merger"
         },
         "Data Merger": {
           "Type": "Task",
