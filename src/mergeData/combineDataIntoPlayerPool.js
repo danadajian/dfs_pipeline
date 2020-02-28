@@ -31,10 +31,10 @@ const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {
     const fanduelGoalies = fanduelPlayers.filter(player => player.position === 'G');
     const confirmedGoalieLastNames = goalieData.filter(goalie =>
         goalie.status === 'Confirmed').map(goalie => goalie.name.split(' ')[1]);
-    const confirmedFanduelGoalieLastNames = fanduelGoalies.filter(player =>
+    const confirmedFanduelGoalies = fanduelGoalies.filter(player =>
         confirmedGoalieLastNames.includes(player.name.split(' ')[1]));
     const goaliesGroupedByTeam = groupBy(fanduelGoalies, 'team');
-    confirmedFanduelGoalieLastNames.forEach(async confirmedGoalie => {
+    confirmedFanduelGoalies.forEach(async confirmedGoalie => {
         const goaliesFromThatTeam = goaliesGroupedByTeam[confirmedGoalie.team];
         goaliesFromThatTeam.forEach(goalie => {
             if (goalie.playerId !== confirmedGoalie.playerId)
