@@ -13,7 +13,7 @@ exports.handler = async () => {
                 try {
                     status = elem.children[1].children[1].next.children[1].children[0].children[0].data;
                 } catch (e) {
-                    status = 'Unconfirmed'
+                    status = 'Projected'
                 }
                 playerList[i] = {name, status}
             });
