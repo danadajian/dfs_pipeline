@@ -65,7 +65,13 @@ DefinitionString:
           "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-optimizer-stack-GetOptimalLineupFunction-12U6F4GY6ANQ2",
           "InputPath": "$.optimizerInput",
           "ResultPath": "$.optimizerResult",
-          "Next": "Send Texts"
+          "Next": "Send Texts",
+          "TimeoutSeconds": 899,
+          "Catch": [{
+            "ErrorEquals": ["States.Timeout"],
+            "ResultPath": "$.optimizerInput.previouslyTimedOut",
+            "Next": "Lineup Optimizer"
+           }]
         },
         "Send Texts": {
           "Type": "Task",
