@@ -1,16 +1,17 @@
 require('dotenv').config({path: __dirname + '/../../.env'});
 const puppeteer = require('puppeteer');
 const aws = require('../aws');
+const contestNames = require('../resources/contestNames');
 
-handler(process.argv[2], process.argv[3]).then(result => console.log(result));
+handler(process.argv[2]).then(result => console.log(result));
 
-async function handler(sport, contestUrl) {
+async function handler(sport) {
     const optimalPlayerData = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
     const optimalPlayerNames = optimalPlayerData.lineup.map(player => player.name);
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         defaultViewport: {width: 1366, height: 768},
-        headless: true,
+        headless: false,
     });
     const page = await browser.newPage();
 
@@ -19,9 +20,16 @@ async function handler(sport, contestUrl) {
         .then(() => page.type("input[data-test-id='login.password']", process.env.FANDUEL_PASSWORD))
         .then(() => page.click("button[data-test-id='login.submit']"))
         .catch(() => console.log('Failed to login.'))
-        .then(() => page.waitForSelector("span[class='ab-close-button']", {timeout: 3000}))
-        .catch(() => console.log('No window to close.'))
-        .then(() => page.goto(contestUrl))
+        .then(() => page.waitForSelector("span[class='ab-close-button']", {timeout: 5000}))
+        .catch(() => 'No window to close.')
+        .then(() => page.click("span[class='ab-close-button']"))
+        .catch(() => 'No close button necessary.')
+        .then(() => page.waitForSelector("a[href='/contests/" + sport + "']"))
+        .then(() => page.click("a[href='/contests/" + sport + "']"))
+        .then(() => page.waitForSelector("input[data-test-id='contest_search:Input']"))
+        .then(() => page.type("input[data-test-id='contest_search:Input']", contestNames[sport].name))
+        .then(() => page.waitForSelector("a[data-test-id='ContestCardEnterLink']"))
+        .then(() => page.click("a[data-test-id='ContestCardEnterLink']"))
         .then(() => page.waitForSelector("input[data-test-id='player_search:Input']"))
         .then(async () => {
             for (const playerName of optimalPlayerNames) {
@@ -32,7 +40,7 @@ async function handler(sport, contestUrl) {
                     .then(() => sleep(1))
             }
         })
-        .then(() => page.click("button[class='button jumbo primary roster-edit__submit-button']"))
+        .then(() => page.click("button[class='draft__enter-button']"))
         .then(() => page.waitForSelector("div[class='upcoming']"))
         .then(() => browser.close())
         .catch(() => console.log('A timeout likely occurred.'));

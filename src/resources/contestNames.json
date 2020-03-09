@@ -1,10 +1,10 @@
 {
   "nba": {
-    "name": "dribbler",
-    "cost": "$1"
+    "name": "piggy bank",
+    "cost": "$0.05"
   },
   "nhl": {
-    "name": "one timer",
-    "cost": "$1"
+    "name": "five hole",
+    "cost": "$0.05"
   }
 }
