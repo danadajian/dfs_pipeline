@@ -9,7 +9,7 @@ do
   if [ "$START_TIME" != null ]
   then
     UPPERCASE_SPORT=$(echo "$SPORT" | tr '[:lower:]' '[:upper:]')
-    schtasks /create /tn "Enter $UPPERCASE_SPORT Lineup" /tr \
-      "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\triggerLineupEntry.sh $SPORT" /sc once /st "$START_TIME"
+    schtasks //create //f //tn "Enter $UPPERCASE_SPORT Lineup" //tr \
+     "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\triggerLineupEntry.sh $SPORT" //sc once //st "$START_TIME"
   fi
 done

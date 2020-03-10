@@ -3,9 +3,9 @@ const puppeteer = require('puppeteer');
 const aws = require('../aws');
 const contestNames = require('../resources/contestNames');
 
-handler(process.argv[2]).then(result => console.log(result));
+enterLineup(process.argv[2]).then(result => console.log(result));
 
-async function handler(sport) {
+async function enterLineup(sport) {
     const optimalPlayerData = await aws.retrieveObjectFromS3(sport + 'OptimalLineup.json');
     const optimalPlayerNames = optimalPlayerData.lineup.map(player => player.name);
     const browser = await puppeteer.launch({
@@ -40,8 +40,8 @@ async function handler(sport) {
                     .then(() => sleep(1))
             }
         })
-        .then(() => page.click("button[class='draft__enter-button']"))
-        .then(() => page.waitForSelector("div[class='upcoming']"))
+        .then(() => page.click("button[data-test-id='enter-button']"))
+        .then(() => page.waitForSelector("div[class='modal-container']"))
         .then(() => browser.close())
         .catch(() => console.log('A timeout likely occurred.'));
 

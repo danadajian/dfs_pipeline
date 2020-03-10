@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
-schtasks /create /tn "Schedule Lineup Entry" /tr \
-  "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\scheduleLineupEntry.sh nba nhl" /sc daily /st 9:30
+schtasks //create //f //tn "Schedule Lineup Entry" //sc daily //st 09:30 //tr \
+ "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\scheduleLineupEntry.sh mlb nfl nba nhl"
