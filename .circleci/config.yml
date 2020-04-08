@@ -1,0 +1,68 @@
+version: 2
+container_config: &container_config
+  working_directory: ~/dfs-pipeline
+  docker:
+    - image: node:11.10.1
+jobs:
+  install:
+    <<: *container_config
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: ~/dfs-pipeline
+          paths: .
+  test:
+    <<: *container_config
+    steps:
+      - attach_workspace:
+          at: ~/dfs-pipeline
+      - run:
+          name: Run Tests
+          command: npm test
+      - persist_to_workspace:
+          root: ~/dfs-pipeline
+          paths: .
+  deploy:
+    <<: *container_config
+    steps:
+      - attach_workspace:
+          at: ~/dfs-pipeline
+      - run:
+          name: Install SAM CLI
+          command: |
+            apt-get -y -qq update
+            apt-get -y -qq install python-dev
+            apt-get -y -qq install python-pip
+            pip install --upgrade awscli
+            pip install --upgrade aws-sam-cli
+      - run:
+          name: Configure AWS
+          command: |
+            aws configure set aws_access_key_id AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY
+            aws configure set default.region us-east-2
+      - run:
+          name: Deploy to AWS
+          command: |
+            chmod +x ./deploy.sh
+            ./deploy.sh
+workflows:
+  version: 2
+  deploy_dfs_pipeline:
+    jobs:
+      - install
+      - test:
+          requires:
+            - install
+      - deploy:
+          context: DFS_PIPELINE
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - install
+            - test
