@@ -9,14 +9,10 @@ else
 fi
 
 TIMESTAMP=$( date +"%Y-%m-%d_%H-%M-%S" )
-FILE_NAME="dfs-pipeline-js-$TIMESTAMP.zip"
+FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
 
-bestzip "$FILE_NAME" src \
-node_modules/axios node_modules/follow-redirects node_modules/xml2js node_modules/xmlbuilder node_modules/sax \
-node_modules/underscore node_modules/@types node_modules/boolbase node_modules/cheerio node_modules/css-select \
-node_modules/css-what node_modules/domelementtype node_modules/domhandler node_modules/dom-serializer \
-node_modules/domutils node_modules/entities node_modules/htmlparser2 node_modules/nth-check node_modules/inherits \
-node_modules/lodash
+zip "$FILE_NAME" src node_modules
+echo "Zipped $FILE_NAME successfully."
 
 echo "### Initiating SAM Deploy..."
 
