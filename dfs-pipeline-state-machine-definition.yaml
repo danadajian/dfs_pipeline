@@ -50,13 +50,13 @@ DefinitionString:
         },
         "Goalie Scraper": {
           "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-GoalieScraperFunction-1I4UY17TQ060N",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-GoalieScraperFunction-9WRO5JU1QI1Z",
           "ResultPath": "$.goalieData",
           "Next": "Data Merger"
         },
         "Data Merger": {
           "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-MergeDataFunction-1RE6852HB9LOB",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-MergeDataFunction-OOOVUFM0TKGE",
           "ResultPath": "$.optimizerInput",
           "Next": "Lineup Optimizer"
         },
@@ -75,7 +75,7 @@ DefinitionString:
         },
         "Send Texts": {
           "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-SendOptimalLineupTextsFunction-ZKYR04BXGHI6",
+          "Resource": "arn:aws:lambda:us-east-2:062130427086:function:dfs-pipeline-stack-SendOptimalLineupTextsFunction-J9OP7ICIOY92",
           "End": true
         }
       }
