@@ -9,7 +9,6 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
-    "bestzip": "^2.1.5",
     "cheerio": "latest",
     "jest": "^25.1.0",
     "underscore": "^1.9.2",
