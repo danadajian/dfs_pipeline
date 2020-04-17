@@ -1,7 +1,7 @@
-const {generateTextMessageOutput} = require("./generateTextMessageOutput");
+import {generateTextMessageOutput} from './generateTextMessageOutput';
 
 describe('can generate text message output', () => {
-    test('can generate text message output', () => {
+    it('can generate text message output', () => {
         const optimalLineupData = {
             'lineup': [
                 {

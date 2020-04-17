@@ -1,23 +1,23 @@
-const fs = require('fs');
-const lineupRules = JSON.parse(fs.readFileSync('src/resources/lineupRules.json'));
-const aws = require('../aws');
-const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
+import {LINEUP_RULES} from "../constants";
 
-exports.handler = async (event) => {
+import {retrieveObjectFromS3, uploadObjectToS3} from "../aws/aws";
+import {combineDataIntoPlayerPool} from './combineDataIntoPlayerPool';
+
+export const mergeDataHandler = async (event) => {
     let {invocationType, sport, maxCombinations, goalieData = []} = event;
     return Promise.all(
         [
-            aws.retrieveObjectFromS3('fanduelData.json'),
-            aws.retrieveObjectFromS3(`${sport}ProjectionsData.json`),
+            retrieveObjectFromS3('fanduelData.json'),
+            retrieveObjectFromS3(`${sport}ProjectionsData.json`),
         ])
         .then(([fanduelData, projectionsData]) => {
             return combineDataIntoPlayerPool(sport, fanduelData, projectionsData, goalieData)
         })
         .then(playerPool => {
-            return aws.uploadObjectToS3(playerPool, `${sport}PlayerPool.json`);
+            return uploadObjectToS3(playerPool, `${sport}PlayerPool.json`);
         })
         .then(() => {
-            const {lineupPositions, lineupRestrictions, salaryCap} = lineupRules['fd'][sport]['Classic'];
+            const {lineupPositions, lineupRestrictions, salaryCap} = LINEUP_RULES['fd'][sport]['Classic'];
             return {
                 invocationType,
                 sport,

@@ -11,7 +11,7 @@ fi
 TIMESTAMP=$( date +"%Y-%m-%d_%H-%M-%S" )
 FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
 
-zip -r "$FILE_NAME" src node_modules
+zip -r "$FILE_NAME" .
 echo "Zipped $FILE_NAME successfully."
 
 echo "### Initiating SAM Deploy..."

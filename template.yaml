@@ -28,7 +28,7 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: src/goalieScraper/index.handler
+      Handler: build/goalieScraper/index.goalieScraperHandler
       Runtime: nodejs12.x
   MergeDataFunction:
     Type: AWS::Serverless::Function
@@ -36,7 +36,7 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: src/mergeData/index.handler
+      Handler: build/mergeData/index.mergeDataHandler
       Runtime: nodejs12.x
       Environment:
         Variables:
@@ -48,7 +48,7 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: src/scheduleStateMachines/index.handler
+      Handler: build/scheduleStateMachines/index.scheduleStateMachinesHandler
       Runtime: nodejs12.x
       Events:
         InvocationLevel:
@@ -67,7 +67,7 @@ Resources:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: src/sendOptimalLineupTexts/index.handler
+      Handler: build/sendOptimalLineupTexts/index.sendOptimalLineupTextsHandler
       Runtime: nodejs12.x
       Environment:
         Variables:

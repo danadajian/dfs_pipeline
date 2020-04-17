@@ -1,4 +1,4 @@
-const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, goalieData) => {
+export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, goalieData) => {
     let combinedData = [];
     const fanduelPlayers = getFanduelPlayersFromSport(sport, fanduelData);
     let playerIdsToExclude = [];
@@ -20,13 +20,13 @@ const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, goalieDa
     return combinedData;
 };
 
-const getFanduelPlayersFromSport = (sport, fanduelData) => {
+export const getFanduelPlayersFromSport = (sport, fanduelData) => {
     return fanduelData.filter(contestObject =>
         contestObject['contest'] === 'Main' &&
         contestObject['sport'].toLowerCase() === sport)[0]['players']
 };
 
-const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {
+export const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {
     let playerIdsToExclude = [];
     const fanduelGoalies = fanduelPlayers.filter(player => player.position === 'G');
     const confirmedGoalieLastNames = goalieData.filter(goalie =>
@@ -52,7 +52,3 @@ const groupBy = (array, key) => {
         return result;
     }, {});
 };
-
-exports.combineDataIntoPlayerPool = combineDataIntoPlayerPool;
-exports.getFanduelPlayersFromSport = getFanduelPlayersFromSport;
-exports.getPlayerIdsToExclude = getPlayerIdsToExclude;

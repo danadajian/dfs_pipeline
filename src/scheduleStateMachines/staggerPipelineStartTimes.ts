@@ -1,12 +1,11 @@
-//import {MINUTES_AFTER_PIPELINE_START_TIME} from "../resources/constants";
-const MINUTES_AFTER_PIPELINE_START_TIME = 20;
-const _ = require('underscore');
+import {MINUTES_AFTER_PIPELINE_START_TIME} from '../constants';
+import * as _ from 'lodash';
 
-const staggerPipelineStartTimes = (startTimes) => {
+export const staggerPipelineStartTimes = (startTimes) => {
     const sports = Object.keys(startTimes);
     const startTimeCountMap = _.countBy(Object.values(startTimes));
-    const startTimeCounterMap = {};
-    Object.values(startTimes).forEach(startTime => startTimeCounterMap[startTime] = 0);
+    const startTimeCounterMap: any = {};
+    Object.values(startTimes).forEach((startTime: string) => startTimeCounterMap[startTime] = 0);
     sports.forEach(async (sport) => {
         const startTime = startTimes[sport];
         const startTimeCount = startTimeCountMap[startTime];
@@ -22,5 +21,3 @@ const staggerPipelineStartTimes = (startTimes) => {
     });
     return startTimes;
 };
-
-exports.staggerPipelineStartTimes = staggerPipelineStartTimes;

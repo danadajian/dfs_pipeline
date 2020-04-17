@@ -1,7 +1,7 @@
 const {staggerPipelineStartTimes} = require("./staggerPipelineStartTimes");
 
-describe('stagger start times tests', () => {
-    test('can stagger two different start times', () => {
+describe('stagger pipeline start times', () => {
+    it('can stagger two different start times', () => {
         const startTimes = {
             'nba': new Date('2020-02-12T23:30:00.000Z'),
             'nhl': new Date('2020-02-13T01:00:00.000Z')
@@ -13,7 +13,7 @@ describe('stagger start times tests', () => {
         });
     });
 
-    test('can stagger the same two start times', () => {
+    it('can stagger the same two start times', () => {
         const startTimes = {
             'nba': new Date('2020-02-12T23:30:00.000Z'),
             'nhl': new Date('2020-02-12T23:30:00.000Z'),
@@ -25,7 +25,7 @@ describe('stagger start times tests', () => {
         });
     });
 
-    test('can stagger some same and some different start times', () => {
+    it('can stagger some same and some different start times', () => {
         const startTimes = {
             'nba': new Date('2020-02-12T23:30:00.000Z'),
             'nhl': new Date('2020-02-13T01:00:00.000Z'),
@@ -39,7 +39,7 @@ describe('stagger start times tests', () => {
         });
     });
 
-    test('can stagger the same three start times', () => {
+    it('can stagger the same three start times', () => {
         const startTimes = {
             'nba': new Date('2020-02-12T23:30:00.000Z'),
             'nhl': new Date('2020-02-12T23:30:00.000Z'),
@@ -53,7 +53,7 @@ describe('stagger start times tests', () => {
         });
     });
 
-    test('can stagger the same four start times', () => {
+    it('can stagger the same four start times', () => {
         const startTimes = {
             'nba': new Date('2020-02-12T23:30:00.000Z'),
             'nhl': new Date('2020-02-12T23:30:00.000Z'),

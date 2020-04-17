@@ -1,9 +1,56 @@
-const fs = require('fs');
-const {getPlayerIdsToExclude} = require("./combineDataIntoPlayerPool");
-const {combineDataIntoPlayerPool} = require("./combineDataIntoPlayerPool");
-const {getFanduelPlayersFromSport} = require("./combineDataIntoPlayerPool");
-const fanduelData = JSON.parse(fs.readFileSync('src/resources/testFanduelData.json'));
-const projectionsData = JSON.parse(fs.readFileSync('src/resources/testProjectionsData.json'));
+import {getPlayerIdsToExclude}  from './combineDataIntoPlayerPool';
+import {combineDataIntoPlayerPool} from './combineDataIntoPlayerPool';
+import {getFanduelPlayersFromSport} from './combineDataIntoPlayerPool';
+const fanduelData = [
+    {
+        "contest": "Main",
+        "players": [
+            {
+                "name": "Brad Beal",
+                "team": "WAS",
+                "position": "SG",
+                "salary": 10500,
+                "playerId": 606912
+            },
+            {
+                "name": "Luka Doncic",
+                "team": "DAL",
+                "position": "PG",
+                "salary": 10300
+            },
+            {
+                "name": "Kawhi Leonard",
+                "team": "LAC",
+                "position": "PF",
+                "salary": 10100,
+                "playerId": 512591
+            }
+        ],
+        "sport": "NBA"
+    }
+];
+const projectionsData = {
+    "1121277": {
+        "overUnder": 212.5,
+        "gameDate": "Mon 7:00PM EST",
+        "opponent": "@ Ind",
+        "dkProjection": 0.0,
+        "name": "Luka Doncic",
+        "fdProjection": 0,
+        "team": "Dal",
+        "spread": "+5.5"
+    },
+    "512591": {
+        "overUnder": 228.5,
+        "gameDate": "Mon 10:30PM EST",
+        "opponent": "v. SA",
+        "dkProjection": 47.26493,
+        "name": "Kawhi Leonard",
+        "fdProjection": 46.26724,
+        "team": "LAC",
+        "spread": "-9.0"
+    }
+};
 
 describe('merge data tests', () => {
     test('can get dfs player array from sport and fanduel data', () => {

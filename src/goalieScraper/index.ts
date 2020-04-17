@@ -1,10 +1,12 @@
+import {GOALIE_WEBSITE_LINK} from "../constants";
+
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-exports.handler = async () => {
-    return axios.get('https://goaliepost.com/')
+export const goalieScraperHandler = async () => {
+    return axios.get(GOALIE_WEBSITE_LINK)
         .then(response => {
-            let $ = cheerio.load(response.data);
+            const $ = cheerio.load(response.data);
             let playerList = [];
             $('table.starter').each((i, elem) => {
                 const name = elem.children[1].children[0].children[3].children[0].children[1].children[0].children[0]

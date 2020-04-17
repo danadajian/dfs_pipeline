@@ -1,7 +1,16 @@
 require('dotenv').config({path: __dirname + '/../../.env'});
 const puppeteer = require('puppeteer');
 const aws = require('../aws');
-const contestNames = require('../resources/contestNames');
+const contestNames = {
+    "nba": {
+        "name": "piggy bank",
+        "cost": "$0.05"
+    },
+    "nhl": {
+        "name": "five hole",
+        "cost": "$0.05"
+    }
+};
 
 enterLineup(process.argv[2]).then(result => console.log(result));
 

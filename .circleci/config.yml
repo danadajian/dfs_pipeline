@@ -22,6 +22,17 @@ jobs:
       - run:
           name: Run Tests
           command: npm test
+  build:
+    <<: *container_config
+    steps:
+      - attach_workspace:
+          at: ~/dfs-pipeline
+      - run:
+          name: Build
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/dfs-pipeline
+          paths: .
   deploy:
     <<: *container_config
     steps:
@@ -58,6 +69,9 @@ workflows:
       - test:
           requires:
             - install
+      - build:
+          requires:
+            - install
       - deploy:
           context: DFS_PIPELINE
           filters:
@@ -67,3 +81,4 @@ workflows:
           requires:
             - install
             - test
+            - build

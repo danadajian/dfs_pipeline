@@ -1,4 +1,4 @@
-const convertStartTimesToLocal = (startTimes) => {
+export const convertStartTimesToLocal = (startTimes) => {
     let localStartTimes = {};
     Object.keys(startTimes).forEach(sport => {
         const startTimeUTC = startTimes[sport];
@@ -8,5 +8,3 @@ const convertStartTimesToLocal = (startTimes) => {
     });
     return localStartTimes;
 };
-
-exports.convertStartTimesToLocal = convertStartTimesToLocal;
