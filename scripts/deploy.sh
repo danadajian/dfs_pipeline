@@ -11,6 +11,7 @@ else
     aws s3 mb s3://"${BUCKET_NAME}"
 fi
 
+mkdir build
 zip -r "$FILE_NAME" build
 echo "Zipped $FILE_NAME successfully."
 
@@ -29,5 +30,5 @@ sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabi
 chmod +x ./scripts/createOrUpdateStateMachine.sh
 ./scripts/createOrUpdateStateMachine.sh
 
-chmod +x ./scripts/createEnvironmentVariablesAndUpload.sh
-./scripts/createEnvironmentVariablesAndUpload.sh
+chmod +x ./scripts/buildAndUpload.sh
+./scripts/buildAndUpload.sh

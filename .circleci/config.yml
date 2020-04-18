@@ -22,27 +22,6 @@ jobs:
       - run:
           name: Run Tests
           command: npm test
-  build:
-    <<: *container_config
-    steps:
-      - attach_workspace:
-          at: ~/dfs-pipeline
-      - run:
-          name: Install AWS CLI
-          command: |
-            apt-get -y -qq update
-            apt-get -y -qq install python-dev
-            apt-get -y -qq install python-pip
-            pip install --upgrade awscli
-      - run:
-          name: Configure AWS
-          command: |
-            aws configure set aws_access_key_id AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY
-            aws configure set default.region us-east-2
-      - run:
-          name: Build
-          command: npm run build
       - persist_to_workspace:
           root: ~/dfs-pipeline
           paths: .
@@ -76,6 +55,7 @@ jobs:
       - run:
           name: Deploy to AWS
           command: |
+            ls node_modules
             chmod +x ./scripts/deploy.sh
             ./scripts/deploy.sh
 
@@ -87,10 +67,6 @@ workflows:
       - test:
           requires:
             - install
-      - build:
-          context: DFS_PIPELINE
-          requires:
-            - install
       - deploy:
           context: DFS_PIPELINE
           filters:
@@ -100,4 +76,3 @@ workflows:
           requires:
             - install
             - test
-            - build
