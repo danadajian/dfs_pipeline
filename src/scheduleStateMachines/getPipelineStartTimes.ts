@@ -1,7 +1,8 @@
 import {getTodayDateString} from '../helpers/helpers';
 import {getPipelineStartTimeFromSlateStartTime} from "./getPipelineStartTimeFromSlateStartTime";
-const axios = require('axios');
-const xml2js = require('xml2js');
+import '../env'
+import * as axios from 'axios'
+import * as xml2js from 'xml2js'
 
 export const getPipelineStartTimes = async (sports: string[]): Promise<any> => {
     let startTimes: any = {};

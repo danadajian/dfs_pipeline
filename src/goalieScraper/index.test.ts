@@ -1,8 +1,8 @@
 import {goalieScraperHandler} from './index'
 import {GOALIE_WEBSITE_LINK} from "../constants";
 
-const axios = require('axios');
-const cheerio = require('cheerio');
+import * as axios from 'axios';
+import * as cheerio from 'cheerio';
 
 jest.mock('axios');
 jest.mock('cheerio');

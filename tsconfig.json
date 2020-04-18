@@ -2,6 +2,6 @@
   "compilerOptions": {
     "outDir": "./build"
   },
-  "include": ["src/*/*"],
-  "exclude": []
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

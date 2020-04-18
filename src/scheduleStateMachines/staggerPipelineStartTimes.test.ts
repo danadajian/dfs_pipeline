@@ -1,4 +1,4 @@
-const {staggerPipelineStartTimes} = require("./staggerPipelineStartTimes");
+import {staggerPipelineStartTimes} from "./staggerPipelineStartTimes";
 
 describe('stagger pipeline start times', () => {
     it('can stagger two different start times', () => {

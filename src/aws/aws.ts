@@ -1,5 +1,6 @@
 import {S3, SNS, CloudWatchEvents} from '../aws';
 import {MAX_COMBINATIONS} from "../constants";
+import '../env'
 import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
 export const retrieveObjectFromS3 = async (fileName) => {

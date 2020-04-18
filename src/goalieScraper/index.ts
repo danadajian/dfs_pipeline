@@ -1,7 +1,7 @@
 import {GOALIE_WEBSITE_LINK} from "../constants";
 
-const axios = require('axios');
-const cheerio = require('cheerio');
+import * as axios from 'axios'
+import * as cheerio from 'cheerio'
 
 export const goalieScraperHandler = async () => {
     return axios.get(GOALIE_WEBSITE_LINK)

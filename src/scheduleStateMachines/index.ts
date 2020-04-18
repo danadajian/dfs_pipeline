@@ -2,7 +2,6 @@ import {getPipelineStartTimes} from './getPipelineStartTimes';
 import {convertStartTimesToLocal} from './convertStartTimesToLocal';
 import {staggerPipelineStartTimes} from './staggerPipelineStartTimes';
 import {createCloudWatchEvent, uploadObjectToS3} from '../aws/aws';
-require('dotenv').config();
 
 export const scheduleStateMachinesHandler = async (event) => {
     const {sports} = event;
