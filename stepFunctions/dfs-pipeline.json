@@ -65,11 +65,15 @@
       "ResultPath": "$.optimizerResult",
       "Next": "Send Texts",
       "TimeoutSeconds": 899,
-      "Catch": [{
-        "ErrorEquals": ["States.Timeout"],
-        "ResultPath": "$.optimizerInput.previouslyTimedOut",
-        "Next": "Lineup Optimizer"
-      }]
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Timeout"
+          ],
+          "ResultPath": "$.optimizerInput.previouslyTimedOut",
+          "Next": "Lineup Optimizer"
+        }
+      ]
     },
     "Send Texts": {
       "Type": "Task",
