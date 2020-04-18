@@ -30,9 +30,9 @@ jobs:
       - run:
           name: Build
           command: |
-          chmod +x ./scripts/createEnvironmentVariables.sh
-          ./scripts/createEnvironmentVariables.sh
-          npm run build
+            chmod +x ./scripts/createEnvironmentVariables.sh
+            ./scripts/createEnvironmentVariables.sh
+            npm run build
       - persist_to_workspace:
           root: ~/dfs-pipeline
           paths: .
