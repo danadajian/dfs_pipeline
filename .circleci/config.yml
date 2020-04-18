@@ -84,7 +84,7 @@ jobs:
             chmod +x ./scripts/createOrUpdateStateMachine.sh
             ./scripts/createOrUpdateStateMachine.sh
       - run:
-          name: Prepare Environment Variables
+          name: Create Environment Variables and Upload
           command: |
             chmod +x ./scripts/createEnvironmentVariablesAndUpload.sh
             ./scripts/createEnvironmentVariablesAndUpload.sh
