@@ -60,11 +60,6 @@ jobs:
       - attach_workspace:
           at: ~/dfs-pipeline
       - run:
-          name: Install Zip
-          command: |
-            apt-get -y -qq update
-            apt-get -y -qq install zip
-      - run:
           name: Install SAM CLI
           command: |
             apt-get -y -qq install python-dev
