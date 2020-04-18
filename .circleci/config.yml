@@ -86,8 +86,8 @@ jobs:
       - run:
           name: Prepare Environment Variables
           command: |
-            chmod +x ./scripts/createEnvironmentVariables.sh
-            ./scripts/createEnvironmentVariables.sh
+            chmod +x ./scripts/createEnvironmentVariablesAndUpload.sh
+            ./scripts/createEnvironmentVariablesAndUpload.sh
 
 workflows:
   version: 2
