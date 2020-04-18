@@ -11,7 +11,7 @@ MERGE_DATA_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(
 OPTIMAL_LINEUP_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetOptimalLineupFunction"))' | jq '.FunctionName')
 SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("SendOptimalLineupTextsFunction"))' | jq '.FunctionName')
 
-DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFSPipeline"))' | jq '.stateMachineArn')
+DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn')
 echo "DFS_PIPELINE_STEP_FUNCTION_ARN=$DFS_PIPELINE_STEP_FUNCTION_ARN"
 DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("StepFunctions-DFSPipeLine-role"))' | jq '.Arn')
 echo "DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN=$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
@@ -30,7 +30,7 @@ STATE_MACHINE_DEFINITION_STRING=$(jq '.' ./stepFunctions/dfs-pipeline.json)
 if [ -z "$DFS_PIPELINE_STEP_FUNCTION_ARN" ];
 then
   aws stepfunctions create-state-machine \
-   --name "DFSPipeline" \
+   --name "DFS-Pipeline" \
    --definition "$STATE_MACHINE_DEFINITION_STRING" \
    --role-arn "$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
 else

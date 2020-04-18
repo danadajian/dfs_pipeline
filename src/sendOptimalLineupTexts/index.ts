@@ -1,5 +1,6 @@
 import {generateTextMessageOutput} from './generateTextMessageOutput'
 import {retrieveObjectFromS3, sendTextMessage} from '../aws/aws'
+require('dotenv').config();
 
 export const sendOptimalLineupTextsHandler = async (event) => {
     const {sport} = event;

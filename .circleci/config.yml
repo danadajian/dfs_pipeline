@@ -41,14 +41,6 @@ jobs:
             aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-east-2
       - run:
-          name: Install Jq
-          command: apt-get install -y -qq jq
-      - run:
-          name: Prepare Environment Variables
-          command: |
-            chmod +x ./scripts/createEnvironmentVariables.sh
-            ./scripts/createEnvironmentVariables.sh
-      - run:
           name: Build
           command: npm run build
       - persist_to_workspace:
@@ -62,6 +54,7 @@ jobs:
       - run:
           name: Install SAM CLI
           command: |
+            apt-get -y -qq update
             apt-get -y -qq install python-dev
             apt-get -y -qq install python-pip
             pip install --upgrade awscli
@@ -85,6 +78,11 @@ jobs:
           command: |
             chmod +x ./scripts/createOrUpdateStateMachine.sh
             ./scripts/createOrUpdateStateMachine.sh
+      - run:
+          name: Prepare Environment Variables
+          command: |
+            chmod +x ./scripts/createEnvironmentVariables.sh
+            ./scripts/createEnvironmentVariables.sh
 
 workflows:
   version: 2
