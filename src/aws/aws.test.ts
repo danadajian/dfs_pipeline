@@ -2,7 +2,7 @@ import {retrieveObjectFromS3, uploadObjectToS3, sendTextMessage, createCloudWatc
 import {getTodayDateString} from '../helpers/helpers';
 
 import {S3, SNS, CloudWatchEvents} from '../aws';
-import {MAX_COMBINATIONS, STEP_FUNCTION_ARN, STEP_FUNCTIONS_ROLE_ARN} from "../constants";
+import {MAX_COMBINATIONS} from "../constants";
 
 jest.mock('../helpers/helpers');
 jest.mock('../aws');
@@ -122,7 +122,7 @@ describe('aws', () => {
         it('should call putRule with correct params', function () {
             const putRuleParams = {
                 Name: 'football-pipeline-rule',
-                RoleArn: STEP_FUNCTIONS_ROLE_ARN,
+                RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
                 ScheduleExpression: 'cron(0 4 20 4 ? 2020)',
                 State: 'ENABLED'
             };
@@ -134,8 +134,8 @@ describe('aws', () => {
                 Rule: 'football-pipeline-rule',
                 Targets: [
                     {
-                        Arn: STEP_FUNCTION_ARN,
-                        RoleArn: STEP_FUNCTIONS_ROLE_ARN,
+                        Arn: process.env.DFS_PIPELINE_STEP_FUNCTION_ARN,
+                        RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
                         Id: 'dfsPipelineTarget',
                         Input: JSON.stringify({
                             invocationType: 'pipeline',

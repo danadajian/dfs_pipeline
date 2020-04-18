@@ -29,7 +29,10 @@ jobs:
           at: ~/dfs-pipeline
       - run:
           name: Build
-          command: npm run build
+          command: |
+          chmod +x ./scripts/createEnvironmentVariables.sh
+          ./scripts/createEnvironmentVariables.sh
+          npm run build
       - persist_to_workspace:
           root: ~/dfs-pipeline
           paths: .
@@ -59,8 +62,8 @@ jobs:
       - run:
           name: Deploy to AWS
           command: |
-            chmod +x ./deploy.sh
-            ./deploy.sh
+            chmod +x ./scripts/deploy.sh
+            ./scripts/deploy.sh
 workflows:
   version: 2
   deploy_dfs_pipeline:

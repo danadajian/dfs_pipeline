@@ -1,5 +1,5 @@
 import {S3, SNS, CloudWatchEvents} from '../aws';
-import {MAX_COMBINATIONS, STEP_FUNCTION_ARN, STEP_FUNCTIONS_ROLE_ARN} from "../constants";
+import {MAX_COMBINATIONS} from "../constants";
 import {getTodayDateString} from '../helpers/helpers';
 
 export const retrieveObjectFromS3 = async (fileName) => {
@@ -34,7 +34,7 @@ export const sendTextMessage = async (message, phoneNumber) => {
 export const createCloudWatchEvent = async (sport, date) => {
     const putRuleParams = {
         Name: `${sport}-pipeline-rule`,
-        RoleArn: STEP_FUNCTIONS_ROLE_ARN,
+        RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
         ScheduleExpression: getCronExpressionFromDate(date),
         State: 'ENABLED'
     };
@@ -42,8 +42,8 @@ export const createCloudWatchEvent = async (sport, date) => {
         Rule: `${sport}-pipeline-rule`,
         Targets: [
             {
-                Arn: STEP_FUNCTION_ARN,
-                RoleArn: STEP_FUNCTIONS_ROLE_ARN,
+                Arn: process.env.DFS_PIPELINE_STEP_FUNCTION_ARN,
+                RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
                 Id: 'dfsPipelineTarget',
                 Input: JSON.stringify({
                     invocationType: 'pipeline',

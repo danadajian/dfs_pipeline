@@ -1,8 +1,6 @@
 export const SLATE_OFFSET_MINUTES = 30;
 export const MINUTES_AFTER_PIPELINE_START_TIME = 20;
 export const MAX_COMBINATIONS = 25000000000;
-export const STEP_FUNCTIONS_ROLE_ARN = 'arn:aws:iam::062130427086:role/service-role/AWS_Events_Invoke_Step_Functions_1764449984';
-export const STEP_FUNCTION_ARN = 'arn:aws:states:us-east-2:062130427086:stateMachine:DFSPipeline-z8ElFsPzuJUz';
 export const SIXTY_SECONDS_IN_MILLISECONDS = 60000;
 export const GOALIE_WEBSITE_LINK = 'https://goaliepost.com/';
 export const LINEUP_RULES = {
