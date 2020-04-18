@@ -13,6 +13,11 @@ SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functi
 
 DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn')
 DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("StepFunctions-DFSPipeLine-role"))' | jq '.Arn')
+STEP_FUNCTIONS_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("AWS_Events_Invoke_Step_Functions"))' | jq '.Arn')
+
+export DFS_PIPELINE_STEP_FUNCTION_ARN
+export DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN
+export STEP_FUNCTIONS_ROLE_ARN
 
 STATE_MACHINE_DEFINITION_FILE=./stepFunctions/dfs-pipeline.json
 

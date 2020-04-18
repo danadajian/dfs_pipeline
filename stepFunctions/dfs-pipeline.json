@@ -64,7 +64,7 @@
       "InputPath": "$.optimizerInput",
       "ResultPath": "$.optimizerResult",
       "Next": "Send Texts",
-      "TimeoutSeconds": 899,
+      "TimeoutSeconds": "899",
       "Catch": [{
         "ErrorEquals": ["States.Timeout"],
         "ResultPath": "$.optimizerInput.previouslyTimedOut",
