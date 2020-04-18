@@ -12,7 +12,7 @@ cat .env
 
 npm run build
 
-zip -r "$FILE_NAME" build node_modules .env
+zip -r -qq "$FILE_NAME" build node_modules .env
 echo "Zipped $FILE_NAME successfully."
 
 echo "Uploading code to S3..."

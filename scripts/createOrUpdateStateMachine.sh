@@ -1,30 +1,5 @@
 #!/bin/bash -e
 
-LAMBDA_FUNCTIONS=$(aws lambda list-functions)
-STATE_MACHINES=$(aws stepfunctions list-state-machines)
-IAM_ROLES=$(aws iam list-roles)
-
-FANDUEL_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetFanduelDataFunction"))' | jq '.FunctionArn' | tr -d '"')
-PROJECTIONS_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetProjectionsDataFunction"))' | jq '.FunctionArn' | tr -d '"')
-GOALIE_SCRAPER_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GoalieScraperFunction"))' | jq '.FunctionArn' | tr -d '"')
-MERGE_DATA_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("MergeDataFunction"))' | jq '.FunctionArn' | tr -d '"')
-OPTIMAL_LINEUP_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetOptimalLineupFunction"))' | jq '.FunctionArn' | tr -d '"')
-SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("SendOptimalLineupTextsFunction"))' | jq '.FunctionArn' | tr -d '"')
-
-export DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn' | tr -d '"')
-export DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("StepFunctions-DFSPipeLine-role"))' | jq '.Arn' | tr -d '"')
-export STEP_FUNCTIONS_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("AWS_Events_Invoke_Step_Functions"))' | jq '.Arn' | tr -d '"')
-
-echo "FANDUEL_LAMBDA_ARN: $FANDUEL_LAMBDA_ARN"
-echo "PROJECTIONS_LAMBDA_ARN: $PROJECTIONS_LAMBDA_ARN"
-echo "GOALIE_SCRAPER_LAMBDA_ARN: $GOALIE_SCRAPER_LAMBDA_ARN"
-echo "MERGE_DATA_LAMBDA_ARN: $MERGE_DATA_LAMBDA_ARN"
-echo "OPTIMAL_LINEUP_LAMBDA_ARN: $OPTIMAL_LINEUP_LAMBDA_ARN"
-echo "SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN: $SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN"
-echo "DFS_PIPELINE_STEP_FUNCTION_ARN: $DFS_PIPELINE_STEP_FUNCTION_ARN"
-echo "DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN: $DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
-echo "STEP_FUNCTIONS_ROLE_ARN: $STEP_FUNCTIONS_ROLE_ARN"
-
 STATE_MACHINE_DEFINITION_FILE=stepFunctions/dfs-pipeline.json
 
 sed -i "s/REPLACE_ME_WITH_FANDUEL_LAMBDA_ARN/$FANDUEL_LAMBDA_ARN/g" $STATE_MACHINE_DEFINITION_FILE
