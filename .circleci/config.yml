@@ -21,12 +21,28 @@ jobs:
           at: ~/dfs-pipeline
       - run:
           name: Run Tests
-          command: npm test
+          command: |
+            cd node_modules
+            ls
+            cd ..
+            npm test
   build:
     <<: *container_config
     steps:
       - attach_workspace:
           at: ~/dfs-pipeline
+      - run:
+          name: Install AWS CLI
+          command: |
+            apt-get -y -qq install python-dev
+            apt-get -y -qq install python-pip
+            pip install --upgrade awscli
+      - run:
+          name: Configure AWS
+          command: |
+            aws configure set aws_access_key_id AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY
+            aws configure set default.region us-east-2
       - run:
           name: Build
           command: |
