@@ -25,11 +25,14 @@ sed -i "s/REPLACE_ME_WITH_SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN/$SEND_OPTIMAL_LIN
 
 STATE_MACHINE_DEFINITION_STRING=$(jq '.' ./stepFunctions/dfs-pipeline.json)
 
-aws stepfunctions create-state-machine \
- --name "DFSPipeline" \
- --definition "$STATE_MACHINE_DEFINITION_STRING" \
- --role-arn "$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
-
-aws stepfunctions update-state-machine \
- --state-machine-arn "$DFS_PIPELINE_STEP_FUNCTION_ARN" \
- --definition "$STATE_MACHINE_DEFINITION_STRING"
+if [ -z "$DFS_PIPELINE_STEP_FUNCTION_ARN" ];
+then
+  aws stepfunctions create-state-machine \
+   --name "DFSPipeline" \
+   --definition "$STATE_MACHINE_DEFINITION_STRING" \
+   --role-arn "$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
+else
+  aws stepfunctions update-state-machine \
+   --state-machine-arn "$DFS_PIPELINE_STEP_FUNCTION_ARN" \
+   --definition "$STATE_MACHINE_DEFINITION_STRING"
+fi
