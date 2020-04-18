@@ -71,23 +71,13 @@ jobs:
             apt-get -y -qq update
             apt-get -y -qq install zip
       - run:
+          name: Install Jq
+          command: apt-get install -y -qq jq
+      - run:
           name: Deploy to AWS
           command: |
             chmod +x ./scripts/deploy.sh
             ./scripts/deploy.sh
-      - run:
-          name: Install Jq
-          command: apt-get install -y -qq jq
-      - run:
-          name: Create or Update State Machine
-          command: |
-            chmod +x ./scripts/createOrUpdateStateMachine.sh
-            ./scripts/createOrUpdateStateMachine.sh
-      - run:
-          name: Create Environment Variables and Upload
-          command: |
-            chmod +x ./scripts/createEnvironmentVariablesAndUpload.sh
-            ./scripts/createEnvironmentVariablesAndUpload.sh
 
 workflows:
   version: 2

@@ -21,8 +21,13 @@ STACK_NAME="dfs-pipeline-stack"
 
 echo "### Initiating SAM Deploy..."
 
-sam --version
 sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
  --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" AwsKey="${AWS_ACCESS_KEY_ID}" \
  AwsSecret="${AWS_SECRET_ACCESS_KEY}" FanduelApiRoot="${FANDUEL_API_ROOT}" DanPhoneNumber="${DAN_PHONE_NUMBER}" \
  TonyPhoneNumber="${TONY_PHONE_NUMBER}" --no-fail-on-empty-changeset
+
+chmod +x ./scripts/createOrUpdateStateMachine.sh
+./scripts/createOrUpdateStateMachine.sh
+
+chmod +x ./scripts/createEnvironmentVariablesAndUpload.sh
+./scripts/createEnvironmentVariablesAndUpload.sh
