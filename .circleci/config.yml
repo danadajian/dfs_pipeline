@@ -66,6 +66,11 @@ jobs:
             aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-east-2
       - run:
+          name: Install Zip
+          command: |
+            apt-get -y -qq update
+            apt-get -y -qq install zip
+      - run:
           name: Deploy to AWS
           command: |
             chmod +x ./scripts/deploy.sh
