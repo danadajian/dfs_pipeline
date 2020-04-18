@@ -11,7 +11,7 @@ else
     aws s3 mb s3://"${BUCKET_NAME}"
 fi
 
-mkdir build
+npm run build
 zip -r "$FILE_NAME" build
 echo "Zipped $FILE_NAME successfully."
 
