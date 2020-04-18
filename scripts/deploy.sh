@@ -13,8 +13,6 @@ export SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '
 export DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("StepFunctions-DFSPipeLine-role"))' | jq '.Arn' | tr -d '"')
 export STEP_FUNCTIONS_ROLE_ARN=$(echo "$IAM_ROLES" | jq -r '.Roles[] | select(.RoleName | contains("AWS_Events_Invoke_Step_Functions"))' | jq '.Arn' | tr -d '"')
 
-TIMESTAMP=$( date +"%Y-%m-%d_%H-%M-%S" )
-export FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
 export STACK_NAME="dfs-pipeline-stack"
 
 if aws s3api head-bucket --bucket "${BUCKET_NAME}" 2>/dev/null

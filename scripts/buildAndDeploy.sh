@@ -19,10 +19,11 @@ else
   cat .env
 fi
 
+TIMESTAMP=$( date +"%Y-%m-%d_%H-%M-%S" )
+FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
+
 zip -r -qq "$FILE_NAME" build node_modules .env
 echo "Zipped $FILE_NAME successfully."
-
-echo "Uploading code to S3..."
 
 aws s3 rm "s3://${BUCKET_NAME}" --recursive --exclude "*" --include "*.zip"
 aws s3 cp "${FILE_NAME}" "s3://${BUCKET_NAME}/"
