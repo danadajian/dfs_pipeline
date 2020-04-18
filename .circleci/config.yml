@@ -82,6 +82,15 @@ jobs:
           command: |
             chmod +x ./scripts/deploy.sh
             ./scripts/deploy.sh
+      - run:
+          name: Install Jq
+          command: apt-get install -y -qq jq
+      - run:
+          name: Create or Update State Machine
+          command: |
+            chmod +x ./scripts/createOrUpdateStateMachine.sh
+            ./scripts/createOrUpdateStateMachine.sh
+
 workflows:
   version: 2
   deploy_dfs_pipeline:
