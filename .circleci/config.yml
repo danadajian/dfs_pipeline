@@ -21,11 +21,7 @@ jobs:
           at: ~/dfs-pipeline
       - run:
           name: Run Tests
-          command: |
-            cd node_modules
-            ls
-            cd ..
-            npm test
+          command: npm test
   build:
     <<: *container_config
     steps:
@@ -34,6 +30,7 @@ jobs:
       - run:
           name: Install AWS CLI
           command: |
+            apt-get -y -qq update
             apt-get -y -qq install python-dev
             apt-get -y -qq install python-pip
             pip install --upgrade awscli

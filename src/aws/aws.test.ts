@@ -1,5 +1,5 @@
 import {retrieveObjectFromS3, uploadObjectToS3, sendTextMessage, createCloudWatchEvent} from './aws';
-import {getTodayDateString} from '../helpers/helpers';
+import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
 import {S3, SNS, CloudWatchEvents} from '../aws';
 import {MAX_COMBINATIONS} from "../constants";
@@ -7,9 +7,9 @@ import {MAX_COMBINATIONS} from "../constants";
 jest.mock('../helpers/helpers');
 jest.mock('../aws');
 
-(getTodayDateString as jest.Mock).mockImplementation(() => {
-    return 'mock date string'
-});
+(getTodayDateString as jest.Mock).mockReturnValue('mock date string');
+
+(getCronExpressionFromDate as jest.Mock).mockReturnValue('cron expression');
 
 (S3.getObject as jest.Mock).mockImplementation(() => {
     return {
@@ -44,7 +44,6 @@ jest.mock('../aws');
         promise: jest.fn()
     }
 });
-
 
 describe('aws', () => {
     describe('retrieves specified object', () => {
@@ -113,7 +112,7 @@ describe('aws', () => {
     describe('creates cloudwatch event', () => {
         let result: any;
         const sport = 'football';
-        const date = new Date('4/20/2020');
+        const date = 'mock date';
 
         beforeEach(async () => {
             result = await createCloudWatchEvent(sport, date)
@@ -123,7 +122,7 @@ describe('aws', () => {
             const putRuleParams = {
                 Name: 'football-pipeline-rule',
                 RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
-                ScheduleExpression: 'cron(0 4 20 4 ? 2020)',
+                ScheduleExpression: 'cron expression',
                 State: 'ENABLED'
             };
             expect(CloudWatchEvents.putRule).toHaveBeenCalledWith(putRuleParams)

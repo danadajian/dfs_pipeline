@@ -1,6 +1,6 @@
 import {S3, SNS, CloudWatchEvents} from '../aws';
 import {MAX_COMBINATIONS} from "../constants";
-import {getTodayDateString} from '../helpers/helpers';
+import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
 export const retrieveObjectFromS3 = async (fileName) => {
     let params = {
@@ -57,14 +57,4 @@ export const createCloudWatchEvent = async (sport, date) => {
     await CloudWatchEvents.putRule(putRuleParams).promise();
     await CloudWatchEvents.putTargets(putTargetsParams).promise();
     return 'Cloudwatch events created.';
-};
-
-const getCronExpressionFromDate = (date) => {
-    return 'cron(' +
-        date.getUTCMinutes() +
-        " " + date.getUTCHours() +
-        " " + date.getUTCDate() +
-        " " + (date.getUTCMonth() + 1) +
-        " ? " +
-        date.getUTCFullYear() + ')'
 };

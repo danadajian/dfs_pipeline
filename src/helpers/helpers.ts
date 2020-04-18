@@ -5,3 +5,13 @@ export const getTodayDateString = () => {
     let year = date.getFullYear();
     return year + '-' + month + '-' + day;
 };
+
+export const getCronExpressionFromDate = (date) => {
+    return 'cron(' +
+        date.getUTCMinutes() +
+        " " + date.getUTCHours() +
+        " " + date.getUTCDate() +
+        " " + (date.getUTCMonth() + 1) +
+        " ? " +
+        date.getUTCFullYear() + ')'
+};
