@@ -86,6 +86,7 @@ workflows:
           requires:
             - install
       - build:
+          context: DFS_PIPELINE
           requires:
             - install
       - deploy:
