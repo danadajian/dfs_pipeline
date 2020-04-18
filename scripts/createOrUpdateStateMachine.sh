@@ -38,18 +38,18 @@ sed -i "s/REPLACE_ME_WITH_MERGE_DATA_LAMBDA_ARN/$MERGE_DATA_LAMBDA_ARN/g" $STATE
 sed -i "s/REPLACE_ME_WITH_OPTIMAL_LINEUP_LAMBDA_ARN/$OPTIMAL_LINEUP_LAMBDA_ARN/g" $STATE_MACHINE_DEFINITION_FILE
 sed -i "s/REPLACE_ME_WITH_SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN/$SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN/g" $STATE_MACHINE_DEFINITION_FILE
 
-jq . $STATE_MACHINE_DEFINITION_FILE
+jq -r . $STATE_MACHINE_DEFINITION_FILE
 
 if [ -z "$DFS_PIPELINE_STEP_FUNCTION_ARN" ];
 then
   echo "Creating DFS Pipeline state machine..."
   aws stepfunctions create-state-machine \
    --name "DFS-Pipeline" \
-   --definition "$(jq . $STATE_MACHINE_DEFINITION_FILE)" \
+   --definition "$(jq -r . $STATE_MACHINE_DEFINITION_FILE)" \
    --role-arn "$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
 else
   echo "State machine exists. Updating..."
   aws stepfunctions update-state-machine \
    --state-machine-arn "$DFS_PIPELINE_STEP_FUNCTION_ARN" \
-   --definition "$(jq . $STATE_MACHINE_DEFINITION_FILE)"
+   --definition "$(jq -r . $STATE_MACHINE_DEFINITION_FILE)"
 fi
