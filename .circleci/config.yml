@@ -41,11 +41,16 @@ jobs:
             aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY
             aws configure set default.region us-east-2
       - run:
-          name: Build
+          name: Install Jq
+          command: apt-get install -y -qq jq
+      - run:
+          name: Prepare Environment Variables
           command: |
             chmod +x ./scripts/createEnvironmentVariables.sh
             ./scripts/createEnvironmentVariables.sh
-            npm run build
+      - run:
+          name: Build
+          command: npm run build
       - persist_to_workspace:
           root: ~/dfs-pipeline
           paths: .
