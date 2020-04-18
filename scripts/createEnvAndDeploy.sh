@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-npm run build
-
 STATE_MACHINES=$(aws stepfunctions list-state-machines)
 DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn' | tr -d '"')
 

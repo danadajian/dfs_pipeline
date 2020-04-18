@@ -23,8 +23,8 @@ else
     aws s3 mb s3://"${BUCKET_NAME}"
 fi
 
-chmod +x ./scripts/buildAndDeploy.sh
-./scripts/buildAndDeploy.sh
+chmod +x ./scripts/createEnvAndDeploy.sh
+./scripts/createEnvAndDeploy.sh
 
 chmod +x ./scripts/createOrUpdateStateMachine.sh
 ./scripts/createOrUpdateStateMachine.sh
