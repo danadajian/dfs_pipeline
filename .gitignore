@@ -1,4 +1,4 @@
-src/.env
+.env
 config.sh
 runDocker.sh
 

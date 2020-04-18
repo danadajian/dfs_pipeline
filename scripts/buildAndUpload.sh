@@ -6,13 +6,13 @@
   echo "FANDUEL_API_ROOT=$FANDUEL_API_ROOT"
   echo "STEP_FUNCTIONS_ROLE_ARN=$STEP_FUNCTIONS_ROLE_ARN"
   echo "DFS_PIPELINE_STEP_FUNCTION_ARN=$DFS_PIPELINE_STEP_FUNCTION_ARN"
-} >> ./src/.env
+} >> .env
 
-cat ./src/.env
+cat .env
 
 npm run build
 
-zip -r "$FILE_NAME" build
+zip -r "$FILE_NAME" build node_modules .env
 echo "Zipped $FILE_NAME successfully."
 
 echo "Uploading code to S3..."

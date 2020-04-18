@@ -52,7 +52,6 @@ jobs:
       - run:
           name: Deploy to AWS
           command: |
-            ls node_modules
             chmod +x ./scripts/deploy.sh
             ./scripts/deploy.sh
 
