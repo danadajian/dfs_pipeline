@@ -16,6 +16,9 @@ then
    --name "DFS-Pipeline" \
    --definition "$(cat $STATE_MACHINE_DEFINITION_FILE)" \
    --role-arn "$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
+   echo "Re-deploying $STACK_NAME..."
+  chmod +x ./scripts/buildAndDeploy.sh
+  ./scripts/buildAndDeploy.sh
 else
   echo "State machine exists. Updating..."
   aws stepfunctions update-state-machine \
