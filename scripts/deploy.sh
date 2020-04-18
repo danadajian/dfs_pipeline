@@ -9,17 +9,11 @@ else
 fi
 
 TIMESTAMP=$( date +"%Y-%m-%d_%H-%M-%S" )
-FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
-
-zip -r "$FILE_NAME" .
-echo "Zipped $FILE_NAME successfully."
-
-echo "### Initiating SAM Deploy..."
-
-aws s3 rm "s3://${BUCKET_NAME}" --recursive --exclude "*" --include "*.zip"
-aws s3 cp "${FILE_NAME}" "s3://${BUCKET_NAME}/"
+export FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
 
 STACK_NAME="dfs-pipeline-stack"
+
+echo "### Initiating SAM Deploy..."
 
 sam --version
 sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
