@@ -10,7 +10,7 @@ npm run build
   echo "DFS_PIPELINE_STEP_FUNCTION_ARN=$DFS_PIPELINE_STEP_FUNCTION_ARN"
 } >> ./build/.env
 
-cat ./build/env
+cat ./build/.env
 
 mv node_modules build
 
