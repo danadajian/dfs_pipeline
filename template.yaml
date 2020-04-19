@@ -6,6 +6,8 @@ Parameters:
     Type: String
   CodeKey:
     Type: String
+  ScheduleStateMachinesInput:
+    Type: String
   AwsKey:
     Type: String
   AwsSecret:
@@ -55,7 +57,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: cron(0 14 * * ? *)
-            Input: '{"sports": ["nba", "nhl"]}'
+            Input: !Ref ScheduleStateMachinesInput
       Environment:
         Variables:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
