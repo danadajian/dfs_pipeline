@@ -3,19 +3,15 @@
 STATE_MACHINES=$(aws stepfunctions list-state-machines)
 DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn' | tr -d '"')
 
-if [ -z "$DFS_PIPELINE_STEP_FUNCTION_ARN" ]; then
-  echo "### State machine doesn't exist. Skipping .env creation."
-else
-  echo "### Creating environment variables..."
-  {
-    echo "AWS_KEY=$AWS_ACCESS_KEY_ID"
-    echo "AWS_SECRET=$AWS_SECRET_ACCESS_KEY"
-    echo "FANDUEL_API_ROOT=$FANDUEL_API_ROOT"
-    echo "STEP_FUNCTIONS_ROLE_ARN=$STEP_FUNCTIONS_ROLE_ARN"
-    echo "DFS_PIPELINE_STEP_FUNCTION_ARN=$DFS_PIPELINE_STEP_FUNCTION_ARN"
-  } >>.env
-  cat .env
-fi
+echo "### Creating environment variables..."
+{
+  echo "AWS_KEY=$AWS_ACCESS_KEY_ID"
+  echo "AWS_SECRET=$AWS_SECRET_ACCESS_KEY"
+  echo "FANDUEL_API_ROOT=$FANDUEL_API_ROOT"
+  echo "STEP_FUNCTIONS_ROLE_ARN=$STEP_FUNCTIONS_ROLE_ARN"
+  echo "DFS_PIPELINE_STEP_FUNCTION_ARN=$DFS_PIPELINE_STEP_FUNCTION_ARN"
+} >.env
+cat .env
 
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 FILE_NAME="dfs-pipeline-$TIMESTAMP.zip"
