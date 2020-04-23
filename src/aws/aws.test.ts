@@ -1,7 +1,13 @@
-import {retrieveObjectFromS3, uploadObjectToS3, sendTextMessage, createCloudWatchEvent} from './aws';
+import {
+    retrieveObjectFromS3,
+    uploadObjectToS3,
+    sendTextMessage,
+    createCloudWatchEvent,
+    invokeLambdaFunction
+} from './aws';
 import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
-import {S3, SNS, CloudWatchEvents} from '../aws';
+import {S3, SNS, CloudWatchEvents, Lambda} from '../aws';
 import {MAX_COMBINATIONS} from "../constants";
 
 jest.mock('../helpers/helpers');
@@ -42,6 +48,16 @@ jest.mock('../aws');
 (CloudWatchEvents.putTargets as jest.Mock).mockImplementation(() => {
     return {
         promise: jest.fn()
+    }
+});
+
+(Lambda.invoke as jest.Mock).mockImplementation(() => {
+    return {
+        promise: jest.fn(() => {
+            return {
+                Payload: Buffer.from(JSON.stringify({some: 'stuff'}))
+            }
+        })
     }
 });
 
@@ -150,6 +166,25 @@ describe('aws', () => {
 
         it('should create events', () => {
             expect(result).toEqual('Cloudwatch events created.')
+        });
+    });
+
+    describe('invokes lambda function', () => {
+        let result: any;
+        beforeEach(async () => {
+            result = await invokeLambdaFunction('function name', {some: 'payload'});
+        });
+
+        it("calls lambda invoke with correct params", () => {
+            const params = {
+                FunctionName: 'function name',
+                Payload: JSON.stringify({some: 'payload'})
+            };
+            expect(Lambda.invoke).toHaveBeenCalledWith(params);
+        });
+
+        it('should return the expected result', () => {
+            expect(result).toEqual({some: 'stuff'})
         });
     })
 });

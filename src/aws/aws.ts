@@ -1,10 +1,10 @@
-import {S3, SNS, CloudWatchEvents} from '../aws';
+import {S3, SNS, CloudWatchEvents, Lambda} from '../aws';
 import {MAX_COMBINATIONS} from "../constants";
 import '../env'
 import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
 export const retrieveObjectFromS3 = async (fileName) => {
-    let params = {
+    const params = {
         Bucket: "dfs-pipeline",
         Key: fileName
     };
@@ -13,7 +13,7 @@ export const retrieveObjectFromS3 = async (fileName) => {
 };
 
 export const uploadObjectToS3 = async (object, fileName) => {
-    let params = {
+    const params = {
         Bucket: "dfs-pipeline",
         Key: fileName,
         Body: JSON.stringify(object)
@@ -23,7 +23,7 @@ export const uploadObjectToS3 = async (object, fileName) => {
 };
 
 export const sendTextMessage = async (message, phoneNumber) => {
-    let params = {
+    const params = {
         Message: message,
         MessageStructure: 'string',
         PhoneNumber: phoneNumber
@@ -58,4 +58,13 @@ export const createCloudWatchEvent = async (sport, date) => {
     await CloudWatchEvents.putRule(putRuleParams).promise();
     await CloudWatchEvents.putTargets(putTargetsParams).promise();
     return 'Cloudwatch events created.';
+};
+
+export const invokeLambdaFunction = async (functionName: any, payload = {}) => {
+    const params = {
+        FunctionName: functionName,
+        Payload: JSON.stringify(payload)
+    };
+    const response: any = await Lambda.invoke(params).promise();
+    return JSON.parse(response.Payload.toString());
 };
