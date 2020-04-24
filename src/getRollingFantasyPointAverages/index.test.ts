@@ -51,7 +51,7 @@ describe('getRollingFantasyPointAverages', () => {
         });
 
         it('should call getFantasyData lambda correct number of times', () => {
-            expect(getFantasyData).toHaveBeenLastCalledWith({week: 16, season: 1968})
+            expect(getFantasyData).toHaveBeenCalledTimes(5)
         });
 
         it.each([12, 13, 14, 15, 16])(
@@ -64,6 +64,34 @@ describe('getRollingFantasyPointAverages', () => {
             expect(groupAndCalculateAverages).toHaveBeenCalledWith([
                 mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData
             ])
+        });
+
+        it('should return expected result', () => {
+            expect(result).toEqual('grouped players with averages')
+        });
+    });
+
+    describe('start of season case', () => {
+        let result: any;
+
+        beforeEach(async () => {
+            (getCurrentData as jest.Mock).mockResolvedValue({
+                "currentWeek": 1,
+                "currentSeason": 1969
+            });
+            result = await getRollingFantasyPointAverages(event);
+        });
+
+        it('should call getCurrentWeek lambda with correct params', () => {
+            expect(getCurrentData).toHaveBeenCalled()
+        });
+
+        it('should call getFantasyData lambda correct number of times', () => {
+            expect(getFantasyData).not.toHaveBeenCalled()
+        });
+
+        it('should call groupAndCalculateAverages with correct params', () => {
+            expect(groupAndCalculateAverages).toHaveBeenCalledWith([])
         });
 
         it('should return expected result', () => {
@@ -89,7 +117,7 @@ describe('getRollingFantasyPointAverages', () => {
             });
 
             it('should call getFantasyData lambda correct number of times', () => {
-                expect(getFantasyData).toHaveBeenLastCalledWith({week: 2, season: 1969})
+                expect(getFantasyData).toHaveBeenCalledTimes(2)
             });
 
             it.each([1, 2])(
@@ -123,7 +151,7 @@ describe('getRollingFantasyPointAverages', () => {
             });
 
             it('should call getFantasyData lambda correct number of times', () => {
-                expect(getFantasyData).toHaveBeenLastCalledWith({week: 7, season: 1969})
+                expect(getFantasyData).toHaveBeenCalledTimes(5)
             });
 
             it.each([3, 4, 5, 6, 7])(
@@ -145,5 +173,9 @@ describe('getRollingFantasyPointAverages', () => {
                 expect(result).toEqual('grouped players with averages')
             });
         });
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks()
     });
 });
