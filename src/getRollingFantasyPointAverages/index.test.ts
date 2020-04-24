@@ -51,10 +51,10 @@ describe('getRollingFantasyPointAverages', () => {
         });
 
         it('should call getFantasyData lambda correct number of times', () => {
-            expect(getFantasyData).toHaveBeenLastCalledWith({week: numberOfWeeks, season: 1968})
+            expect(getFantasyData).toHaveBeenLastCalledWith({week: 16, season: 1968})
         });
 
-        it.each([1, 2, 3, 4, 5])(
+        it.each([12, 13, 14, 15, 16])(
             'should call getFantasyData lambda with correct params', (week) => {
                 expect(getFantasyData).toHaveBeenCalledWith({week, season: 1968})
             }
@@ -89,10 +89,10 @@ describe('getRollingFantasyPointAverages', () => {
             });
 
             it('should call getFantasyData lambda correct number of times', () => {
-                expect(getFantasyData).toHaveBeenLastCalledWith({week: 3, season: 1969})
+                expect(getFantasyData).toHaveBeenLastCalledWith({week: 2, season: 1969})
             });
 
-            it.each([1, 2, 3])(
+            it.each([1, 2])(
                 'should call getFantasyData lambda with correct params up to currentWeek', (week) => {
                     expect(getFantasyData).toHaveBeenCalledWith({week, season: 1969})
                 }
@@ -100,7 +100,7 @@ describe('getRollingFantasyPointAverages', () => {
 
             it('should call groupAndCalculateAverages with correct params', () => {
                 expect(groupAndCalculateAverages).toHaveBeenCalledWith([
-                    mockFantasyData, mockFantasyData, mockFantasyData
+                    mockFantasyData, mockFantasyData
                 ])
             });
 
@@ -123,10 +123,10 @@ describe('getRollingFantasyPointAverages', () => {
             });
 
             it('should call getFantasyData lambda correct number of times', () => {
-                expect(getFantasyData).toHaveBeenLastCalledWith({week: numberOfWeeks, season: 1969})
+                expect(getFantasyData).toHaveBeenLastCalledWith({week: 7, season: 1969})
             });
 
-            it.each([1, 2, 3, 4, 5])(
+            it.each([3, 4, 5, 6, 7])(
                 'should call getFantasyData lambda with correct params up to numberOfWeeks', (week) => {
                     expect(getFantasyData).toHaveBeenCalledWith({
                         week,
