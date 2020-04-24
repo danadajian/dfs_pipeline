@@ -1,8 +1,9 @@
 import {getCurrentData} from "./getCurrentData";
 import {getFantasyData} from "./getFantasyData";
-import * as _ from 'lodash';
+import {groupAndCalculateAverages} from "./groupAndCalculateAverages";
 
-export const getRollingFantasyPointAverages = async (numberOfWeeks: number) => {
+export const getRollingFantasyPointAverages = async (event) => {
+    const {numberOfWeeks} = event;
     return getCurrentData()
         .then(async (currentData) => {
             const {currentWeek, currentSeason} = currentData;
@@ -12,9 +13,12 @@ export const getRollingFantasyPointAverages = async (numberOfWeeks: number) => {
 
             const allFantasyData = [];
             for (let week = 1; week <= numberOfWeeksToUse; week++) {
-                const fantasyData = await getFantasyData({week, season});
-                allFantasyData.push(fantasyData)
+                const fantasyDataFromWeek = await getFantasyData({week, season});
+                allFantasyData.push(fantasyDataFromWeek)
             }
             return allFantasyData
+        })
+        .then(allFantasyData => {
+            return groupAndCalculateAverages(allFantasyData)
         })
 };

@@ -1,35 +1,39 @@
-import {getRollingFantasyPointAverages} from "./getRollingFantasyPointAverages";
+import {getRollingFantasyPointAverages} from "./index";
 import {getCurrentData} from "./getCurrentData";
 import {getFantasyData} from "./getFantasyData";
-import * as _ from 'lodash'
+import {groupAndCalculateAverages} from "./groupAndCalculateAverages";
 
 jest.mock('./getCurrentData');
 jest.mock('./getFantasyData');
+jest.mock('./groupAndCalculateAverages');
 
-const mockFantasyData = {
-    "123": {
+const mockFantasyData = [
+    {
         "DraftKings": 2.2,
         "Fanduel": 1.7,
-        "Name": "Kalen Ballage"
+        "Name": "Kalen Ballage",
+        "PlayerId": 123
     },
-    "456": {
+    {
         "DraftKings": 27.8,
         "Fanduel": 20.8,
-        "Name": "Mark Andrews"
+        "Name": "Mark Andrews",
+        "PlayerId": 456
     },
-    "789": {
+    {
         "DraftKings": 3.7,
         "Fanduel": 2.7,
-        "Name": "Joe Mixon"
+        "Name": "Joe Mixon",
+        "PlayerId": 789
     }
-};
+];
 
 (getFantasyData as jest.Mock).mockResolvedValue(mockFantasyData);
-
-const groupBy = jest.spyOn(_, 'groupBy');
+(groupAndCalculateAverages as jest.Mock).mockResolvedValue('grouped players with averages');
 
 describe('getRollingFantasyPointAverages', () => {
     const numberOfWeeks = 5;
+    const event = {numberOfWeeks};
 
     describe('offseason case', () => {
         let result: any;
@@ -39,7 +43,7 @@ describe('getRollingFantasyPointAverages', () => {
                 "currentWeek": 0,
                 "currentSeason": 1969
             });
-            result = await getRollingFantasyPointAverages(numberOfWeeks);
+            result = await getRollingFantasyPointAverages(event);
         });
 
         it('should call getCurrentWeek lambda with correct params', () => {
@@ -55,6 +59,16 @@ describe('getRollingFantasyPointAverages', () => {
                 expect(getFantasyData).toHaveBeenCalledWith({week, season: 1968})
             }
         );
+
+        it('should call groupAndCalculateAverages with correct params', () => {
+            expect(groupAndCalculateAverages).toHaveBeenCalledWith([
+                mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData
+            ])
+        });
+
+        it('should return expected result', () => {
+            expect(result).toEqual('grouped players with averages')
+        });
     });
 
     describe('mid season case', () => {
@@ -67,7 +81,7 @@ describe('getRollingFantasyPointAverages', () => {
                     "currentWeek": 3,
                     "currentSeason": 1969
                 });
-                result = await getRollingFantasyPointAverages(numberOfWeeks);
+                result = await getRollingFantasyPointAverages(event);
             });
 
             it('should call getCurrentWeek lambda with correct params', () => {
@@ -83,6 +97,16 @@ describe('getRollingFantasyPointAverages', () => {
                     expect(getFantasyData).toHaveBeenCalledWith({week, season: 1969})
                 }
             );
+
+            it('should call groupAndCalculateAverages with correct params', () => {
+                expect(groupAndCalculateAverages).toHaveBeenCalledWith([
+                    mockFantasyData, mockFantasyData, mockFantasyData
+                ])
+            });
+
+            it('should return expected result', () => {
+                expect(result).toEqual('grouped players with averages')
+            });
         });
 
         describe('currentWeek >= numberOfWeeks', () => {
@@ -91,7 +115,7 @@ describe('getRollingFantasyPointAverages', () => {
                     "currentWeek": 8,
                     "currentSeason": 1969
                 });
-                result = await getRollingFantasyPointAverages(numberOfWeeks);
+                result = await getRollingFantasyPointAverages(event);
             });
 
             it('should call getCurrentWeek lambda with correct params', () => {
@@ -110,6 +134,16 @@ describe('getRollingFantasyPointAverages', () => {
                     })
                 }
             );
+
+            it('should call groupAndCalculateAverages with correct params', () => {
+                expect(groupAndCalculateAverages).toHaveBeenCalledWith([
+                    mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData
+                ])
+            });
+
+            it('should return expected result', () => {
+                expect(result).toEqual('grouped players with averages')
+            });
         });
     });
 });
