@@ -16,7 +16,7 @@ describe('getFantasyData', () => {
     });
 
     it('should call invoke lambda with correct params', () => {
-        expect(invokeLambdaFunction).toHaveBeenCalledWith(process.env.GET_FANTASY_DATA_LAMBDA, payload)
+        expect(invokeLambdaFunction).toHaveBeenCalledWith(process.env.GET_FANTASY_DATA_LAMBDA_NAME, payload)
     });
 
     it('should return expected result', () => {

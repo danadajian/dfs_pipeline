@@ -12,7 +12,7 @@ describe('getCurrentData', () => {
     });
 
     it('should call invoke lambda with correct params', () => {
-        expect(invokeLambdaFunction).toHaveBeenCalledWith(process.env.GET_CURRENT_DATA_LAMBDA)
+        expect(invokeLambdaFunction).toHaveBeenCalledWith(process.env.GET_CURRENT_DATA_LAMBDA_NAME)
     });
 
     it('should return expected result', () => {
