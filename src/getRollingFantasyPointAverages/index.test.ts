@@ -33,7 +33,9 @@ const mockFantasyData = [
 
 describe('getRollingFantasyPointAverages', () => {
     const numberOfWeeks = 5;
-    const event = {numberOfWeeks};
+    const site = 'site';
+    const sport = 'sport';
+    const event = {site, sport, numberOfWeeks};
 
     describe('offseason case', () => {
         let result: any;
@@ -47,7 +49,7 @@ describe('getRollingFantasyPointAverages', () => {
         });
 
         it('should call getCurrentWeek lambda with correct params', () => {
-            expect(getCurrentData).toHaveBeenCalled()
+            expect(getCurrentData).toHaveBeenCalledWith(sport)
         });
 
         it('should call getFantasyData lambda correct number of times', () => {
@@ -56,14 +58,14 @@ describe('getRollingFantasyPointAverages', () => {
 
         it.each([12, 13, 14, 15, 16])(
             'should call getFantasyData lambda with correct params', (week) => {
-                expect(getFantasyData).toHaveBeenCalledWith({week, season: 1968})
+                expect(getFantasyData).toHaveBeenCalledWith({sport, week, season: 1968})
             }
         );
 
         it('should call groupAndCalculateAverages with correct params', () => {
             expect(groupAndCalculateAverages).toHaveBeenCalledWith([
                 mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData
-            ])
+            ], site)
         });
 
         it('should return expected result', () => {
@@ -83,7 +85,7 @@ describe('getRollingFantasyPointAverages', () => {
         });
 
         it('should call getCurrentWeek lambda with correct params', () => {
-            expect(getCurrentData).toHaveBeenCalled()
+            expect(getCurrentData).toHaveBeenCalledWith(sport)
         });
 
         it('should call getFantasyData lambda correct number of times', () => {
@@ -91,7 +93,7 @@ describe('getRollingFantasyPointAverages', () => {
         });
 
         it('should call groupAndCalculateAverages with correct params', () => {
-            expect(groupAndCalculateAverages).toHaveBeenCalledWith([])
+            expect(groupAndCalculateAverages).toHaveBeenCalledWith([], site)
         });
 
         it('should return expected result', () => {
@@ -113,7 +115,7 @@ describe('getRollingFantasyPointAverages', () => {
             });
 
             it('should call getCurrentWeek lambda with correct params', () => {
-                expect(getCurrentData).toHaveBeenCalled()
+                expect(getCurrentData).toHaveBeenCalledWith(sport)
             });
 
             it('should call getFantasyData lambda correct number of times', () => {
@@ -122,14 +124,14 @@ describe('getRollingFantasyPointAverages', () => {
 
             it.each([1, 2])(
                 'should call getFantasyData lambda with correct params up to currentWeek', (week) => {
-                    expect(getFantasyData).toHaveBeenCalledWith({week, season: 1969})
+                    expect(getFantasyData).toHaveBeenCalledWith({sport, week, season: 1969})
                 }
             );
 
             it('should call groupAndCalculateAverages with correct params', () => {
                 expect(groupAndCalculateAverages).toHaveBeenCalledWith([
                     mockFantasyData, mockFantasyData
-                ])
+                ], site)
             });
 
             it('should return expected result', () => {
@@ -147,7 +149,7 @@ describe('getRollingFantasyPointAverages', () => {
             });
 
             it('should call getCurrentWeek lambda with correct params', () => {
-                expect(getCurrentData).toHaveBeenCalled()
+                expect(getCurrentData).toHaveBeenCalledWith(sport)
             });
 
             it('should call getFantasyData lambda correct number of times', () => {
@@ -157,6 +159,7 @@ describe('getRollingFantasyPointAverages', () => {
             it.each([3, 4, 5, 6, 7])(
                 'should call getFantasyData lambda with correct params up to numberOfWeeks', (week) => {
                     expect(getFantasyData).toHaveBeenCalledWith({
+                        sport,
                         week,
                         season: 1969
                     })
@@ -166,7 +169,7 @@ describe('getRollingFantasyPointAverages', () => {
             it('should call groupAndCalculateAverages with correct params', () => {
                 expect(groupAndCalculateAverages).toHaveBeenCalledWith([
                     mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData, mockFantasyData
-                ])
+                ], site)
             });
 
             it('should return expected result', () => {

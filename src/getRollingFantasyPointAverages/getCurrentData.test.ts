@@ -7,12 +7,13 @@ jest.mock('../aws/aws');
 
 describe('getCurrentData', () => {
     let result: any;
+    const sport = 'a sport';
     beforeEach(async () => {
-        result = await getCurrentData();
+        result = await getCurrentData(sport);
     });
 
     it('should call invoke lambda with correct params', () => {
-        expect(invokeLambdaFunction).toHaveBeenCalledWith(process.env.GET_CURRENT_DATA_LAMBDA_NAME)
+        expect(invokeLambdaFunction).toHaveBeenCalledWith(process.env.GET_CURRENT_DATA_LAMBDA_NAME, {sport})
     });
 
     it('should return expected result', () => {

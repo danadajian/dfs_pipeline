@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 
-export const groupAndCalculateAverages = async (fantasyData) => {
+export const groupAndCalculateAverages = async (fantasyData, site) => {
     return _.chain(fantasyData)
         .flatten()
         .groupBy("PlayerId")
@@ -13,5 +13,6 @@ export const groupAndCalculateAverages = async (fantasyData) => {
                 "Name": playerObject.players[0].Name,
                 "PlayerId": Number(playerObject.playerId)
             }
-        });
+        })
+        .sort((playerObj1: any, playerObj2: any) => playerObj2[site] - playerObj1[site]);
 };

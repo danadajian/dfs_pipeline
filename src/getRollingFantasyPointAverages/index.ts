@@ -4,8 +4,8 @@ import {groupAndCalculateAverages} from "./groupAndCalculateAverages";
 import {MAX_WEEKS_IN_SEASON} from "../constants";
 
 export const getRollingFantasyPointAverages = async (event) => {
-    const {numberOfWeeks} = event;
-    return getCurrentData()
+    const {site, sport, numberOfWeeks} = event;
+    return getCurrentData(sport)
         .then(async (currentData) => {
             let {currentWeek, currentSeason} = currentData;
 
@@ -15,12 +15,12 @@ export const getRollingFantasyPointAverages = async (event) => {
 
             const allFantasyData = [];
             for (let week = startingWeek; week < currentWeek; week++) {
-                const fantasyDataFromWeek = await getFantasyData({week, season});
+                const fantasyDataFromWeek = await getFantasyData({sport, week, season});
                 allFantasyData.push(fantasyDataFromWeek)
             }
             return allFantasyData
         })
         .then(allFantasyData => {
-            return groupAndCalculateAverages(allFantasyData)
+            return groupAndCalculateAverages(allFantasyData, site)
         })
 };

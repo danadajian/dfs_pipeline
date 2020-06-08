@@ -6,7 +6,7 @@ describe('groupAndCalculateAverages', () => {
         const fantasyData = [
             [
                 {
-                    "DraftKings": 2.0,
+                    "DraftKings": 0.8,
                     "Fanduel": 1.0,
                     "Name": "Player 1",
                     "PlayerId": 123
@@ -26,7 +26,7 @@ describe('groupAndCalculateAverages', () => {
             ],
             [
                 {
-                    "DraftKings": 8.0,
+                    "DraftKings": 5.0,
                     "Fanduel": 9.0,
                     "Name": "Player 1",
                     "PlayerId": 123
@@ -47,7 +47,7 @@ describe('groupAndCalculateAverages', () => {
         ];
 
         beforeEach(async () => {
-            result = await groupAndCalculateAverages(fantasyData)
+            result = await groupAndCalculateAverages(fantasyData, "Fanduel")
         });
 
         it('should return expected result', () => {
@@ -59,16 +59,16 @@ describe('groupAndCalculateAverages', () => {
                     "PlayerId": 69
                 },
                 {
-                    "Name": "Player 1",
-                    "DraftKings": 5.0,
-                    "Fanduel": 5.0,
-                    "PlayerId": 123
-                },
-                {
                     "Name": "Player 2",
                     "DraftKings": 15.7,
                     "Fanduel": 11.8,
                     "PlayerId": 456
+                },
+                {
+                    "Name": "Player 1",
+                    "DraftKings": 2.9,
+                    "Fanduel": 5.0,
+                    "PlayerId": 123
                 },
                 {
                     "DraftKings": 3.7,
@@ -85,7 +85,7 @@ describe('groupAndCalculateAverages', () => {
         const fantasyData = [];
 
         beforeEach(async () => {
-            result = await groupAndCalculateAverages(fantasyData)
+            result = await groupAndCalculateAverages(fantasyData, "any site")
         });
 
         it('should return expected result', () => {
