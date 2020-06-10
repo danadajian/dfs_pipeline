@@ -1,6 +1,4 @@
 .env
-config.sh
-runDocker.sh
 
 # dependencies
 /node_modules

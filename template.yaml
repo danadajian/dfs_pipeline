@@ -77,15 +77,3 @@ Resources:
           AWS_SECRET: !Ref AwsSecret
           DAN_PHONE_NUMBER: !Ref DanPhoneNumber
           TONY_PHONE_NUMBER: !Ref TonyPhoneNumber
-  GetRollingFantasyPointAveragesFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri:
-        Bucket: !Ref BucketName
-        Key: !Ref CodeKey
-      Handler: build/getRollingFantasyPointAverages/index.getRollingFantasyPointAverages
-      Runtime: nodejs12.x
-      Environment:
-        Variables:
-          AWS_KEY: !Ref AwsKey
-          AWS_SECRET: !Ref AwsSecret
