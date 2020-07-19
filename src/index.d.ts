@@ -1,3 +1,3 @@
 declare module 'axios' {
-    export function get(url: string);
+    export function get(url: string, options: any);
 }

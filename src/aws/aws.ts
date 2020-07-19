@@ -1,11 +1,11 @@
 import {S3, SNS, CloudWatchEvents, Lambda} from '../aws';
-import {MAX_COMBINATIONS} from "../constants";
+import {MAX_COMBINATIONS} from '../constants';
 import '../env'
 import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
 export const retrieveObjectFromS3 = async (fileName) => {
     const params = {
-        Bucket: "dfs-pipeline",
+        Bucket: 'dfs-pipeline',
         Key: fileName
     };
     const data = await S3.getObject(params).promise();
@@ -14,7 +14,7 @@ export const retrieveObjectFromS3 = async (fileName) => {
 
 export const uploadObjectToS3 = async (object, fileName) => {
     const params = {
-        Bucket: "dfs-pipeline",
+        Bucket: 'dfs-pipeline',
         Key: fileName,
         Body: JSON.stringify(object)
     };

@@ -6,8 +6,11 @@ import * as xml2js from 'xml2js'
 
 export const getPipelineStartTimes = async (sports: string[]): Promise<any> => {
     let startTimes: any = {};
-    return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getTodayDateString()}`)
-        .then(response => {
+    return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getTodayDateString()}`, {
+        headers: {
+            'User-Agent': null
+        }
+    }).then(response => {
             return xml2js.parseStringPromise(response.data)
         })
         .then(result => {

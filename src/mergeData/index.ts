@@ -17,7 +17,7 @@ export const mergeDataHandler = async (event) => {
             return uploadObjectToS3(playerPool, `${sport}PlayerPool.json`);
         })
         .then(() => {
-            const {lineupPositions, lineupRestrictions, salaryCap} = LINEUP_RULES['fd'][sport]['Classic'];
+            const {lineupPositions, lineupRestrictions, salaryCap} = LINEUP_RULES.fd[sport].Classic;
             return {
                 invocationType,
                 sport,

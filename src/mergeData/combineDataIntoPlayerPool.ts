@@ -13,7 +13,7 @@ export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, g
             );
         let playerData = projectionsData[newPlayer.playerId];
         if (playerData && !playerIdsToExclude.includes(newPlayer.playerId)) {
-            newPlayer.projection = playerData['fdProjection'];
+            newPlayer.projection = playerData.fdProjection;
             combinedData.push(newPlayer);
         }
     });
@@ -22,8 +22,8 @@ export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, g
 
 export const getFanduelPlayersFromSport = (sport, fanduelData) => {
     return fanduelData.filter(contestObject =>
-        contestObject['contest'] === 'Main' &&
-        contestObject['sport'].toLowerCase() === sport)[0]['players']
+        contestObject.contest === 'Main' &&
+        contestObject.sport.toLowerCase() === sport)[0].players
 };
 
 export const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {

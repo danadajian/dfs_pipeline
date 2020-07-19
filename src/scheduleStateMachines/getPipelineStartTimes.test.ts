@@ -46,7 +46,7 @@ describe('get pipeline start times', () => {
 
     it('should call axios get with correct url', () => {
         const url = `${process.env.FANDUEL_API_ROOT}?date=mock date string`;
-        expect(axios.get).toHaveBeenCalledWith(url)
+        expect(axios.get).toHaveBeenCalledWith(url, {headers: {'User-Agent': null}})
     });
 
     it('should call xml2js with correct data', () => {
