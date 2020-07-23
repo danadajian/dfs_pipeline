@@ -3,6 +3,7 @@ import {getPipelineStartTimeFromSlateStartTime} from "./getPipelineStartTimeFrom
 import '../env'
 import * as axios from 'axios'
 import * as xml2js from 'xml2js'
+import {SUPPORTED_CONTESTS} from "../constants";
 
 export const getPipelineStartTimes = async (sports: string[]): Promise<any> => {
     let startTimes: any = {};
@@ -17,7 +18,7 @@ export const getPipelineStartTimes = async (sports: string[]): Promise<any> => {
             const apiResponse = result.data['fixturelist'];
             sports.forEach(sport => {
                 const mainContest = apiResponse.filter(contest =>
-                    contest.sport[0].toLowerCase() === sport && contest['game'][0].label[0] === 'Main')[0];
+                    contest.sport[0].toLowerCase() === sport && SUPPORTED_CONTESTS.includes(contest['game'][0].label[0]))[0];
                 if (mainContest) {
                     const startTime = mainContest['game'][0].start[0] + ' PST';
                     startTimes[sport] = getPipelineStartTimeFromSlateStartTime(startTime);
