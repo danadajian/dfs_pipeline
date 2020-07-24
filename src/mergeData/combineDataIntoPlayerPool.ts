@@ -1,3 +1,5 @@
+import {SUPPORTED_CONTESTS} from "../constants";
+
 export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, goalieData) => {
     let combinedData = [];
     const fanduelPlayers = getFanduelPlayersFromSport(sport, fanduelData);
@@ -22,8 +24,7 @@ export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, g
 
 export const getFanduelPlayersFromSport = (sport, fanduelData) => {
     return fanduelData.filter(contestObject =>
-        contestObject.contest === 'Main' &&
-        contestObject.sport.toLowerCase() === sport)[0].players
+        SUPPORTED_CONTESTS.includes(contestObject.contest) && contestObject.sport.toLowerCase() === sport)[0].players
 };
 
 export const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {
