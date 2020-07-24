@@ -8,9 +8,11 @@ export const sendOptimalLineupTextsHandler = async (event) => {
         .then(optimalLineupData => {
             return generateTextMessageOutput(sport, optimalLineupData)
         })
-        .then(async textMessageOutput => {
-            await sendTextMessage(textMessageOutput, process.env.DAN_PHONE_NUMBER);
-            await sendTextMessage(textMessageOutput, process.env.TONY_PHONE_NUMBER);
+        .then(textMessageOutput => {
+            return Promise.all([
+                sendTextMessage(textMessageOutput, process.env.DAN_PHONE_NUMBER),
+                sendTextMessage(textMessageOutput, process.env.TONY_PHONE_NUMBER)
+            ])
         })
         .then(() => {
             return 'Text messages sent!'
