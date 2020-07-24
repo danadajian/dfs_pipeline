@@ -3,7 +3,7 @@ import {getPipelineStartTimeFromSlateStartTime} from "./getPipelineStartTimeFrom
 import '../env'
 import * as axios from 'axios'
 import * as xml2js from 'xml2js'
-import {SUPPORTED_CONTESTS} from "../constants";
+import {SUPPORTED_CONTESTS} from "@dadajian/shared-fantasy-constants";
 
 export const getPipelineStartTimes = async (sports: string[]): Promise<any> => {
     let startTimes: any = {};

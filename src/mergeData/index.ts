@@ -1,7 +1,6 @@
-import {LINEUP_RULES} from "../constants";
-
 import {retrieveObjectFromS3, uploadObjectToS3} from "../aws/aws";
 import {combineDataIntoPlayerPool} from './combineDataIntoPlayerPool';
+import {LINEUP_RULES} from "@dadajian/shared-fantasy-constants";
 
 export const mergeDataHandler = async (event) => {
     let {invocationType, sport, maxCombinations, goalieData = []} = event;

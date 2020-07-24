@@ -1,4 +1,4 @@
-import {SUPPORTED_CONTESTS} from "../constants";
+import {SUPPORTED_CONTESTS} from "@dadajian/shared-fantasy-constants";
 
 export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, goalieData) => {
     let combinedData = [];
@@ -47,9 +47,7 @@ export const getPlayerIdsToExclude = (fanduelPlayers, goalieData) => {
 
 const groupBy = (array, key) => {
     return array.reduce((result, currentValue) => {
-        (result[currentValue[key]] = result[currentValue[key]] || []).push(
-            currentValue
-        );
+        (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
         return result;
     }, {});
 };

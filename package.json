@@ -6,6 +6,7 @@
     "test": "jest --runInBand"
   },
   "dependencies": {
+    "@dadajian/shared-fantasy-constants": "^1.0.1",
     "@types/aws-sdk": "^2.7.0",
     "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.17",
