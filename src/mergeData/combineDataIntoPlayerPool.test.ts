@@ -34,9 +34,9 @@ const projectionsData = {
         "overUnder": 212.5,
         "gameDate": "Mon 7:00PM EST",
         "opponent": "@ Ind",
-        "dkProjection": 0.0,
+        "DraftKingsProjection": 0.0,
         "name": "Luka Doncic",
-        "fdProjection": 0,
+        "FanduelProjection": 0,
         "team": "Dal",
         "spread": "+5.5"
     },
@@ -44,9 +44,9 @@ const projectionsData = {
         "overUnder": 228.5,
         "gameDate": "Mon 10:30PM EST",
         "opponent": "v. SA",
-        "dkProjection": 47.26493,
+        "DraftKingsProjection": 47.26493,
         "name": "Kawhi Leonard",
-        "fdProjection": 46.26724,
+        "FanduelProjection": 46.26724,
         "team": "LAC",
         "spread": "-9.0"
     }

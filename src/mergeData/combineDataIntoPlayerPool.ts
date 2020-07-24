@@ -15,7 +15,7 @@ export const combineDataIntoPlayerPool = (sport, fanduelData, projectionsData, g
             );
         let playerData = projectionsData[newPlayer.playerId];
         if (playerData && !playerIdsToExclude.includes(newPlayer.playerId)) {
-            newPlayer.projection = playerData.fdProjection;
+            newPlayer.projection = playerData.FanduelProjection;
             combinedData.push(newPlayer);
         }
     });

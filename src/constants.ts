@@ -5,7 +5,7 @@ export const SIXTY_SECONDS_IN_MILLISECONDS = 60000;
 export const GOALIE_WEBSITE_LINK = 'https://goaliepost.com/';
 export const SUPPORTED_CONTESTS = ["Main", "Thu", "Sat", "Sun", "Opening Day"];
 export const LINEUP_RULES = {
-    "fd": {
+    "Fanduel": {
         "mlb": {
             "Classic": {
                 "lineupPositions": ["P", "C,1B", "2B", "3B", "SS", "OF", "OF", "OF", "C,1B,2B,3B,SS,OF"],
@@ -95,7 +95,7 @@ export const LINEUP_RULES = {
             }
         }
     },
-    "dk": {
+    "DraftKings": {
         "mlb": {
             "Classic": {
                 "lineupPositions": ["P", "P", "C", "1B", "2B", "3B", "SS", "OF", "OF", "OF"],
