@@ -18,6 +18,8 @@ Parameters:
     Type: String
   TonyPhoneNumber:
     Type: String
+  TonyEmail:
+    Type: String
 Globals:
   Function:
     MemorySize: 512
@@ -75,8 +77,6 @@ Resources:
         Variables:
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
-          DAN_PHONE_NUMBER: !Ref DanPhoneNumber
-          TONY_PHONE_NUMBER: !Ref TonyPhoneNumber
   OptimalLineupTopic:
     Type: AWS::SNS::Topic
     Properties:
@@ -85,3 +85,5 @@ Resources:
           Protocol: sms
         - Endpoint: !Ref TonyPhoneNumber
           Protocol: sms
+        - Endpoint: !Ref TonyEmail
+          Protocol: email

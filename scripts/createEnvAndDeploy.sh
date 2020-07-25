@@ -38,4 +38,4 @@ sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabi
   --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" \
   ScheduleStateMachinesInput="${SCHEDULE_STATE_MACHINES_INPUT}" AwsKey="${AWS_ACCESS_KEY_ID}" \
   AwsSecret="${AWS_SECRET_ACCESS_KEY}" FanduelApiRoot="${FANDUEL_API_ROOT}" DanPhoneNumber="${DAN_PHONE_NUMBER}" \
-  TonyPhoneNumber="${TONY_PHONE_NUMBER}" --no-fail-on-empty-changeset
+  TonyPhoneNumber="${TONY_PHONE_NUMBER}" \ TonyEmail="${TONY_EMAIL}" --no-fail-on-empty-changeset

@@ -22,14 +22,13 @@ export const uploadObjectToS3 = async (object, fileName) => {
     return 'File uploaded successfully.'
 };
 
-export const sendTextMessage = async (message, phoneNumber) => {
+export const publishToSnsTopic = async (message) => {
     const params = {
         Message: message,
-        MessageStructure: 'string',
-        PhoneNumber: phoneNumber
+        TopicArn: process.env.OPTIMAL_LINEUP_TOPIC_ARN
     };
     await SNS.publish(params).promise();
-    return 'Text message sent successfully.'
+    return 'Message published successfully.'
 };
 
 export const createCloudWatchEvent = async (sport, date) => {

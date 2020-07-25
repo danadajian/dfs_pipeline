@@ -1,7 +1,7 @@
 import {
     retrieveObjectFromS3,
     uploadObjectToS3,
-    sendTextMessage,
+    publishToSnsTopic,
     createCloudWatchEvent,
     invokeLambdaFunction
 } from './aws';
@@ -105,23 +105,21 @@ describe('aws', () => {
     describe('sends text message', () => {
         let result: any;
         const message = 'a message';
-        const phoneNumber = '867-5309';
 
         beforeEach(async () => {
-            result = await sendTextMessage(message, phoneNumber)
+            result = await publishToSnsTopic(message)
         });
 
-        it('should call publish with correct params', function () {
+        it('should call publish with correct params', () => {
             const params = {
                 Message: message,
-                MessageStructure: 'string',
-                PhoneNumber: phoneNumber
+                TopicArn: process.env.OPTIMAL_LINEUP_TOPIC_ARN
             };
             expect(SNS.publish).toHaveBeenCalledWith(params)
         });
 
-        it('should send text', () => {
-            expect(result).toEqual('Text message sent successfully.')
+        it('should publish message', () => {
+            expect(result).toEqual('Message published successfully.')
         });
     });
 
@@ -134,7 +132,7 @@ describe('aws', () => {
             result = await createCloudWatchEvent(sport, date)
         });
 
-        it('should call putRule with correct params', function () {
+        it('should call putRule with correct params', () => {
             const putRuleParams = {
                 Name: 'football-pipeline-rule',
                 RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
@@ -144,7 +142,7 @@ describe('aws', () => {
             expect(CloudWatchEvents.putRule).toHaveBeenCalledWith(putRuleParams)
         });
 
-        it('should call putTargets with correct params', function () {
+        it('should call putTargets with correct params', () => {
             const putTargetParams = {
                 Rule: 'football-pipeline-rule',
                 Targets: [

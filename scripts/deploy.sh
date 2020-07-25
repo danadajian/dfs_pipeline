@@ -6,7 +6,7 @@ if aws s3api head-bucket --bucket "${BUCKET_NAME}" 2>/dev/null; then
   echo "### Bucket exists: $BUCKET_NAME"
 else
   echo "### Bucket does not exist, creating: ${BUCKET_NAME}"
-  aws s3 mb s3://"${BUCKET_NAME}" --region us-east-1
+  aws s3 mb s3://"${BUCKET_NAME}"
 fi
 
 IAM_ROLES=$(aws iam list-roles)
