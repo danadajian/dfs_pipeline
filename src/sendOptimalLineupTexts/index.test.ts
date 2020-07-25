@@ -24,7 +24,8 @@ describe('send optimal lineup texts', () => {
     });
 
     it('should call generateTextMessageOutput with correct file name', () => {
-        expect(generateTextMessageOutput).toHaveBeenCalledWith('a sport', 'retrieved object')
+        expect(generateTextMessageOutput).toHaveBeenCalledWith('a sport', 'retrieved object', 'Dan')
+        expect(generateTextMessageOutput).toHaveBeenCalledWith('a sport', 'retrieved object', 'Tony')
     });
 
     it('should call sendTextMessage with correct file name', () => {

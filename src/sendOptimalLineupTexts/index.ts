@@ -6,12 +6,15 @@ export const sendOptimalLineupTextsHandler = async (event) => {
     const {sport} = event;
     return retrieveObjectFromS3(sport + 'OptimalLineup.json')
         .then(optimalLineupData => {
-            return generateTextMessageOutput(sport, optimalLineupData)
-        })
-        .then(textMessageOutput => {
             return Promise.all([
-                sendTextMessage(textMessageOutput, process.env.DAN_PHONE_NUMBER),
-                sendTextMessage(textMessageOutput, process.env.TONY_PHONE_NUMBER)
+                generateTextMessageOutput(sport, optimalLineupData, 'Dan'),
+                generateTextMessageOutput(sport, optimalLineupData, 'Tony')
+            ])
+        })
+        .then(([messageForDan, messageForTony]: string[]) => {
+            return Promise.all([
+                sendTextMessage(messageForDan, process.env.DAN_PHONE_NUMBER),
+                sendTextMessage(messageForTony, process.env.TONY_PHONE_NUMBER)
             ])
         })
         .then(() => {

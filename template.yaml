@@ -77,3 +77,11 @@ Resources:
           AWS_SECRET: !Ref AwsSecret
           DAN_PHONE_NUMBER: !Ref DanPhoneNumber
           TONY_PHONE_NUMBER: !Ref TonyPhoneNumber
+  OptimalLineupTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Endpoint: !Ref DanPhoneNumber
+          Protocol: sms
+        - Endpoint: !Ref TonyPhoneNumber
+          Protocol: sms
