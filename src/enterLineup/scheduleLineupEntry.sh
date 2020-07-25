@@ -10,6 +10,6 @@ do
   then
     UPPERCASE_SPORT=$(echo "$SPORT" | tr '[:lower:]' '[:upper:]')
     schtasks //create //f //tn "Enter $UPPERCASE_SPORT Lineup" //tr \
-     "C:\Users\Dan\Documents\DFS-Pipeline\src\enterLineup\triggerLineupEntry.sh $SPORT" //sc once //st "$START_TIME"
+     "C:\Users\Dan\Documents\dfs-pipeline\src\enterLineup\triggerLineupEntry.sh $SPORT" //sc once //st "$START_TIME"
   fi
 done

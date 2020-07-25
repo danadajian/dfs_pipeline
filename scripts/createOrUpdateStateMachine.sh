@@ -19,12 +19,12 @@ sed -i "s/REPLACE_ME_WITH_OPTIMAL_LINEUP_LAMBDA_ARN/$OPTIMAL_LINEUP_LAMBDA_ARN/g
 sed -i "s/REPLACE_ME_WITH_SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN/$SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN/g" $STATE_MACHINE_DEFINITION_FILE
 
 STATE_MACHINES=$(aws stepfunctions list-state-machines)
-DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn' | tr -d '"')
+DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("dfs-pipeline"))' | jq '.stateMachineArn' | tr -d '"')
 
 if [ -z "$DFS_PIPELINE_STEP_FUNCTION_ARN" ]; then
   echo "### Creating DFS Pipeline state machine..."
   aws stepfunctions create-state-machine \
-    --name "DFS-Pipeline" \
+    --name "dfs-pipeline" \
     --definition "$(cat $STATE_MACHINE_DEFINITION_FILE)" \
     --role-arn "$DFS_PIPELINE_STEP_FUNCTION_ROLE_ARN"
   echo "### Re-deploying $STACK_NAME..."

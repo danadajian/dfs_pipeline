@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 STATE_MACHINES=$(aws stepfunctions list-state-machines)
-DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn' | tr -d '"')
+DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("dfs-pipeline"))' | jq '.stateMachineArn' | tr -d '"')
 
 SNS_TOPICS=$(aws sns list-topics)
 OPTIMAL_LINEUP_TOPIC_ARN=$(echo "$SNS_TOPICS" | jq -r '.Topics[] | select(.TopicArn | contains("OptimalLineupTopic"))' | jq '.TopicArn' | tr -d '"')
