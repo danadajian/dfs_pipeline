@@ -9,7 +9,7 @@ MERGE_DATA_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(
 OPTIMAL_LINEUP_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetOptimalLineupFunction"))' | jq '.FunctionArn' | tr -d '"')
 SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("SendOptimalLineupTextsFunction"))' | jq '.FunctionArn' | tr -d '"')
 
-STATE_MACHINE_DEFINITION_FILE="../stepFunctions/dfs-pipeline.json"
+STATE_MACHINE_DEFINITION_FILE=dfs-pipeline.json
 
 sed -i "s/REPLACE_ME_WITH_FANDUEL_LAMBDA_ARN/$FANDUEL_LAMBDA_ARN/g" $STATE_MACHINE_DEFINITION_FILE
 sed -i "s/REPLACE_ME_WITH_PROJECTIONS_LAMBDA_ARN/$PROJECTIONS_LAMBDA_ARN/g" $STATE_MACHINE_DEFINITION_FILE
