@@ -3,6 +3,9 @@
 STATE_MACHINES=$(aws stepfunctions list-state-machines)
 DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("DFS-Pipeline"))' | jq '.stateMachineArn' | tr -d '"')
 
+SNS_TOPICS=$(aws sns list-topics)
+OPTIMAL_LINEUP_TOPIC_ARN=$(echo "$SNS_TOPICS" | jq -r '.Topics[] | select(.TopicArn | contains("OptimalLineupTopic"))' | jq '.TopicArn' | tr -d '"')
+
 LAMBDA_FUNCTIONS=$(aws lambda list-functions)
 GET_FANTASY_DATA_LAMBDA_NAME=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetFantasyData"))' | jq '.FunctionName' | tr -d '"')
 GET_CURRENT_DATA_LAMBDA_NAME=$(echo "$LAMBDA_FUNCTIONS" | jq -r '.Functions[] | select(.FunctionName | contains("GetCurrentData"))' | jq '.FunctionName' | tr -d '"')
@@ -14,6 +17,7 @@ echo "### Creating environment variables..."
   echo "FANDUEL_API_ROOT=$FANDUEL_API_ROOT"
   echo "STEP_FUNCTIONS_ROLE_ARN=$STEP_FUNCTIONS_ROLE_ARN"
   echo "DFS_PIPELINE_STEP_FUNCTION_ARN=$DFS_PIPELINE_STEP_FUNCTION_ARN"
+  echo "OPTIMAL_LINEUP_TOPIC_ARN=$OPTIMAL_LINEUP_TOPIC_ARN"
   echo "GET_FANTASY_DATA_LAMBDA_NAME=$GET_FANTASY_DATA_LAMBDA_NAME"
   echo "GET_CURRENT_DATA_LAMBDA_NAME=$GET_CURRENT_DATA_LAMBDA_NAME"
 } >.env

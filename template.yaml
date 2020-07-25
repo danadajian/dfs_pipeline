@@ -80,6 +80,7 @@ Resources:
   OptimalLineupTopic:
     Type: AWS::SNS::Topic
     Properties:
+      Region: us-east-1
       Subscription:
         - Endpoint: !Ref DanPhoneNumber
           Protocol: sms
