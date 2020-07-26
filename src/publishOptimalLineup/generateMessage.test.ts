@@ -1,7 +1,7 @@
-import {generateTextMessageOutput} from './generateTextMessageOutput';
+import {generateMessage} from './generateMessage';
 
-describe('can generate text message output', () => {
-    it('can generate text message output', () => {
+describe('generateMessage', () => {
+    it('can generate message', () => {
         const optimalLineupData = {
             'lineup': [
                 {
@@ -22,7 +22,7 @@ describe('can generate text message output', () => {
             'totalProjection': 69.69696969,
             'totalSalary': 6900
         };
-        const result = generateTextMessageOutput('nfl', optimalLineupData);
+        const result = generateMessage('nfl', optimalLineupData);
         expect(result).toStrictEqual('Good evening. Here is the optimal NFL lineup for tonight:' +
             '\nJoe Schmo CHI FB' +
             '\nJohn Schmo NYG RB' +

@@ -102,7 +102,7 @@ describe('aws', () => {
         });
     });
 
-    describe('sends text message', () => {
+    describe('publishes message to sns topic', () => {
         let result: any;
         const message = 'a message';
 

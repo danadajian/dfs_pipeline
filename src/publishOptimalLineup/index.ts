@@ -1,17 +1,17 @@
-import {generateTextMessageOutput} from './generateTextMessageOutput'
+import {generateMessage} from './generateMessage'
 import {retrieveObjectFromS3, publishToSnsTopic} from '../aws/aws'
 import '../env'
 
-export const sendOptimalLineupTextsHandler = async (event) => {
+export const publishOptimalLineupHandler = async (event) => {
     const {sport} = event;
     return retrieveObjectFromS3(`${sport}OptimalLineup.json`)
         .then(optimalLineupData => {
-            return generateTextMessageOutput(sport, optimalLineupData)
+            return generateMessage(sport, optimalLineupData)
         })
         .then((message: string) => {
             return publishToSnsTopic(message)
         })
         .then(() => {
-            return 'Text messages sent!'
+            return 'Message published successfully.'
         });
 };

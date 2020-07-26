@@ -59,13 +59,13 @@ Resources:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
-  SendOptimalLineupTextsFunction:
+  PublishOptimalLineupFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri:
         Bucket: !Ref BucketName
         Key: !Ref CodeKey
-      Handler: build/sendOptimalLineupTexts/index.sendOptimalLineupTextsHandler
+      Handler: build/publishOptimalLineup/index.publishOptimalLineupHandler
       Runtime: nodejs12.x
       Environment:
         Variables:

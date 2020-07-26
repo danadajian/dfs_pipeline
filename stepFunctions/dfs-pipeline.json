@@ -63,7 +63,7 @@
       "Resource": "REPLACE_ME_WITH_OPTIMAL_LINEUP_LAMBDA_ARN",
       "InputPath": "$.optimizerInput",
       "ResultPath": "$.optimizerResult",
-      "Next": "Send Texts",
+      "Next": "Publish Optimal Lineup",
       "TimeoutSeconds": 899,
       "Catch": [
         {
@@ -75,9 +75,9 @@
         }
       ]
     },
-    "Send Texts": {
+    "Publish Optimal Lineup": {
       "Type": "Task",
-      "Resource": "REPLACE_ME_WITH_SEND_OPTIMAL_LINEUP_TEXTS_LAMBDA_ARN",
+      "Resource": "REPLACE_ME_WITH_PUBLISH_OPTIMAL_LINEUP_LAMBDA_ARN",
       "End": true
     }
   }
