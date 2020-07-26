@@ -14,12 +14,6 @@ Parameters:
     Type: String
   FanduelApiRoot:
     Type: String
-  DanPhoneNumber:
-    Type: String
-  TonyPhoneNumber:
-    Type: String
-  TonyEmail:
-    Type: String
 Globals:
   Function:
     MemorySize: 512
@@ -77,13 +71,3 @@ Resources:
         Variables:
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
-  OptimalLineupTopic:
-    Type: AWS::SNS::Topic
-    Properties:
-      Subscription:
-        - Endpoint: !Ref DanPhoneNumber
-          Protocol: sms
-        - Endpoint: !Ref TonyPhoneNumber
-          Protocol: sms
-        - Endpoint: !Ref TonyEmail
-          Protocol: email

@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 export STACK_NAME="dfs-pipeline-stack"
+export SNS_STACK_NAME="dfs-pipeline-sns-stack"
 
 if aws s3api head-bucket --bucket "${BUCKET_NAME}" 2>/dev/null; then
   echo "### Bucket exists: $BUCKET_NAME"

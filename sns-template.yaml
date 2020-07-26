@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  DanPhoneNumber:
+    Type: String
+  TonyPhoneNumber:
+    Type: String
+  TonyEmail:
+    Type: String
+
+Resources:
+  OptimalLineupTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Endpoint: !Ref DanPhoneNumber
+          Protocol: sms
+        - Endpoint: !Ref TonyPhoneNumber
+          Protocol: sms
+        - Endpoint: !Ref TonyEmail
+          Protocol: email
