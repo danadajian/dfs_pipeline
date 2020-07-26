@@ -3,7 +3,7 @@
 STATE_MACHINES=$(aws stepfunctions list-state-machines)
 DFS_PIPELINE_STEP_FUNCTION_ARN=$(echo "$STATE_MACHINES" | jq -r '.stateMachines[] | select(.name | contains("dfs-pipeline"))' | jq '.stateMachineArn' | tr -d '"')
 
-SNS_TOPICS=$(aws sns list-topics)
+SNS_TOPICS=$(aws sns list-topics --region us-east-1)
 OPTIMAL_LINEUP_TOPIC_ARN=$(echo "$SNS_TOPICS" | jq -r '.Topics[] | select(.TopicArn | contains("OptimalLineupTopic"))' | jq '.TopicArn' | tr -d '"')
 
 LAMBDA_FUNCTIONS=$(aws lambda list-functions)
