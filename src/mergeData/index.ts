@@ -20,15 +20,15 @@ export const mergeDataHandler = async (event) => {
             return {
                 invocationType,
                 sport,
-                'lineup': lineupPositions.map(position => ({
-                    'playerId': 0,
-                    'position': position,
-                    'team': '',
-                    'name': '',
-                    'projection': '',
-                    'salary': ''
+                lineup: lineupPositions.map(position => ({
+                    playerId: 0,
+                    position,
+                    team: '',
+                    name: '',
+                    projection: '',
+                    salary: ''
                 })),
-                'blackList': [],
+                blackList: [],
                 lineupPositions,
                 lineupRestrictions,
                 salaryCap,
