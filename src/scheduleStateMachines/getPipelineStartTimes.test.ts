@@ -54,7 +54,12 @@ describe('get pipeline start times', () => {
     });
 
     it('should return correct start times', () => {
-        expect(result).toEqual({sport1: mockDate});
+        expect(result).toEqual([
+            {
+                sport: 'sport1',
+                date: mockDate
+            }
+        ]);
     });
 });
 

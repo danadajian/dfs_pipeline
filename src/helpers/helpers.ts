@@ -1,4 +1,4 @@
-export const getTodayDateString = () => {
+export const getTodayDateString = (): string => {
     const date = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
     let day = String(date.getDate()).padStart(2, '0');
     let month = String(date.getMonth() + 1).padStart(2, '0');
@@ -6,7 +6,7 @@ export const getTodayDateString = () => {
     return year + '-' + month + '-' + day;
 };
 
-export const getCronExpressionFromDate = (date) => {
+export const getCronExpressionFromDate = (date: Date): string => {
     return 'cron(' +
         date.getUTCMinutes() +
         " " + date.getUTCHours() +

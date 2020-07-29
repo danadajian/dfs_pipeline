@@ -2,7 +2,7 @@ import {retrieveObjectFromS3, uploadObjectToS3} from "../aws/aws";
 import {combineDataIntoPlayerPool} from './combineDataIntoPlayerPool';
 import {LINEUP_RULES} from "@dadajian/shared-fantasy-constants";
 
-export const mergeDataHandler = async (event) => {
+export const mergeDataHandler = async (event): Promise<any> => {
     let {invocationType, sport, maxCombinations, goalieData = []} = event;
     return Promise.all(
         [

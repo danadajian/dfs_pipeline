@@ -9,10 +9,16 @@ jest.mock('./convertStartTimesToLocal');
 jest.mock('./staggerPipelineStartTimes');
 jest.mock('../aws/aws');
 
-const mockPipelineStartTimes = {
-    sport1: 'start time 1',
-    sport2: 'start time 2'
-};
+const mockPipelineStartTimes = [
+    {
+        sport: 'sport1',
+        date: 'start time 1'
+    },
+    {
+        sport: 'sport2',
+        date: 'start time 2'
+    }
+];
 (getPipelineStartTimes as jest.Mock).mockResolvedValue(mockPipelineStartTimes);
 
 (convertStartTimesToLocal as jest.Mock).mockResolvedValue('local start times');

@@ -129,6 +129,7 @@ describe('aws', () => {
         const date = 'mock date';
 
         beforeEach(async () => {
+            // @ts-ignore
             result = await createCloudWatchEvent(sport, date)
         });
 

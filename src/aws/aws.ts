@@ -3,7 +3,7 @@ import {MAX_COMBINATIONS} from '../constants';
 import '../env'
 import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
 
-export const retrieveObjectFromS3 = async (fileName) => {
+export const retrieveObjectFromS3 = async (fileName: string): Promise<any> => {
     const params = {
         Bucket: 'dfs-pipeline',
         Key: fileName
@@ -12,7 +12,7 @@ export const retrieveObjectFromS3 = async (fileName) => {
     return JSON.parse(data.Body.toString());
 };
 
-export const uploadObjectToS3 = async (object, fileName) => {
+export const uploadObjectToS3 = async (object: any, fileName: string): Promise<string> => {
     const params = {
         Bucket: 'dfs-pipeline',
         Key: fileName,
@@ -22,7 +22,7 @@ export const uploadObjectToS3 = async (object, fileName) => {
     return 'File uploaded successfully.'
 };
 
-export const publishToSnsTopic = async (message) => {
+export const publishToSnsTopic = async (message: string): Promise<string> => {
     const params = {
         Message: message,
         TopicArn: process.env.OPTIMAL_LINEUP_TOPIC_ARN
@@ -31,7 +31,7 @@ export const publishToSnsTopic = async (message) => {
     return 'Message published successfully.'
 };
 
-export const createCloudWatchEvent = async (sport, date) => {
+export const createCloudWatchEvent = async (sport: string, date: Date): Promise<string> => {
     const putRuleParams = {
         Name: `${sport}-pipeline-rule`,
         RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
@@ -59,7 +59,7 @@ export const createCloudWatchEvent = async (sport, date) => {
     return 'Cloudwatch events created.';
 };
 
-export const invokeLambdaFunction = async (functionName: any, payload = {}) => {
+export const invokeLambdaFunction = async (functionName: any, payload: any = {}): Promise<any> => {
     const params = {
         FunctionName: functionName,
         Payload: JSON.stringify(payload)
