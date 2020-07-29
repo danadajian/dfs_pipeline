@@ -1,6 +1,5 @@
 import {getPipelineStartTimes} from './getPipelineStartTimes';
-import {convertStartTimesToLocal} from './convertStartTimesToLocal';
-import {staggerPipelineStartTimes} from './staggerPipelineStartTimes';
+import {convertStartTimesToEST} from './convertStartTimesToEST';
 import {createCloudWatchEvent, uploadObjectToS3} from '../aws/aws';
 
 export const scheduleStateMachinesHandler = async (event): Promise<string> => {
@@ -13,14 +12,11 @@ export const scheduleStateMachinesHandler = async (event): Promise<string> => {
             }
             return pipelineStartTimes
         })
-        .then(pipelineStartTimes => {
-            return staggerPipelineStartTimes(pipelineStartTimes)
-        })
         .then(startTimes => {
-            return convertStartTimesToLocal(startTimes)
+            return convertStartTimesToEST(startTimes)
         })
-        .then(localStartTimes => {
-            return uploadObjectToS3(localStartTimes, 'startTimes.json')
+        .then(async pipelineStartTimes => {
+            return uploadObjectToS3(pipelineStartTimes, 'startTimes.json')
         })
         .then(() => {
             return 'Events created!'

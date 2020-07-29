@@ -1,4 +1,4 @@
-import {convertStartTimesToLocal} from './convertStartTimesToLocal';
+import {convertStartTimesToEST} from './convertStartTimesToEST';
 
 describe('can convert start times to local', () => {
     it('can convert start times to local', () => {
@@ -12,17 +12,17 @@ describe('can convert start times to local', () => {
                 date: new Date('2020-02-13T01:10:00.000Z')
             }
         ];
-        const result = convertStartTimesToLocal(startTimes);
+        const result = convertStartTimesToEST(startTimes);
         expect(result).toStrictEqual([
             {
                 id: 0,
                 sport: 'nba',
-                time: '17:30'
+                time: '6:30 PM EST'
             },
             {
                 id: 1,
                 sport: 'nhl',
-                time: '19:10'
+                time: '8:10 PM EST'
             }
         ]);
     });
