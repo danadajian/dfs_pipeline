@@ -9,6 +9,8 @@ export const convertStartTimesToEST = (startTimes: StartTime[]) => {
             minute: '2-digit',
             timeZoneName: 'short'
         });
+        console.log(date);
+        console.log(time);
         return {
             id,
             sport,
