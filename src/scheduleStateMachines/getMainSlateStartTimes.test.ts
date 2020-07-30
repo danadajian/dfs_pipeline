@@ -7,11 +7,14 @@ jest.mock('../helpers/helpers');
 jest.mock('axios');
 jest.mock('xml2js');
 
+const mockDate = new Date('4/20/2020 7:20');
+// @ts-ignore
+jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+
 (getTodayDateString as jest.Mock).mockImplementation(() => {
     return 'mock date string'
-});
 
-const mockDate = new Date('4/20/2020 7:20');
+});
 
 (axios.get as jest.Mock).mockResolvedValue({data: 'axios response'});
 (xml2js.parseStringPromise as jest.Mock).mockResolvedValue({
