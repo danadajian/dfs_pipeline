@@ -1,11 +1,9 @@
-import {getPipelineStartTimes} from './getPipelineStartTimes';
+import {getMainSlateStartTimes} from "./getMainSlateStartTimes";
 import {getTodayDateString} from '../helpers/helpers';
-import {getPipelineStartTimeFromSlateStartTime} from "./getPipelineStartTimeFromSlateStartTime";
 import * as axios from 'axios';
 import * as xml2js from 'xml2js';
 
 jest.mock('../helpers/helpers');
-jest.mock('./getPipelineStartTimeFromSlateStartTime');
 jest.mock('axios');
 jest.mock('xml2js');
 
@@ -13,8 +11,7 @@ jest.mock('xml2js');
     return 'mock date string'
 });
 
-const mockDate = new Date('4/20/2020');
-(getPipelineStartTimeFromSlateStartTime as jest.Mock).mockReturnValue(mockDate);
+const mockDate = new Date('4/20/2020 7:20');
 
 (axios.get as jest.Mock).mockResolvedValue({data: 'axios response'});
 (xml2js.parseStringPromise as jest.Mock).mockResolvedValue({
@@ -25,7 +22,7 @@ const mockDate = new Date('4/20/2020');
                 game: [
                     {
                         label: ['Main'],
-                        start: ['start time']
+                        start: ['2020-04-20 4:20:00']
                     }
                 ]
             },
@@ -40,7 +37,7 @@ describe('get pipeline start times', () => {
     let result: any;
 
     beforeEach(async () => {
-        result = await getPipelineStartTimes();
+        result = await getMainSlateStartTimes();
     });
 
     it('should call axios get with correct url', () => {

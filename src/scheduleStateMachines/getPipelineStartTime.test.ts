@@ -1,4 +1,4 @@
-import {getPipelineStartTimeFromSlateStartTime} from "./getPipelineStartTimeFromSlateStartTime";
+import {getPipelineStartTime} from "./getPipelineStartTime";
 import {SIXTY_SECONDS_IN_MILLISECONDS, SLATE_OFFSET_MINUTES} from "../constants";
 
 const mockTimeValue = 69;
@@ -11,10 +11,10 @@ jest.spyOn(global, 'Date').mockImplementation(() => {
 
 describe('get pipeline start time from slate start time', () => {
     let result: any;
-    const startTime = '2020-04-17 10:30:00';
+    const slateStart = new Date('2020-04-17 10:30:00 PST');
 
     beforeEach(async () => {
-        result = getPipelineStartTimeFromSlateStartTime(startTime)
+        result = getPipelineStartTime(slateStart)
     });
 
     it('should construct the start date in PST', () => {

@@ -1,13 +1,15 @@
 import {scheduleStateMachinesHandler} from './index'
-import {getPipelineStartTimes} from './getPipelineStartTimes';
 import {convertStartTimesToEST} from './convertStartTimesToEST';
 import {createCloudWatchEvent, uploadObjectToS3} from '../aws/aws';
+import {getMainSlateStartTimes} from "./getMainSlateStartTimes";
+import {getPipelineStartTime} from "./getPipelineStartTime";
 
-jest.mock('./getPipelineStartTimes');
+jest.mock('./getMainSlateStartTimes');
+jest.mock('./getPipelineStartTime');
 jest.mock('./convertStartTimesToEST');
 jest.mock('../aws/aws');
 
-const mockPipelineStartTimes = [
+const mockSlateStartTimes = [
     {
         sport: 'mlb',
         date: 'start time 1'
@@ -17,8 +19,9 @@ const mockPipelineStartTimes = [
         date: 'start time 2'
     }
 ];
-(getPipelineStartTimes as jest.Mock).mockResolvedValue(mockPipelineStartTimes);
-(convertStartTimesToEST as jest.Mock).mockResolvedValue('est start times');
+(getMainSlateStartTimes as jest.Mock).mockResolvedValue(mockSlateStartTimes);
+(getPipelineStartTime as jest.Mock).mockReturnValue('pipeline start time');
+(convertStartTimesToEST as jest.Mock).mockReturnValue('est start times');
 (createCloudWatchEvent as jest.Mock).mockResolvedValue('event created');
 (uploadObjectToS3 as jest.Mock).mockResolvedValue('start times uploaded');
 
@@ -30,16 +33,16 @@ describe('schedule state machines handler', () => {
    });
 
     it('should call getPipelineStartTimes with sports', () => {
-        expect(getPipelineStartTimes).toHaveBeenCalled()
+        expect(getMainSlateStartTimes).toHaveBeenCalled()
     });
 
     it('should call createCloudWatchEvent with correct params', () => {
-        expect(createCloudWatchEvent).toHaveBeenCalledWith('mlb', 'start time 1');
-        expect(createCloudWatchEvent).toHaveBeenCalledWith('nfl', 'start time 2')
+        expect(createCloudWatchEvent).toHaveBeenCalledWith('mlb', 'pipeline start time');
+        expect(createCloudWatchEvent).toHaveBeenCalledWith('nfl', 'pipeline start time')
     });
 
     it('should call convertStartTimesToEST with start times', () => {
-        expect(convertStartTimesToEST).toHaveBeenCalledWith(mockPipelineStartTimes)
+        expect(convertStartTimesToEST).toHaveBeenCalledWith(mockSlateStartTimes)
     });
 
     it('should call uploadObjectToS3 with correct params', () => {
