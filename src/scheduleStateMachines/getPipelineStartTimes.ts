@@ -3,10 +3,10 @@ import {getPipelineStartTimeFromSlateStartTime} from "./getPipelineStartTimeFrom
 import '../env'
 import * as axios from 'axios'
 import * as xml2js from 'xml2js'
-import {SUPPORTED_CONTESTS} from "@dadajian/shared-fantasy-constants";
+import {SUPPORTED_CONTESTS, SUPPORTED_SPORTS} from "@dadajian/shared-fantasy-constants";
 import {StartTime} from "../index";
 
-export const getPipelineStartTimes = async (sports: string[]): Promise<StartTime[]> => {
+export const getPipelineStartTimes = async (): Promise<StartTime[]> => {
     let startTimes: StartTime[] = [];
     return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getTodayDateString()}`, {
         headers: {
@@ -17,7 +17,7 @@ export const getPipelineStartTimes = async (sports: string[]): Promise<StartTime
         })
         .then(result => {
             const apiResponse = result.data.fixturelist;
-            sports.forEach(sport => {
+            SUPPORTED_SPORTS.forEach(sport => {
                 const mainContest = apiResponse.filter(contest =>
                     contest.sport[0].toLowerCase() === sport && SUPPORTED_CONTESTS.includes(contest.game[0].label[0]))[0];
                 if (mainContest) {

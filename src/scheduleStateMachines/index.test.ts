@@ -9,11 +9,11 @@ jest.mock('../aws/aws');
 
 const mockPipelineStartTimes = [
     {
-        sport: 'sport1',
+        sport: 'mlb',
         date: 'start time 1'
     },
     {
-        sport: 'sport2',
+        sport: 'nfl',
         date: 'start time 2'
     }
 ];
@@ -24,21 +24,19 @@ const mockPipelineStartTimes = [
 
 describe('schedule state machines handler', () => {
    let result: any;
-   const event = {
-       sports: ['sport1', 'sport2']
-   };
+   const event = 'dummy'
 
    beforeEach(async () => {
       result = await scheduleStateMachinesHandler(event);
    });
 
     it('should call getPipelineStartTimes with sports', () => {
-        expect(getPipelineStartTimes).toHaveBeenCalledWith(['sport1', 'sport2'])
+        expect(getPipelineStartTimes).toHaveBeenCalled()
     });
 
     it('should call createCloudWatchEvent with correct params', () => {
-        expect(createCloudWatchEvent).toHaveBeenCalledWith('sport1', 'start time 1');
-        expect(createCloudWatchEvent).toHaveBeenCalledWith('sport2', 'start time 2')
+        expect(createCloudWatchEvent).toHaveBeenCalledWith('mlb', 'start time 1');
+        expect(createCloudWatchEvent).toHaveBeenCalledWith('nfl', 'start time 2')
     });
 
     it('should call convertStartTimesToEST with start times', () => {

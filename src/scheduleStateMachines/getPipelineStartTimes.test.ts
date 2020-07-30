@@ -21,7 +21,7 @@ const mockDate = new Date('4/20/2020');
     data: {
         fixturelist: [
             {
-                sport: ['Sport1', 'sport2'],
+                sport: ['MLB', 'NFL'],
                 game: [
                     {
                         label: ['Main'],
@@ -38,10 +38,9 @@ const mockDate = new Date('4/20/2020');
 
 describe('get pipeline start times', () => {
     let result: any;
-    const sports = ['sport1', 'sport2'];
 
     beforeEach(async () => {
-        result = await getPipelineStartTimes(sports);
+        result = await getPipelineStartTimes();
     });
 
     it('should call axios get with correct url', () => {
@@ -56,7 +55,7 @@ describe('get pipeline start times', () => {
     it('should return correct start times', () => {
         expect(result).toEqual([
             {
-                sport: 'sport1',
+                sport: 'mlb',
                 date: mockDate
             }
         ]);

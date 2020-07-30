@@ -35,8 +35,7 @@ aws s3 cp "${FILE_NAME}" "s3://${BUCKET_NAME}/"
 echo "### Initiating SAM Deploy..."
 
 sam deploy --template-file ./template.yaml --stack-name "${STACK_NAME}" --capabilities CAPABILITY_IAM \
-  --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" \
-  ScheduleStateMachinesInput="${SCHEDULE_STATE_MACHINES_INPUT}" AwsKey="${AWS_ACCESS_KEY_ID}" \
+  --parameter-overrides BucketName="${BUCKET_NAME}" CodeKey="${FILE_NAME}" AwsKey="${AWS_ACCESS_KEY_ID}" \
   AwsSecret="${AWS_SECRET_ACCESS_KEY}" FanduelApiRoot="${FANDUEL_API_ROOT}" --no-fail-on-empty-changeset
 
 sam deploy --template-file ./sns-template.yaml --region us-east-1 --stack-name "${SNS_STACK_NAME}" \
