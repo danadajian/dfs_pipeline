@@ -24,10 +24,9 @@ const mockPipelineStartTimes = [
 
 describe('schedule state machines handler', () => {
    let result: any;
-   const event = 'dummy'
 
    beforeEach(async () => {
-      result = await scheduleStateMachinesHandler(event);
+      result = await scheduleStateMachinesHandler();
    });
 
     it('should call getPipelineStartTimes with sports', () => {
