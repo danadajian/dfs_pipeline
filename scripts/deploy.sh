@@ -8,6 +8,7 @@ if aws s3api head-bucket --bucket "${BUCKET_NAME}" 2>/dev/null; then
 else
   echo "### Bucket does not exist, creating: ${BUCKET_NAME}"
   aws s3 mb s3://"${BUCKET_NAME}"
+  aws s3api put-bucket-cors --bucket "${BUCKET_NAME}" --cors-configuration file://./bucket-cors.json
 fi
 
 IAM_ROLES=$(aws iam list-roles)

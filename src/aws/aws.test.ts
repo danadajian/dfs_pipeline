@@ -5,17 +5,9 @@ import {
     createCloudWatchEvent,
     invokeLambdaFunction
 } from './aws';
-import {getCronExpressionFromDate, getTodayDateString} from '../helpers/helpers';
-
 import {S3, SNS, CloudWatchEvents, Lambda} from '../aws';
-import {MAX_COMBINATIONS} from "../constants";
 
-jest.mock('../helpers/helpers');
 jest.mock('../aws');
-
-(getTodayDateString as jest.Mock).mockReturnValue('mock date string');
-
-(getCronExpressionFromDate as jest.Mock).mockReturnValue('cron expression');
 
 (S3.getObject as jest.Mock).mockImplementation(() => {
     return {
@@ -62,15 +54,15 @@ jest.mock('../aws');
 });
 
 describe('aws', () => {
-    describe('retrieves specified object', () => {
+    describe('retrieves object', () => {
         let result: any;
         beforeEach(async () => {
-            result = await retrieveObjectFromS3('file.json');
+            result = await retrieveObjectFromS3('bucket', 'file.json');
         });
 
         it('should call getObject with correct params', () => {
             const params = {
-                Bucket: "dfs-pipeline",
+                Bucket: "bucket",
                 Key: 'file.json'
             };
             expect(S3.getObject).toHaveBeenCalledWith(params)
@@ -85,86 +77,49 @@ describe('aws', () => {
         let result: any;
         const playerPool = ['player1', 'player2', 'player3'];
         beforeEach(async () => {
-            result = await uploadObjectToS3(playerPool, 'file.json')
+            result = await uploadObjectToS3(playerPool, 'bucket', 'file.json')
         });
 
         it('should call putObject with correct params', () => {
             const params = {
-                Bucket: "dfs-pipeline",
+                Bucket: "bucket",
                 Key: 'file.json',
                 Body: JSON.stringify(playerPool)
             };
             expect(S3.putObject).toHaveBeenCalledWith(params)
-        });
-
-        it('should upload successfully', () => {
-            expect(result).toEqual('File uploaded successfully.')
         });
     });
 
     describe('publishes message to sns topic', () => {
         let result: any;
         const message = 'a message';
+        const topicArn = 'a topic arn';
 
         beforeEach(async () => {
-            result = await publishToSnsTopic(message)
+            result = await publishToSnsTopic(message, topicArn)
         });
 
         it('should call publish with correct params', () => {
             const params = {
                 Message: message,
-                TopicArn: process.env.OPTIMAL_LINEUP_TOPIC_ARN
+                TopicArn: topicArn
             };
             expect(SNS.publish).toHaveBeenCalledWith(params)
-        });
-
-        it('should publish message', () => {
-            expect(result).toEqual('Message published successfully.')
         });
     });
 
     describe('creates cloudwatch event', () => {
         let result: any;
-        const sport = 'football';
-        const date = 'mock date';
+        const putRuleParams = 'putRuleParams';
+        const putTargetsParams = 'putRuleParams';
 
         beforeEach(async () => {
-            // @ts-ignore
-            result = await createCloudWatchEvent(sport, date)
+            result = await createCloudWatchEvent(putRuleParams, putTargetsParams)
         });
 
         it('should call putRule with correct params', () => {
-            const putRuleParams = {
-                Name: 'football-pipeline-rule',
-                RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
-                ScheduleExpression: 'cron expression',
-                State: 'ENABLED'
-            };
             expect(CloudWatchEvents.putRule).toHaveBeenCalledWith(putRuleParams)
-        });
-
-        it('should call putTargets with correct params', () => {
-            const putTargetParams = {
-                Rule: 'football-pipeline-rule',
-                Targets: [
-                    {
-                        Arn: process.env.DFS_PIPELINE_STEP_FUNCTION_ARN,
-                        RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
-                        Id: 'dfsPipelineTarget',
-                        Input: JSON.stringify({
-                            invocationType: 'pipeline',
-                            date: 'mock date string',
-                            sport,
-                            maxCombinations: MAX_COMBINATIONS
-                        })
-                    }
-                ]
-            };
-            expect(CloudWatchEvents.putTargets).toHaveBeenCalledWith(putTargetParams)
-        });
-
-        it('should create events', () => {
-            expect(result).toEqual('Cloudwatch events created.')
+            expect(CloudWatchEvents.putRule).toHaveBeenCalledWith(putTargetsParams)
         });
     });
 

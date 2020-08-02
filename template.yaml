@@ -6,8 +6,6 @@ Parameters:
     Type: String
   CodeKey:
     Type: String
-  ScheduleStateMachinesInput:
-    Type: String
   AwsKey:
     Type: String
   AwsSecret:
@@ -56,18 +54,6 @@ Resources:
       Environment:
         Variables:
           FANDUEL_API_ROOT: !Ref FanduelApiRoot
-          AWS_KEY: !Ref AwsKey
-          AWS_SECRET: !Ref AwsSecret
-  RetrieveFromS3Function:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri:
-        Bucket: !Ref BucketName
-        Key: !Ref CodeKey
-      Handler: build/retrieveFromS3/index.retrieveFromS3Handler
-      Runtime: nodejs12.x
-      Environment:
-        Variables:
           AWS_KEY: !Ref AwsKey
           AWS_SECRET: !Ref AwsSecret
   PublishOptimalLineupFunction:

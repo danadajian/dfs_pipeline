@@ -1,11 +1,14 @@
 import {scheduleStateMachinesHandler} from './index'
 import {convertStartTimesToEST} from './convertStartTimesToEST';
-import {createCloudWatchEvent, uploadObjectToS3} from '../aws/aws';
+import {DFS_PIPELINE_BUCKET_NAME} from '@dadajian/shared-fantasy-constants';
 import {getMainSlateStartTimes} from "./getMainSlateStartTimes";
 import {getPipelineStartTime} from "./getPipelineStartTime";
+import {getCloudWatchParams} from "./getCloudWatchParams";
+import {createCloudWatchEvent, uploadObjectToS3} from "../aws/aws";
 
 jest.mock('./getMainSlateStartTimes');
 jest.mock('./getPipelineStartTime');
+jest.mock('./getCloudWatchParams');
 jest.mock('./convertStartTimesToEST');
 jest.mock('../aws/aws');
 
@@ -21,6 +24,18 @@ const mockSlateStartTimes = [
 ];
 (getMainSlateStartTimes as jest.Mock).mockResolvedValue(mockSlateStartTimes);
 (getPipelineStartTime as jest.Mock).mockReturnValue('pipeline start time');
+(getCloudWatchParams as jest.Mock).mockImplementation((sport: string) => {
+    if (sport === 'mlb')
+        return {
+            putRuleParams: 'mlb put params',
+            putTargetsParams: 'mlb targets params'
+        }
+    else
+        return {
+            putRuleParams: 'nfl put params',
+            putTargetsParams: 'nfl targets params'
+        }
+});
 (convertStartTimesToEST as jest.Mock).mockReturnValue('est start times');
 (createCloudWatchEvent as jest.Mock).mockResolvedValue('event created');
 (uploadObjectToS3 as jest.Mock).mockResolvedValue('start times uploaded');
@@ -32,13 +47,23 @@ describe('schedule state machines handler', () => {
       result = await scheduleStateMachinesHandler();
    });
 
-    it('should call getPipelineStartTimes with sports', () => {
+    it('should call getMainSlateStartTimes', () => {
         expect(getMainSlateStartTimes).toHaveBeenCalled()
     });
 
+    it('should call getPipelineStartTime with correct params', () => {
+        expect(getPipelineStartTime).toHaveBeenCalledWith('start time 1')
+        expect(getPipelineStartTime).toHaveBeenCalledWith('start time 2')
+    });
+
+    it('should call getCloudWatchParams with correct params', () => {
+        expect(getCloudWatchParams).toHaveBeenCalledWith('mlb', 'pipeline start time')
+        expect(getCloudWatchParams).toHaveBeenCalledWith('nfl', 'pipeline start time')
+    });
+
     it('should call createCloudWatchEvent with correct params', () => {
-        expect(createCloudWatchEvent).toHaveBeenCalledWith('mlb', 'pipeline start time');
-        expect(createCloudWatchEvent).toHaveBeenCalledWith('nfl', 'pipeline start time')
+        expect(createCloudWatchEvent).toHaveBeenCalledWith('mlb put params', 'mlb targets params');
+        expect(createCloudWatchEvent).toHaveBeenCalledWith('nfl put params', 'nfl targets params');
     });
 
     it('should call convertStartTimesToEST with start times', () => {
@@ -46,7 +71,7 @@ describe('schedule state machines handler', () => {
     });
 
     it('should call uploadObjectToS3 with correct params', () => {
-        expect(uploadObjectToS3).toHaveBeenCalledWith('est start times', 'startTimes.json')
+        expect(uploadObjectToS3).toHaveBeenCalledWith('est start times', DFS_PIPELINE_BUCKET_NAME, 'startTimes.json')
     });
 
     it('should result expected result', () => {
