@@ -15,12 +15,10 @@ describe('can convert start times to local', () => {
         const result = convertStartTimesToEST(startTimes);
         expect(result).toStrictEqual([
             {
-                id: 0,
                 sport: 'nba',
                 time: '6:30 PM EST'
             },
             {
-                id: 1,
                 sport: 'nhl',
                 time: '8:10 PM EST'
             }

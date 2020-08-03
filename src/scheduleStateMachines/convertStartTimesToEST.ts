@@ -1,7 +1,7 @@
 import {StartTime} from "../index";
 
 export const convertStartTimesToEST = (startTimes: StartTime[]) => {
-    return startTimes.map((startTime: StartTime, id: number) => {
+    return startTimes.map((startTime: StartTime) => {
         const {sport, date} = startTime;
         const time = date.toLocaleString('en-US', {
             timeZone: 'America/New_York',
@@ -10,7 +10,6 @@ export const convertStartTimesToEST = (startTimes: StartTime[]) => {
             timeZoneName: 'short'
         });
         return {
-            id,
             sport,
             time
         }
