@@ -1,4 +1,9 @@
 import {generateMessage} from './generateMessage';
+import {getTimeOfDay} from "./getTimeOfDay";
+
+jest.mock('./getTimeOfDay');
+
+(getTimeOfDay as jest.Mock).mockReturnValue('day');
 
 describe('generateMessage', () => {
     it('can generate message', () => {
@@ -26,7 +31,7 @@ describe('generateMessage', () => {
             'totalSalary': 6900
         };
         const result = generateMessage('nfl', optimalLineupData);
-        expect(result).toStrictEqual('Good evening. Here is the optimal NFL lineup for tonight:' +
+        expect(result).toStrictEqual('Good day. Here is today\'s optimal NFL lineup:' +
             '\n\nJoe Schmo CHI FB\nProjection: 69.00' +
             '\n\nJohn Schmo NYG RB\nProjection: 70.69' +
             '\n\nJoey Schmo PHI QB\nProjection: 71.70' +
