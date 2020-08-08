@@ -1,16 +1,24 @@
 import {mergeDataHandler} from './index';
-import {DFS_PIPELINE_BUCKET_NAME} from "@dadajian/shared-fantasy-constants";
+import {DFS_PIPELINE_BUCKET_NAME, FANTASY_ANALYTICS_BUCKET_NAME} from "@dadajian/shared-fantasy-constants";
 import {combineDataIntoPlayerPool} from './combineDataIntoPlayerPool';
 import {retrieveObjectFromS3, uploadObjectToS3} from "../aws/aws";
+import {getTodayDateString} from "../helpers/helpers";
 
 jest.mock("../aws/aws");
 jest.mock('./combineDataIntoPlayerPool');
+jest.mock('../helpers/helpers');
 
-(retrieveObjectFromS3 as jest.Mock).mockImplementation((bucketName: string, fileName: string) => {
-    return fileName === 'fanduelData.json' ? 'fanduel data' : 'projections data'
+(retrieveObjectFromS3 as jest.Mock).mockImplementation(async (bucketName: string, fileName: string) => {
+    const returnMap: any = {
+        'fanduelData.json': 'fanduel data',
+        'nbaProjectionsData.json': 'projections data',
+        'nbaRecentPlayerPools.json': ['recent player pools']
+    };
+    return returnMap[fileName]
 });
 (uploadObjectToS3 as jest.Mock).mockResolvedValue('uploaded object');
 (combineDataIntoPlayerPool as jest.Mock).mockResolvedValue('player pool');
+(getTodayDateString as jest.Mock).mockReturnValue('date');
 
 describe('merge data handler', () => {
     let result: any;
@@ -35,10 +43,24 @@ describe('merge data handler', () => {
     });
 
     it('should call uploadObjectToS3 with correct params', () => {
+        expect(uploadObjectToS3).toHaveBeenCalledWith([
+            'recent player pools',
+            {
+                date: 'date',
+                playerPool: 'player pool'
+            }
+        ], FANTASY_ANALYTICS_BUCKET_NAME, 'nbaRecentPlayerPools.json')
+    });
+
+    it('should call retrieveObjectFromS3 with correct params', () => {
+        expect(retrieveObjectFromS3).toHaveBeenCalledWith(FANTASY_ANALYTICS_BUCKET_NAME, 'nbaRecentPlayerPools.json')
+    });
+
+    it('should call uploadObjectToS3 with correct params', () => {
         expect(uploadObjectToS3).toHaveBeenCalledWith('player pool', DFS_PIPELINE_BUCKET_NAME, 'nbaPlayerPool.json')
     });
 
-    it('should return the expected result', async () => {
+    it('should return the expected result', () => {
         expect(result).toStrictEqual({
             "invocationType": "pipeline",
             "sport": "nba",
