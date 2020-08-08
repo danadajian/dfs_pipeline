@@ -13,7 +13,7 @@ export const publishOptimalLineupHandler = async (event): Promise<string> => {
         const optimalLineupData = [
             {
                 date: getTodayDateString(),
-                lineup: optimalLineupObject.lineup
+                optimalLineup: optimalLineupObject.lineup
             }
         ];
         const combinedOptimalLineupData = pastOptimalLineupData.concat(optimalLineupData);

@@ -36,7 +36,7 @@ describe('publish optimal lineup', () => {
             'past lineups',
             {
                 date: 'date',
-                lineup: 'new lineup'
+                optimalLineup: 'new lineup'
             }
         ], FANTASY_ANALYTICS_BUCKET_NAME, 'a sportRecentOptimalLineups.json')
     });
