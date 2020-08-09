@@ -1,21 +1,19 @@
 import {getCloudWatchParams} from "./getCloudWatchParams";
-import {getCronExpressionFromDate, getTodayDateString} from "../helpers/helpers";
+import {getTodayDateString} from "../helpers/helpers";
 import {MAX_COMBINATIONS} from "../constants";
 
 jest.mock("../helpers/helpers");
 
 (getTodayDateString as jest.Mock).mockReturnValue('mock date string');
 
-(getCronExpressionFromDate as jest.Mock).mockReturnValue('cron expression');
-
 describe('getCloudWatchParams', () => {
     let result: any;
     const sport = 'football';
-    const date = 'mock date';
+    const cronExpression = 'cron expression';
 
     beforeEach(async () => {
         // @ts-ignore
-        result = await getCloudWatchParams(sport, date)
+        result = await getCloudWatchParams(sport, cronExpression)
     });
 
     it('should return expected result', () => {

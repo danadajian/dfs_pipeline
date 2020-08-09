@@ -1,11 +1,11 @@
-import {getCronExpressionFromDate, getTodayDateString} from "../helpers/helpers";
+import {getTodayDateString} from "../helpers/helpers";
 import {MAX_COMBINATIONS} from "../constants";
 
-export const getCloudWatchParams = (sport: string, date: Date) => {
+export const getCloudWatchParams = (sport: string, cronExpression: string) => {
     const putRuleParams = {
         Name: `${sport}-pipeline-rule`,
         RoleArn: process.env.STEP_FUNCTIONS_ROLE_ARN,
-        ScheduleExpression: getCronExpressionFromDate(date),
+        ScheduleExpression: cronExpression,
         State: 'ENABLED'
     };
     const putTargetsParams = {

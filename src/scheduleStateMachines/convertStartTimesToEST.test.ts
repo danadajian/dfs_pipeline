@@ -5,11 +5,11 @@ describe('can convert start times to local', () => {
         const startTimes = [
             {
                 sport: 'nba',
-                date: new Date('2020-02-12T23:30:00.000Z')
+                date: '2020-02-12 15:30:00'
             },
             {
                 sport: 'nhl',
-                date: new Date('2020-02-13T01:10:00.000Z')
+                date: '2020-02-12 04:20:00'
             }
         ];
         const result = convertStartTimesToEST(startTimes);
@@ -20,7 +20,7 @@ describe('can convert start times to local', () => {
             },
             {
                 sport: 'nhl',
-                time: '8:10 PM EST'
+                time: '7:20 AM EST'
             }
         ]);
     });

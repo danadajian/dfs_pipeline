@@ -4,7 +4,7 @@ import * as xml2js from "xml2js";
 import {StartTime} from "../index";
 import {SUPPORTED_CONTESTS, SUPPORTED_SPORTS} from "@dadajian/shared-fantasy-constants";
 
-export const getMainSlateStartTimes = (): Promise<StartTime[]> => {
+export const getMainSlateStartTimesPST = (): Promise<StartTime[]> => {
     let startTimes: StartTime[] = [];
     return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getTodayDateString()}`, {
         headers: {
@@ -19,10 +19,10 @@ export const getMainSlateStartTimes = (): Promise<StartTime[]> => {
                 const mainContest = apiResponse.filter(contest =>
                     contest.sport[0].toLowerCase() === sport && SUPPORTED_CONTESTS.includes(contest.game[0].label[0]))[0];
                 if (mainContest) {
-                    const startTime = `${mainContest.game[0].start[0]} PST`;
+                    const date = mainContest.game[0].start[0];
                     startTimes.push({
                         sport,
-                        date: new Date(`${startTime} PST`)
+                        date
                     });
                 }
             });

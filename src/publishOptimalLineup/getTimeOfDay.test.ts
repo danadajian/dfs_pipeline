@@ -1,16 +1,18 @@
 import {getTimeOfDay} from "./getTimeOfDay";
+import * as moment from "moment";
+
+jest.mock('moment');
 
 describe('getTimeOfDay', () => {
     describe('morning case', () => {
         let result: any;
 
         beforeEach(() => {
-            // @ts-ignore
-            jest.spyOn(global, 'Date').mockImplementation(() => {
-                return {
-                    getUTCHours: jest.fn(() => 17)
-                }
-            });
+            (moment as any).mockImplementation(() => ({
+                utc: jest.fn(() => ({
+                    format: jest.fn(() => 17)
+                }))
+            }));
             result = getTimeOfDay()
         })
 
@@ -23,12 +25,11 @@ describe('getTimeOfDay', () => {
         let result: any;
 
         beforeEach(() => {
-            // @ts-ignore
-            jest.spyOn(global, 'Date').mockImplementation(() => {
-                return {
-                    getUTCHours: jest.fn(() => 18)
-                }
-            });
+            (moment as any).mockImplementation(() => ({
+                utc: jest.fn(() => ({
+                    format: jest.fn(() => 18)
+                }))
+            }));
             result = getTimeOfDay()
         })
 
@@ -41,12 +42,11 @@ describe('getTimeOfDay', () => {
         let result: any;
 
         beforeEach(() => {
-            // @ts-ignore
-            jest.spyOn(global, 'Date').mockImplementation(() => {
-                return {
-                    getUTCHours: jest.fn(() => 2)
-                }
-            });
+            (moment as any).mockImplementation(() => ({
+                utc: jest.fn(() => ({
+                    format: jest.fn(() => 22)
+                }))
+            }));
             result = getTimeOfDay()
         })
 

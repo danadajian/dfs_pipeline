@@ -4,5 +4,5 @@ declare module 'axios' {
 
 export interface StartTime {
     sport: string,
-    date: Date
+    date: string
 }

@@ -1,13 +1,13 @@
 import {scheduleStateMachinesHandler} from './index'
 import {convertStartTimesToEST} from './convertStartTimesToEST';
 import {DFS_PIPELINE_BUCKET_NAME} from '@dadajian/shared-fantasy-constants';
-import {getMainSlateStartTimes} from "./getMainSlateStartTimes";
-import {getPipelineStartTime} from "./getPipelineStartTime";
+import {getMainSlateStartTimesPST} from "./getMainSlateStartTimesPST";
+import {getPipelineCronExpression} from "./getPipelineCronExpression";
 import {getCloudWatchParams} from "./getCloudWatchParams";
 import {createCloudWatchEvent, uploadObjectToS3} from "../aws/aws";
 
-jest.mock('./getMainSlateStartTimes');
-jest.mock('./getPipelineStartTime');
+jest.mock('./getMainSlateStartTimesPST');
+jest.mock('./getPipelineCronExpression');
 jest.mock('./getCloudWatchParams');
 jest.mock('./convertStartTimesToEST');
 jest.mock('../aws/aws');
@@ -22,8 +22,8 @@ const mockSlateStartTimes = [
         date: 'start time 2'
     }
 ];
-(getMainSlateStartTimes as jest.Mock).mockResolvedValue(mockSlateStartTimes);
-(getPipelineStartTime as jest.Mock).mockReturnValue('pipeline start time');
+(getMainSlateStartTimesPST as jest.Mock).mockResolvedValue(mockSlateStartTimes);
+(getPipelineCronExpression as jest.Mock).mockReturnValue('pipeline start time');
 (getCloudWatchParams as jest.Mock).mockImplementation((sport: string) => {
     if (sport === 'mlb')
         return {
@@ -48,12 +48,12 @@ describe('schedule state machines handler', () => {
    });
 
     it('should call getMainSlateStartTimes', () => {
-        expect(getMainSlateStartTimes).toHaveBeenCalled()
+        expect(getMainSlateStartTimesPST).toHaveBeenCalled()
     });
 
     it('should call getPipelineStartTime with correct params', () => {
-        expect(getPipelineStartTime).toHaveBeenCalledWith('start time 1')
-        expect(getPipelineStartTime).toHaveBeenCalledWith('start time 2')
+        expect(getPipelineCronExpression).toHaveBeenCalledWith('start time 1')
+        expect(getPipelineCronExpression).toHaveBeenCalledWith('start time 2')
     });
 
     it('should call getCloudWatchParams with correct params', () => {

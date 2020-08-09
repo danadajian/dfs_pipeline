@@ -1,4 +1,4 @@
-import {getMainSlateStartTimes} from "./getMainSlateStartTimes";
+import {getMainSlateStartTimesPST} from "./getMainSlateStartTimesPST";
 import {getTodayDateString} from '../helpers/helpers';
 import * as axios from 'axios';
 import * as xml2js from 'xml2js';
@@ -7,15 +7,7 @@ jest.mock('../helpers/helpers');
 jest.mock('axios');
 jest.mock('xml2js');
 
-const mockDate = new Date('4/20/2020 7:20');
-// @ts-ignore
-jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
-
-(getTodayDateString as jest.Mock).mockImplementation(() => {
-    return 'mock date string'
-
-});
-
+(getTodayDateString as jest.Mock).mockReturnValue('mock date string');
 (axios.get as jest.Mock).mockResolvedValue({data: 'axios response'});
 (xml2js.parseStringPromise as jest.Mock).mockResolvedValue({
     data: {
@@ -40,7 +32,7 @@ describe('get pipeline start times', () => {
     let result: any;
 
     beforeEach(async () => {
-        result = await getMainSlateStartTimes();
+        result = await getMainSlateStartTimesPST();
     });
 
     it('should call axios get with correct url', () => {
@@ -56,7 +48,7 @@ describe('get pipeline start times', () => {
         expect(result).toEqual([
             {
                 sport: 'mlb',
-                date: mockDate
+                date: '2020-04-20 4:20:00'
             }
         ]);
     });
