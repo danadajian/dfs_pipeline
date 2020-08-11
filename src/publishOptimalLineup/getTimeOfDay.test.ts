@@ -9,7 +9,7 @@ describe('getTimeOfDay', () => {
 
         beforeEach(() => {
             (moment as any).mockImplementation(() => ({
-                tz: jest.fn(() => ({
+                utc: jest.fn(() => ({
                     format: jest.fn(() => 17)
                 }))
             }));
@@ -26,7 +26,7 @@ describe('getTimeOfDay', () => {
 
         beforeEach(() => {
             (moment as any).mockImplementation(() => ({
-                tz: jest.fn(() => ({
+                utc: jest.fn(() => ({
                     format: jest.fn(() => 18)
                 }))
             }));
@@ -43,7 +43,7 @@ describe('getTimeOfDay', () => {
 
         beforeEach(() => {
             (moment as any).mockImplementation(() => ({
-                tz: jest.fn(() => ({
+                utc: jest.fn(() => ({
                     format: jest.fn(() => 22)
                 }))
             }));
