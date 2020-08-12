@@ -1,4 +1,4 @@
-import {getMainSlateStartTimesPST} from "./getMainSlateStartTimesPST";
+import {getMainSlateFanduelStartTimes} from "./getMainSlateFanduelStartTimes";
 import {getTodayDateString} from '../helpers/helpers';
 import * as axios from 'axios';
 import * as xml2js from 'xml2js';
@@ -32,7 +32,7 @@ describe('get pipeline start times', () => {
     let result: any;
 
     beforeEach(async () => {
-        result = await getMainSlateStartTimesPST();
+        result = await getMainSlateFanduelStartTimes();
     });
 
     it('should call axios get with correct url', () => {

@@ -4,7 +4,7 @@ import * as xml2js from "xml2js";
 import {StartTime} from "../index";
 import {SUPPORTED_CONTESTS, SUPPORTED_SPORTS} from "@dadajian/shared-fantasy-constants";
 
-export const getMainSlateStartTimesPST = (): Promise<StartTime[]> => {
+export const getMainSlateFanduelStartTimes = (): Promise<StartTime[]> => {
     let startTimes: StartTime[] = [];
     return axios.get(`${process.env.FANDUEL_API_ROOT}?date=${getTodayDateString()}`, {
         headers: {

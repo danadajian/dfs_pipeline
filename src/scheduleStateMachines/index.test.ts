@@ -1,15 +1,15 @@
 import {scheduleStateMachinesHandler} from './index'
-import {convertStartTimesToEST} from './convertStartTimesToEST';
+import {convertStartTimesToEasternTime} from './convertStartTimesToEasternTime';
 import {DFS_PIPELINE_BUCKET_NAME} from '@dadajian/shared-fantasy-constants';
-import {getMainSlateStartTimesPST} from "./getMainSlateStartTimesPST";
+import {getMainSlateFanduelStartTimes} from "./getMainSlateFanduelStartTimes";
 import {getPipelineCronExpression} from "./getPipelineCronExpression";
 import {getCloudWatchParams} from "./getCloudWatchParams";
 import {createCloudWatchEvent, uploadObjectToS3} from "../aws/aws";
 
-jest.mock('./getMainSlateStartTimesPST');
+jest.mock('./getMainSlateFanduelStartTimes');
 jest.mock('./getPipelineCronExpression');
 jest.mock('./getCloudWatchParams');
-jest.mock('./convertStartTimesToEST');
+jest.mock('./convertStartTimesToEasternTime');
 jest.mock('../aws/aws');
 
 const mockSlateStartTimes = [
@@ -22,7 +22,7 @@ const mockSlateStartTimes = [
         date: 'start time 2'
     }
 ];
-(getMainSlateStartTimesPST as jest.Mock).mockResolvedValue(mockSlateStartTimes);
+(getMainSlateFanduelStartTimes as jest.Mock).mockResolvedValue(mockSlateStartTimes);
 (getPipelineCronExpression as jest.Mock).mockReturnValue('pipeline start time');
 (getCloudWatchParams as jest.Mock).mockImplementation((sport: string) => {
     if (sport === 'mlb')
@@ -36,7 +36,7 @@ const mockSlateStartTimes = [
             putTargetsParams: 'nfl targets params'
         }
 });
-(convertStartTimesToEST as jest.Mock).mockReturnValue('est start times');
+(convertStartTimesToEasternTime as jest.Mock).mockReturnValue('est start times');
 (createCloudWatchEvent as jest.Mock).mockResolvedValue('event created');
 (uploadObjectToS3 as jest.Mock).mockResolvedValue('start times uploaded');
 
@@ -48,7 +48,7 @@ describe('schedule state machines handler', () => {
    });
 
     it('should call getMainSlateStartTimes', () => {
-        expect(getMainSlateStartTimesPST).toHaveBeenCalled()
+        expect(getMainSlateFanduelStartTimes).toHaveBeenCalled()
     });
 
     it('should call getPipelineStartTime with correct params', () => {
@@ -67,7 +67,7 @@ describe('schedule state machines handler', () => {
     });
 
     it('should call convertStartTimesToEST with start times', () => {
-        expect(convertStartTimesToEST).toHaveBeenCalledWith(mockSlateStartTimes)
+        expect(convertStartTimesToEasternTime).toHaveBeenCalledWith(mockSlateStartTimes)
     });
 
     it('should call uploadObjectToS3 with correct params', () => {
