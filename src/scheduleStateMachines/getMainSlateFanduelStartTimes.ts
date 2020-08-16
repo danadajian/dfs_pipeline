@@ -1,8 +1,7 @@
 import * as axios from "axios";
 import {getTodayDateString} from "../helpers/helpers";
 import * as xml2js from "xml2js";
-import {StartTime} from "../index";
-import {SUPPORTED_CONTESTS, SUPPORTED_SPORTS} from "@dadajian/shared-fantasy-constants";
+import {StartTime, SUPPORTED_CONTESTS, SUPPORTED_SPORTS} from "@dadajian/shared-fantasy-constants";
 
 export const getMainSlateFanduelStartTimes = (): Promise<StartTime[]> => {
     let startTimes: StartTime[] = [];

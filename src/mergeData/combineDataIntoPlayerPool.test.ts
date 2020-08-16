@@ -54,7 +54,7 @@ const projectionsData = {
 };
 
 describe('merge data tests', () => {
-    test('can get dfs player array from sport and fanduel data', () => {
+    it('can get dfs player array from sport and fanduel data', () => {
         expect(getFanduelPlayersFromSport('nba', fanduelData)).toStrictEqual([
             {
                 "name": "Brad Beal",
@@ -122,11 +122,11 @@ describe('merge data tests', () => {
         {name: "Mike Smith", status: "Unconfirmed"}
     ];
 
-    test('can return playerIds to exclude from fanduel data', () => {
+    it('can return playerIds to exclude from fanduel data', () => {
         expect(getPlayerIdsToExclude(fanduelPlayers, goalieData)).toStrictEqual([229367]);
     });
 
-    test('can merge fanduel and projections data', () => {
+    it('can merge fanduel and projections data', () => {
         expect(combineDataIntoPlayerPool('nba', fanduelData, projectionsData, [])).toStrictEqual([
             {
                 "name": "Luka Doncic",
