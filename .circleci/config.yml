@@ -42,10 +42,10 @@ jobs:
           name: Install SAM CLI
           command: |
             apt-get -y -qq update
-            apt-get -y -qq install python-dev
-            apt-get -y -qq install python-pip
-            pip install --upgrade awscli
-            pip install --upgrade aws-sam-cli
+            apt-get -y -qq install python3-dev
+            apt-get -y -qq install python3-pip
+            pip3 install --upgrade awscli
+            pip3 install --upgrade aws-sam-cli
       - run:
           name: Configure AWS
           command: |
