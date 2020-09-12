@@ -12,7 +12,6 @@ describe('getCloudWatchParams', () => {
     const cronExpression = 'cron expression';
 
     beforeEach(async () => {
-        // @ts-ignore
         result = await getCloudWatchParams(sport, cronExpression)
     });
 
